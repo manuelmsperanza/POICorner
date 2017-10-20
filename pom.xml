@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>***REMOVED***</groupId>
 	<artifactId>POICorner</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>pom</packaging>
 	<name>POICorner</name>
 	<url>http://maven.apache.org</url>
@@ -14,7 +14,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.source.version>1.8</java.source.version>
 		<java.target.version>1.8</java.target.version>
-		<poi.target.version>3.17</poi.target.version>
+		<poi.target.version>3.16</poi.target.version>
 	</properties>
 	<build>
 		<pluginManagement>
