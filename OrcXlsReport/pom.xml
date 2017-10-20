@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>***REMOVED***</groupId>
 		<artifactId>POICorner</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.1</version>
 	</parent>
 	<artifactId>OrcXlsReport</artifactId>
 	<name>OrcXlsReport</name>
@@ -18,7 +18,7 @@
 		<dependency>
 			<groupId>***REMOVED***</groupId>
 			<artifactId>OracleConn</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 	</dependencies>
 </project>
