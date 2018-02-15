@@ -5,7 +5,7 @@
   <parent>
     <groupId>***REMOVED***</groupId>
     <artifactId>POICorner</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
   </parent>
   <artifactId>ExtractShapesVsdx</artifactId>
   <name>ExtractShapesVsdx</name>
@@ -75,4 +75,5 @@
 			</resource>
 		</resources>
 	</build>
+  <version>0.0.1</version>
 </project>
