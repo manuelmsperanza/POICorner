@@ -18,8 +18,8 @@
 		<dependency>
 			<groupId>***REMOVED***</groupId>
 			<artifactId>OracleConn</artifactId>
-			<version>0.0.1</version>
+			<version>0.0.3</version>
 		</dependency>
 	</dependencies>
-	<version>0.0.3</version>
+	<version>0.0.4</version>
 </project>

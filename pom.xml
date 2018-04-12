@@ -117,5 +117,6 @@
 		<module>OrcXlsReport</module>
 		<module>ExtractShapesVsdx</module>
     <module>XmlXlsReport</module>
+    <module>OrcXlsLoader</module>
   </modules>
 </project>
