@@ -1,0 +1,5 @@
+select ut.TYPE_NAME, utm.METHOD_NAME, utm.METHOD_TYPE, utm.PARAMETERS, utm.RESULTS,
+utm.FINAL, utm.INSTANTIABLE, utm.OVERRIDING, utm.INHERITED
+from USER_TYPES ut, USER_TYPE_METHODS utm
+where ut.TYPE_NAME = utm.TYPE_NAME (+)
+order by ut.TYPE_NAME asc, utm.METHOD_NO asc
