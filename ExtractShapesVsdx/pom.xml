@@ -3,9 +3,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>***REMOVED***</groupId>
+    <groupId>net.dtdns.hoffunungland</groupId>
     <artifactId>POICorner</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
   </parent>
   <artifactId>ExtractShapesVsdx</artifactId>
   <name>ExtractShapesVsdx</name>
@@ -24,7 +24,7 @@
 							<manifest>
 								<addClasspath>true</addClasspath>
 								<classpathPrefix>CrossCheckMetadata_lib/</classpathPrefix>
-								<mainClass>***REMOVED***.designSdc.App</mainClass>
+								<mainClass>net.dtdns.hoffunungland.designSdc.App</mainClass>
 							</manifest>
 						</archive>
 					</configuration>
@@ -57,7 +57,7 @@
 							</descriptorRefs>
 							<archive>
 								<manifest>
-									<mainClass>***REMOVED***.poi.corner.extractshapesvsdx.App</mainClass>
+									<mainClass>net.dtdns.hoffunungland.poi.corner.extractshapesvsdx.App</mainClass>
 								</manifest>
 							</archive>
 						</configuration>
@@ -75,5 +75,5 @@
 			</resource>
 		</resources>
 	</build>
-  <version>0.0.1</version>
+  <version>0.0.2</version>
 </project>
