@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>POICorner</artifactId>
-		<groupId>net.dtdns.hoffunungland</groupId>
+		<groupId>net.dtdns.hoffnungland</groupId>
 		<version>0.0.3</version>
 	</parent>
 
-	<groupId>net.dtdns.hoffunungland</groupId>
+	<groupId>net.dtdns.hoffnungland</groupId>
 	<artifactId>OrcXlsLoader</artifactId>
 	<version>0.0.2</version>
 
@@ -16,7 +16,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>net.dtdns.hoffunungland</groupId>
+			<groupId>net.dtdns.hoffnungland</groupId>
 			<artifactId>OracleConn</artifactId>
 			<version>0.0.4</version>
 		</dependency>

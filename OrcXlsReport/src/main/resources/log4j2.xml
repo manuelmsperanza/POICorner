@@ -25,32 +25,32 @@
 		</RollingFile>
 	</Appenders>
 	<Loggers>
-		<Logger name="net.dtdns.hoffunungland.poi.corner.orcxlsreport.App"
+		<Logger name="net.dtdns.hoffnungland.poi.corner.orcxlsreport.App"
 			level="${activeLevel}" additivity="false">
 			<AppenderRef ref="${activeProfile}" />
 		</Logger>
-		<Logger name="net.dtdns.hoffunungland.poi.corner.orcxlsreport.ExcelManager"
+		<Logger name="net.dtdns.hoffnungland.poi.corner.orcxlsreport.ExcelManager"
 			level="${activeLevel}" additivity="false">
 			<AppenderRef ref="${activeProfile}" />
 		</Logger>
-		<Logger name="net.dtdns.hoffunungland.db.corner.dbconn.ConnectionManager"
+		<Logger name="net.dtdns.hoffnungland.db.corner.dbconn.ConnectionManager"
 			level="${activeLevel}" additivity="false">
 			<AppenderRef ref="${activeProfile}" />
 		</Logger>
-		<Logger name="net.dtdns.hoffunungland.db.corner.dbconn.StatementCached"
+		<Logger name="net.dtdns.hoffnungland.db.corner.dbconn.StatementCached"
 			level="${activeLevel}" additivity="false">
 			<AppenderRef ref="${activeProfile}" />
 		</Logger>
-		<Logger name="net.dtdns.hoffunungland.db.corner.dbconn.StatementsCache"
+		<Logger name="net.dtdns.hoffnungland.db.corner.dbconn.StatementsCache"
 			level="${activeLevel}" additivity="false">
 			<AppenderRef ref="${activeProfile}" />
 		</Logger>
 		<Logger
-			name="net.dtdns.hoffunungland.db.corner.oracleconn.OrclConnectionManager"
+			name="net.dtdns.hoffnungland.db.corner.oracleconn.OrclConnectionManager"
 			level="${activeLevel}" additivity="false">
 			<AppenderRef ref="${activeProfile}" />
 		</Logger>
-		<Logger name="net.dtdns.hoffunungland.db.corner.oracleconn.TOMOrclConnManager"
+		<Logger name="net.dtdns.hoffnungland.db.corner.oracleconn.TOMOrclConnManager"
 			level="${activeLevel}" additivity="false">
 			<AppenderRef ref="${activeProfile}" />
 		</Logger>
