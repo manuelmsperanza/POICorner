@@ -4,11 +4,11 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>net.dtdns.hoffunungland</groupId>
+		<groupId>net.dtdns.hoffnungland</groupId>
 		<artifactId>POICorner</artifactId>
 		<version>0.0.3</version>
 	</parent>
-	<groupId>net.dtdns.hoffunungland</groupId>
+	<groupId>net.dtdns.hoffnungland</groupId>
 	<artifactId>XmlXlsReport</artifactId>
 	<version>0.0.2</version>
 	<name>XmlXlsReport</name>
