@@ -4,9 +4,9 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>***REMOVED***</groupId>
+		<groupId>net.dtdns.hoffunungland</groupId>
 		<artifactId>POICorner</artifactId>
-		<version>0.0.2</version>
+		<version>0.0.3</version>
 	</parent>
 	<artifactId>OrcXlsReport</artifactId>
 	<name>OrcXlsReport</name>
@@ -16,10 +16,10 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>***REMOVED***</groupId>
+			<groupId>net.dtdns.hoffunungland</groupId>
 			<artifactId>OracleConn</artifactId>
-			<version>0.0.3</version>
+			<version>0.0.4</version>
 		</dependency>
 	</dependencies>
-	<version>0.0.4</version>
+	<version>0.0.5</version>
 </project>

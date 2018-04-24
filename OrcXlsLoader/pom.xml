@@ -4,21 +4,21 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>POICorner</artifactId>
-		<groupId>***REMOVED***</groupId>
-		<version>0.0.2</version>
+		<groupId>net.dtdns.hoffunungland</groupId>
+		<version>0.0.3</version>
 	</parent>
 
-	<groupId>***REMOVED***</groupId>
+	<groupId>net.dtdns.hoffunungland</groupId>
 	<artifactId>OrcXlsLoader</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 
 	<name>OrcXlsLoader</name>
 
 	<dependencies>
 		<dependency>
-			<groupId>***REMOVED***</groupId>
+			<groupId>net.dtdns.hoffunungland</groupId>
 			<artifactId>OracleConn</artifactId>
-			<version>0.0.3</version>
+			<version>0.0.4</version>
 		</dependency>
 	</dependencies>
 
