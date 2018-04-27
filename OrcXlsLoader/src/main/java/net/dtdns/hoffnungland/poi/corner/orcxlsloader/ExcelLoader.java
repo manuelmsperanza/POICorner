@@ -148,7 +148,7 @@ public class ExcelLoader {
 			}
 			
 			logger.debug("Dataset ready");
-			TransformerFactory tf = TransformerFactory.newInstance();
+			/*TransformerFactory tf = TransformerFactory.newInstance();
 			Transformer transformer = tf.newTransformer();
 			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 			StringWriter writer = new StringWriter();
@@ -157,10 +157,10 @@ public class ExcelLoader {
 			
 			if(logger.isTraceEnabled()){
 				logger.trace(output);
-			}
+			}*/
 			String tableName = connectionPropsFile.getProperty("TABLE_NAME", null);
-			
-			StatementCached<CallableStatement> reply = dbManager.getCallableStatement("./sql/DBMS_XMLSAVE.INSERTXML.sql");
+			CallableStatement replyStm = dbManager.getCallableStm("DELETE " + tableName);
+			/*StatementCached<CallableStatement> reply = dbManager.getCallableStatement("./sql/DBMS_XMLSAVE.INSERTXML.sql");
 			CallableStatement replyStm = reply.getStm();
 			
 			replyStm.setString(1, tableName);
@@ -169,8 +169,10 @@ public class ExcelLoader {
 			payLoad.setString(1, output);
 			replyStm.setClob(2, payLoad);
 			
-			logger.info("Saving into " + tableName);
+			logger.info("Saving into " + tableName);*/
 			replyStm.execute();
+			logger.info("Saving into " + tableName);
+			dbManager.xmlSave(doc, tableName);
 			
 			dbManager.commit();
 			logger.info("Loading to " + tableName + " is completed");

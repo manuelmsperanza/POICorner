@@ -27,5 +27,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/xsu12.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
