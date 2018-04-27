@@ -18,8 +18,8 @@
 		<dependency>
 			<groupId>net.dtdns.hoffnungland</groupId>
 			<artifactId>OracleConn</artifactId>
-			<version>0.0.4</version>
+			<version>0.0.5</version>
 		</dependency>
 	</dependencies>
-	<version>0.0.5</version>
+	<version>0.0.6</version>
 </project>
