@@ -75,7 +75,7 @@ public class ExcelLoader {
 		
 		logger.traceEntry();
 		DateFormat df = new SimpleDateFormat(dateMask);
-		
+		logger.info("Loading " + this.excelName);
 		this.wb = new org.apache.poi.xssf.usermodel.XSSFWorkbook(this.sourcePath + this.excelName);
 		
 		Iterator<org.apache.poi.ss.usermodel.Sheet> sheetIter = this.wb.sheetIterator();
