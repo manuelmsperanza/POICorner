@@ -3,13 +3,13 @@ package net.dtdns.hoffnungland.poi.corner.orcxlsloader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StringReader;
-import java.io.StringWriter;
 import java.sql.CallableStatement;
-import java.sql.Clob;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -17,12 +17,6 @@ import java.util.Properties;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,15 +28,15 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import net.dtdns.hoffnungland.db.corner.oracleconn.OrclConnectionManager;
-
+import net.dtdns.hoffnungland.poi.corner.orcxlsreport.ExcelManager;
+import net.dtdns.hoffnungland.poi.corner.orcxlsreport.XlsWrkSheetException;
 import net.dtdns.hoffnungland.db.corner.dbconn.StatementCached;
 
 public class ExcelLoader {
 
-	
-
 	private static final Logger logger = LogManager.getLogger(ExcelLoader.class);
 	private static String dateMask = "dd/MM/yyyy HH:mm:ss";
+	private static String fileDateMask = "yyyyMMddHHmmss";
 	private String sourcePath;
 	private String excelName;
 	private String connectionName;
@@ -71,13 +65,29 @@ public class ExcelLoader {
 		return logger.traceExit(this.docBuilder);
 	}
 	
-	public void loadWb(OrclConnectionManager dbManager) throws IOException, SAXException, ParserConfigurationException, SQLException, TransformerException{
+	/**
+	 * 
+	 * @param dbManager
+	 * @throws IOException
+	 * @throws SAXException
+	 * @throws ParserConfigurationException
+	 * @throws SQLException
+	 * @throws XlsWrkSheetException
+	 * @author ***REMOVED***
+	 * @since 12-04-2018
+	 */
+	public void loadWb(OrclConnectionManager dbManager) throws IOException, SAXException, ParserConfigurationException, SQLException, XlsWrkSheetException{
 		
 		logger.traceEntry();
 		DateFormat df = new SimpleDateFormat(dateMask);
+		DateFormat dfFile = new SimpleDateFormat(fileDateMask);
+		
 		logger.info("Loading " + this.excelName);
 		this.wb = new org.apache.poi.xssf.usermodel.XSSFWorkbook(this.sourcePath + this.excelName);
 		
+		
+		ExcelManager xlsMng = null;
+		String xlsMngName = this.excelName.substring(0, this.excelName.indexOf(".xls")) + "_" + dfFile.format(new Date());
 		Iterator<org.apache.poi.ss.usermodel.Sheet> sheetIter = this.wb.sheetIterator();
 		while(sheetIter.hasNext()){
 			org.apache.poi.ss.usermodel.Sheet workSheet = sheetIter.next();
@@ -88,7 +98,40 @@ public class ExcelLoader {
 			connectionPropsFile.load(connectionFile);
 			connectionFile.close();
 			
-
+			
+			String backupFlag = connectionPropsFile.getProperty("TABLE.backup", "false");
+			if("true".equals(backupFlag)) {
+				if(xlsMng == null) {
+					logger.info("Initialize the excel");
+					xlsMng = new ExcelManager(xlsMngName);
+				}
+				
+				StatementCached<PreparedStatement> prepStm = dbManager.executeFullTableQuery(workSheet.getSheetName(), workSheet.getSheetName());
+				
+				logger.info("Put query result into the excel file");
+				xlsMng.getQueryResult(prepStm);						
+			}
+					
+		}
+		
+		if(xlsMng != null) {
+			xlsMng.createSummaryPage();
+			logger.info("Closing excel file");
+			xlsMng.finalWrite(this.sourcePath);
+		}
+		
+		sheetIter = this.wb.sheetIterator();
+		
+		while(sheetIter.hasNext()){
+			
+			org.apache.poi.ss.usermodel.Sheet workSheet = sheetIter.next();
+			logger.info("Working " + workSheet.getSheetName());
+			
+			FileInputStream connectionFile = new FileInputStream("./etc/" + workSheet.getSheetName() + "/datamapping." + connectionName + ".properties");
+			Properties connectionPropsFile = new Properties();
+			connectionPropsFile.load(connectionFile);
+			connectionFile.close();
+						
 			List<String> columnList = new ArrayList<String>();
 			Iterator<org.apache.poi.ss.usermodel.Row> rowIter = workSheet.rowIterator();
 			if(rowIter.hasNext()){
@@ -151,7 +194,7 @@ public class ExcelLoader {
 
 			String tableName = connectionPropsFile.getProperty("TABLE_NAME", null);
 			
-			String cleanFlag = connectionPropsFile.getProperty("EXEC_POST_LOAD", "false");
+			String cleanFlag = connectionPropsFile.getProperty("TABLE.clean", "false");
 			if("true".equals(cleanFlag)) {
 				CallableStatement replyStm = dbManager.getCallableStm("DELETE " + tableName);
 				
