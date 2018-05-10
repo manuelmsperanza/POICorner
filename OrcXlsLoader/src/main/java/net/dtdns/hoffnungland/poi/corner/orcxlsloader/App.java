@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.xml.sax.SAXException;
 
 import net.dtdns.hoffnungland.db.corner.oracleconn.OrclConnectionManager;
+import net.dtdns.hoffnungland.poi.corner.orcxlsreport.XlsWrkSheetException;
 
 
 /**
@@ -56,7 +57,7 @@ public class App
 			logger.error(e.getMessage(), e);
 		} catch (ParserConfigurationException e) {
 			logger.error(e.getMessage(), e);
-		} catch (TransformerException e) {
+		} catch (XlsWrkSheetException e) {
 			logger.error(e.getMessage(), e);
 		}
 		
