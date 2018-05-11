@@ -102,7 +102,7 @@ public class ExcelLoader {
 			String backupFlag = connectionPropsFile.getProperty("TABLE.backup", "false");
 			if("true".equals(backupFlag)) {
 				if(xlsMng == null) {
-					logger.info("Initialize the excel");
+					logger.info("Initialize the backup excel " + xlsMngName);
 					xlsMng = new ExcelManager(xlsMngName);
 				}
 				
