@@ -37,7 +37,7 @@ public class App
 		
 		OrclConnectionManager dbManager = new OrclConnectionManager();
 		
-		logger.info("Initialize the excel");
+		logger.info("Initialize the excel " + inExcelName);
 		ExcelLoader xlsMng = new ExcelLoader(sourcePath, inExcelName, connectionName);
 		
 		try {
