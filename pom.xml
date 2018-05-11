@@ -113,9 +113,8 @@
 		</dependency>
 	</dependencies>
 	<modules>
-		<module>DOEVsdx</module>
-		<module>OrcXlsReport</module>
 		<module>ExtractShapesVsdx</module>
+		<module>OrcXlsReport</module>
     	<module>XmlXlsReport</module>
     	<module>OrcXlsLoader</module>
   </modules>
