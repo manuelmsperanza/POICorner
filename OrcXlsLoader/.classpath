@@ -28,5 +28,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/xsu12.jar"/>
+	<classpathentry kind="lib" path="lib/xmlparserv2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
