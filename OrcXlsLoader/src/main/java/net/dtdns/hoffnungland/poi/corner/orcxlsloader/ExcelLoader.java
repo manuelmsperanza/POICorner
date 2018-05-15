@@ -162,28 +162,31 @@ public class ExcelLoader {
 						int colIdx = contentCell.getColumnIndex();
 						String columnName = columnList.get(colIdx);
 						Element fieldEl = doc.createElement(columnName);
-						
+						String fieldValue = null;
 						if(contentCell.getCellTypeEnum().equals(org.apache.poi.ss.usermodel.CellType.STRING)){
 							logger.trace(contentCell.getStringCellValue());
-							fieldEl.setTextContent(contentCell.getStringCellValue());
+							fieldValue = contentCell.getStringCellValue();
 						} else if(contentCell.getCellTypeEnum().equals(org.apache.poi.ss.usermodel.CellType.NUMERIC)){
 							if(DateUtil.isCellDateFormatted(contentCell)){
 								logger.trace(contentCell.getDateCellValue());
-								fieldEl.setTextContent(df.format(contentCell.getDateCellValue()));
+								fieldValue = df.format(contentCell.getDateCellValue());
 							} else {
 								logger.trace(contentCell.getNumericCellValue());
 								double d = contentCell.getNumericCellValue();
 								if(d == (long) d) {
-									fieldEl.setTextContent(String.format("%d",(long)d));
+									fieldValue = String.format("%d",(long)d);
 								} else {
-							    	fieldEl.setTextContent(String.format("%s",d));
+									fieldValue = String.format("%s",d);
 								}
 								
 							}
 							
 						}
 						
-						rowEl.appendChild(fieldEl);
+						if(fieldValue != null && !"".equals(fieldValue)) {
+							fieldEl.setTextContent(fieldValue);
+							rowEl.appendChild(fieldEl);
+						}
 					}
 				}
 				
