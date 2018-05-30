@@ -220,6 +220,21 @@ public class ExcelLoader {
 				dbManager.commit();
 			}
 			
+			
+			String postExecSchedule = connectionPropsFile.getProperty("SCHEDULE_PROCEDURE_POST_LOAD", null); 
+			if(postExecSchedule != null){
+				logger.info("Schedule post-loading " + postExecSchedule);
+				StatementCached<CallableStatement> postExecStm = dbManager.getCallableStatement("./sql/DBMS_SCHEDULER.CREATE_JOB.sql");
+				CallableStatement clbStm  = postExecStm.getStm();
+				
+				clbStm.setString(1, postExecSchedule);
+				
+				clbStm.execute();
+				
+				logger.info("Post-loading " + postExecSchedule + " is scheduled");
+				dbManager.commit();
+			}
+			
 		}
 		logger.traceExit();
 	}
