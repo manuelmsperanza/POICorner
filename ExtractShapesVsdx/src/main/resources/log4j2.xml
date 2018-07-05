@@ -24,7 +24,7 @@
 		</RollingFile>
 	</Appenders>
 	<Loggers>
-		<Logger name="net.dtdns.hoffnungland.poi.corner.extractshapesvsdx.App" level="${activeLevel}"
+		<Logger name="me.hoffnungland.poi.corner.extractshapesvsdx.App" level="${activeLevel}"
 			additivity="false">
 			<AppenderRef ref="${activeProfile}" />
 		</Logger>
