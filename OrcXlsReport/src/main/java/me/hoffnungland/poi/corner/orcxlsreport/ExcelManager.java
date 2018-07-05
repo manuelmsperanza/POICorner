@@ -153,24 +153,30 @@ public class ExcelManager {
 		
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		Calendar tsCal = Calendar.getInstance();
-		
+		logger.trace("Column count {}", rsmd.getColumnCount());
 		while (resRs.next()) {
 			org.apache.poi.ss.usermodel.Row bodyRow = workSheet.createRow(rowId);
+			logger.trace("Working row #{}", rowId);
 			for(int colIdx = 0; colIdx < rsmd.getColumnCount(); colIdx++){
 
 				org.apache.poi.ss.usermodel.Cell contentCell = bodyRow.createCell(colIdx);
 				contentCell.setCellStyle(this.defaultCellStyle);
 				
-				if(resRs.getObject(colIdx + 1) != null){
+				if(resRs.getObject(colIdx + 1) != null  && !resRs.wasNull()){
 					
 					int columnType = rsmd.getColumnType(colIdx + 1);
 					String columnTypeName = rsmd.getColumnTypeName(colIdx + 1);
 					
+					logger.trace("Working col #{} of type {}", (colIdx + 1), columnTypeName);
+					
 					if(columnType == Types.VARCHAR || columnType == Types.CHAR){
+						logger.trace("columnType VARCHAR or CHAR");
+						String value = resRs.getString(colIdx + 1);
+						logger.trace("Col value: {}", value);
 						contentCell.setCellValue(resRs.getString(colIdx + 1));
 						
 					} else if(columnType == Types.LONGVARCHAR){
-						
+						logger.trace("columnType LONGVARCHAR");
 						//TODO: Fix the retrieve of long values 
 						//(as per https://netbeans.org/bugzilla/show_bug.cgi?id=179959 all streams are closed by readmetadata)
 						
@@ -195,7 +201,7 @@ public class ExcelManager {
 //						}
 						
 					} else if(columnType == Types.CLOB){
-	
+						logger.trace("columnType CLOB");
 						Clob content = resRs.getClob(colIdx + 1);
 						
 						if (content != null){
@@ -238,39 +244,57 @@ public class ExcelManager {
 						}
 	
 					} else if(columnType == Types.DATE){
+						logger.trace("columnType DATE");
 						java.sql.Date dateVal = resRs.getDate(colIdx + 1);
+						
 						if(dateVal != null){
 							tsCal.setTime(dateVal);
-							//contentCell.setCellValue(df.format(tsCal.getTime()));
+							logger.trace("Col value: {}", df.format(tsCal.getTime()));
 							contentCell.setCellValue(tsCal.getTime());
 							contentCell.setCellStyle(this.dateCellStyle);
 						}
 					} else if(columnType == Types.TIME){
-						
+						logger.trace("columnType TIME");
 						Time timeVal = resRs.getTime(colIdx + 1);
 						if(timeVal != null){
 							tsCal.setTime(timeVal);
-							//contentCell.setCellValue(df.format(tsCal.getTime()));
+							logger.trace("Col value: {}", df.format(tsCal.getTime()));
 							contentCell.setCellValue(tsCal.getTime());
 							contentCell.setCellStyle(this.dateCellStyle);
 						}
 						
 					} else if(columnType == Types.TIMESTAMP || columnTypeName.equals("TIMESTAMP WITH LOCAL TIME ZONE")){
+						logger.trace("columnType TIMESTAMP");
 						Timestamp tsVal = resRs.getTimestamp(colIdx + 1);
 						if(tsVal != null){
 							tsCal.setTimeInMillis(tsVal.getTime());
-							//contentCell.setCellValue(df.format(tsCal.getTime()));
+							logger.trace("Col value: {}", df.format(tsCal.getTime()));
 							contentCell.setCellValue(tsCal.getTime());
 							contentCell.setCellStyle(this.dateCellStyle);
 						}
-					} else if(columnType == Types.BLOB){
-						
+					} else if(columnType == Types.BLOB || columnType == Types.NULL || columnType == Types.OTHER){
+						logger.trace("columnType BLOB, NULL or OTHER");
+					} else if(columnType == Types.INTEGER){
+						logger.trace("columnType INTEGER");
+						contentCell.setCellValue(resRs.getInt(colIdx + 1));
+					} else if(columnType == Types.NUMERIC){
+						logger.trace("columnType NUMERIC");
+						long value = resRs.getLong(colIdx + 1);
+						logger.trace("Col value: {}", value);
+						contentCell.setCellValue(value);
+					} else if(columnType == Types.DECIMAL){
+						logger.trace("columnType DECIMAL");
+						contentCell.setCellValue(resRs.getDouble(colIdx + 1));
+					} else if(columnType == Types.DOUBLE){
+						logger.trace("columnType DOUBLE");
+						contentCell.setCellValue(resRs.getDouble(colIdx + 1));
+					} else if(columnType == Types.FLOAT){
+						logger.trace("columnType FLOAT");
+						contentCell.setCellValue(resRs.getFloat(colIdx + 1));
 					} else {
+						logger.trace("columnType else {}", columnType);
 						contentCell.setCellValue(resRs.getLong(colIdx + 1));
 					}
-					
-					
-					
 				}
 				
 			}
