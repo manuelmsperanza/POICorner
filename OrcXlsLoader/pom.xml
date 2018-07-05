@@ -5,13 +5,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>POICorner</artifactId>
-		<groupId>net.dtdns.hoffnungland</groupId>
-		<version>0.0.4</version>
+		<groupId>me.hoffnungland</groupId>
+		<version>0.0.5</version>
 	</parent>
 
-	<groupId>net.dtdns.hoffnungland</groupId>
+	<groupId>me.hoffnungland</groupId>
 	<artifactId>OrcXlsLoader</artifactId>
-	<version>0.0.5</version>
+	<version>0.0.6</version>
 
 	<name>OrcXlsLoader</name>
 	<build>
@@ -26,7 +26,7 @@
 							<manifest>
 								<addClasspath>true</addClasspath>
 								<classpathPrefix>OrcXlsLoader_lib/</classpathPrefix>
-								<mainClass>net.dtdns.hoffnungland.poi.corner.orcxlsloader.App</mainClass>
+								<mainClass>me.hoffnungland.poi.corner.orcxlsloader.App</mainClass>
 							</manifest>
 						</archive>
 					</configuration>
@@ -59,7 +59,7 @@
 							</descriptorRefs>
 							<archive>
 								<manifest>
-									<mainClass>net.dtdns.hoffnungland.poi.corner.orcxlsloader.App</mainClass>
+									<mainClass>me.hoffnungland.poi.corner.orcxlsloader.App</mainClass>
 								</manifest>
 							</archive>
 						</configuration>
@@ -70,14 +70,14 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>net.dtdns.hoffnungland</groupId>
+			<groupId>me.hoffnungland</groupId>
 			<artifactId>OrcXlsReport</artifactId>
-			<version>0.0.7</version>
+			<version>0.0.8</version>
 		</dependency>
 		<dependency>
-			<groupId>net.dtdns.hoffnungland</groupId>
+			<groupId>me.hoffnungland</groupId>
 			<artifactId>OracleConn</artifactId>
-			<version>0.0.6</version>
+			<version>0.0.7</version>
 		</dependency>
 	</dependencies>
 </project>
