@@ -41,12 +41,12 @@ public class ExcelManager {
 
 	private static final Logger logger = LogManager.getLogger(ExcelManager.class);
 	//private static String ls = System.getProperty("line.separator");
-	private String name;
-	private org.apache.poi.ss.usermodel.Workbook wb = new org.apache.poi.xssf.usermodel.XSSFWorkbook();
-	private org.apache.poi.xssf.usermodel.XSSFCellStyle headerCellStyle;
-	private org.apache.poi.xssf.usermodel.XSSFCellStyle defaultCellStyle;
-	private org.apache.poi.xssf.usermodel.XSSFCellStyle dateCellStyle;
-	private org.apache.poi.ss.usermodel.CreationHelper createHelper = wb.getCreationHelper();
+	protected String name;
+	protected org.apache.poi.ss.usermodel.Workbook wb = new org.apache.poi.xssf.usermodel.XSSFWorkbook();
+	protected org.apache.poi.xssf.usermodel.XSSFCellStyle headerCellStyle;
+	protected org.apache.poi.xssf.usermodel.XSSFCellStyle defaultCellStyle;
+	protected org.apache.poi.xssf.usermodel.XSSFCellStyle dateCellStyle;
+	protected org.apache.poi.ss.usermodel.CreationHelper createHelper = wb.getCreationHelper();
 
 	/**
 	 * Constructor with input name string. Define also the styles.
@@ -115,7 +115,7 @@ public class ExcelManager {
 	 * @author ***REMOVED***
 	 * @since 31-08-2016 
 	 */
-	private void createSheetHeader(org.apache.poi.ss.usermodel.Sheet workSheet, StatementCached<PreparedStatement> prepStm) throws SQLException{
+	protected void createSheetHeader(org.apache.poi.ss.usermodel.Sheet workSheet, StatementCached<PreparedStatement> prepStm) throws SQLException{
 		logger.traceEntry();
 		org.apache.poi.ss.usermodel.Row headerRow = workSheet.createRow(0);
 		ResultSet resRs = prepStm.getStm().getResultSet();
@@ -145,7 +145,7 @@ public class ExcelManager {
 	 * @author ***REMOVED***
 	 * @since 31-08-2016
 	 */
-	private void createSheetContent(org.apache.poi.ss.usermodel.Sheet workSheet, StatementCached<PreparedStatement> prepStm) throws SQLException, IOException{
+	protected void createSheetContent(org.apache.poi.ss.usermodel.Sheet workSheet, StatementCached<PreparedStatement> prepStm) throws SQLException, IOException{
 		logger.traceEntry();
 		int rowId = 1;
 		ResultSet resRs = prepStm.getStm().getResultSet();
