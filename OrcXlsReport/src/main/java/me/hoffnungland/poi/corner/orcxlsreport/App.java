@@ -38,7 +38,7 @@ public class App
 		logger.traceEntry();
 		
 		if(args.length < 4){
-			logger.error("Wrong input parameters. Params are: ConnectionName ProjectName ExcelName Target Path");
+			logger.error("Wrong input parameters. Params are: ConnectionName ProjectName ExcelName TargetPath");
 			return;
 		}
 		
