@@ -160,7 +160,12 @@ public class ExcelManager {
 		Calendar tsCal = Calendar.getInstance();
 		logger.trace("Column count {}", rsmd.getColumnCount());
 		while (resRs.next()) {
-			org.apache.poi.ss.usermodel.Row bodyRow = workSheet.createRow(rowId);
+			
+			org.apache.poi.ss.usermodel.Row bodyRow = workSheet.getRow(rowId);
+			if(bodyRow == null) {
+				bodyRow = workSheet.createRow(rowId);
+			}
+			
 			logger.trace("Working row #{}", rowId);
 			for(int colIdx = inColId; colIdx < rsmd.getColumnCount(); colIdx++){
 
