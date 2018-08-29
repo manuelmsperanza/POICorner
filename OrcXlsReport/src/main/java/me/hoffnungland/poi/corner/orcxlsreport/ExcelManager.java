@@ -99,8 +99,8 @@ public class ExcelManager {
 		}
 
 		org.apache.poi.ss.usermodel.Sheet workSheet = this.wb.createSheet(sheetName);
-		this.createSheetHeader(workSheet, prepStm);
-		this.createSheetContent(workSheet, prepStm);		
+		this.createSheetHeader(workSheet, prepStm, 0, 0);
+		this.createSheetContent(workSheet, prepStm, 1, 0, true);		
 		workSheet.createFreezePane(0, 1);
 		workSheet.setZoom(85);
 		
@@ -111,17 +111,19 @@ public class ExcelManager {
 	 * Add the top row of the work-sheet. Get the information from the ResultSetMetaData of query's ResultSet.
 	 * @param workSheet the working work-sheet
 	 * @param query the executed query having a valid ResultSet.
+	 * @param inRowId starting write row id (0 based)
+	 * @param inColId starting write column id (0 based)
 	 * @throws SQLException
 	 * @author ***REMOVED***
 	 * @since 31-08-2016 
 	 */
-	protected void createSheetHeader(org.apache.poi.ss.usermodel.Sheet workSheet, StatementCached<PreparedStatement> prepStm) throws SQLException{
+	protected void createSheetHeader(org.apache.poi.ss.usermodel.Sheet workSheet, StatementCached<PreparedStatement> prepStm, int inRowId, int inColId) throws SQLException{
 		logger.traceEntry();
-		org.apache.poi.ss.usermodel.Row headerRow = workSheet.createRow(0);
+		org.apache.poi.ss.usermodel.Row headerRow = workSheet.createRow(inRowId);
 		ResultSet resRs = prepStm.getStm().getResultSet();
 
 		ResultSetMetaData rsmd = resRs.getMetaData();
-		for(int headerIdx = 0; headerIdx < rsmd.getColumnCount(); headerIdx++){
+		for(int headerIdx = inColId; headerIdx < rsmd.getColumnCount(); headerIdx++){
 			org.apache.poi.ss.usermodel.Cell columnNameCell = headerRow.createCell(headerIdx);
 			String columnaName = rsmd.getColumnName(headerIdx + 1);
 			columnNameCell.setCellValue(columnaName);
@@ -140,14 +142,17 @@ public class ExcelManager {
 	 * It manage the following Oracle data type: VARCHAR, CHAR, CLOB, DATE, TIME, TIMESTAMP and NUMBER
 	 * @param workSheet the working work-sheet
 	 * @param query the executed query having a valid ResultSet.
+	 * @param inRowId starting write row id (0 based)
+	 * @param inColId starting write column id (0 based)
+	 * @param applyDefaultStyle true to apply default style
 	 * @throws SQLException
 	 * @throws IOException
 	 * @author ***REMOVED***
 	 * @since 31-08-2016
 	 */
-	protected void createSheetContent(org.apache.poi.ss.usermodel.Sheet workSheet, StatementCached<PreparedStatement> prepStm) throws SQLException, IOException{
+	protected void createSheetContent(org.apache.poi.ss.usermodel.Sheet workSheet, StatementCached<PreparedStatement> prepStm, int inRowId, int inColId, boolean applyDefaultStyle) throws SQLException, IOException{
 		logger.traceEntry();
-		int rowId = 1;
+		int rowId = inRowId;
 		ResultSet resRs = prepStm.getStm().getResultSet();
 		ResultSetMetaData rsmd = resRs.getMetaData();
 		
@@ -157,10 +162,12 @@ public class ExcelManager {
 		while (resRs.next()) {
 			org.apache.poi.ss.usermodel.Row bodyRow = workSheet.createRow(rowId);
 			logger.trace("Working row #{}", rowId);
-			for(int colIdx = 0; colIdx < rsmd.getColumnCount(); colIdx++){
+			for(int colIdx = inColId; colIdx < rsmd.getColumnCount(); colIdx++){
 
 				org.apache.poi.ss.usermodel.Cell contentCell = bodyRow.createCell(colIdx);
-				contentCell.setCellStyle(this.defaultCellStyle);
+				if(applyDefaultStyle) {
+					contentCell.setCellStyle(this.defaultCellStyle);
+				}
 				
 				if(resRs.getObject(colIdx + 1) != null  && !resRs.wasNull()){
 					
@@ -251,7 +258,9 @@ public class ExcelManager {
 							tsCal.setTime(dateVal);
 							logger.trace("Col value: {}", df.format(tsCal.getTime()));
 							contentCell.setCellValue(tsCal.getTime());
-							contentCell.setCellStyle(this.dateCellStyle);
+							if(applyDefaultStyle) {
+								contentCell.setCellStyle(this.dateCellStyle);
+							}
 						}
 					} else if(columnType == Types.TIME){
 						logger.trace("columnType TIME");
@@ -260,7 +269,9 @@ public class ExcelManager {
 							tsCal.setTime(timeVal);
 							logger.trace("Col value: {}", df.format(tsCal.getTime()));
 							contentCell.setCellValue(tsCal.getTime());
-							contentCell.setCellStyle(this.dateCellStyle);
+							if(applyDefaultStyle) {
+								contentCell.setCellStyle(this.dateCellStyle);
+							}
 						}
 						
 					} else if(columnType == Types.TIMESTAMP || columnTypeName.equals("TIMESTAMP WITH LOCAL TIME ZONE")){
@@ -270,7 +281,9 @@ public class ExcelManager {
 							tsCal.setTimeInMillis(tsVal.getTime());
 							logger.trace("Col value: {}", df.format(tsCal.getTime()));
 							contentCell.setCellValue(tsCal.getTime());
-							contentCell.setCellStyle(this.dateCellStyle);
+							if(applyDefaultStyle) {
+								contentCell.setCellStyle(this.dateCellStyle);
+							}
 						}
 					} else if(columnType == Types.BLOB || columnType == Types.NULL || columnType == Types.OTHER){
 						logger.trace("columnType BLOB, NULL or OTHER");
