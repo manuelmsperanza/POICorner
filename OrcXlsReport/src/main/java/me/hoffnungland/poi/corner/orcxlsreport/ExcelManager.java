@@ -419,7 +419,7 @@ public class ExcelManager {
 
 
 			String xlsFilename = this.name + ".xlsx";
-			if (targetPath != null & !"".equals(targetPath)){
+			if (targetPath != null && !"".equals(targetPath)){
 				xlsFilename = targetPath + xlsFilename;
 			}
 			FileOutputStream fileOut = new FileOutputStream(xlsFilename);
