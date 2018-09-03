@@ -11,7 +11,7 @@
 
 	<groupId>me.hoffnungland</groupId>
 	<artifactId>OrcXlsLoader</artifactId>
-	<version>0.0.6</version>
+	<version>0.0.7</version>
 
 	<name>OrcXlsLoader</name>
 	<build>
@@ -72,7 +72,7 @@
 		<dependency>
 			<groupId>me.hoffnungland</groupId>
 			<artifactId>OrcXlsReport</artifactId>
-			<version>0.0.8</version>
+			<version>0.0.9</version>
 		</dependency>
 		<dependency>
 			<groupId>me.hoffnungland</groupId>
