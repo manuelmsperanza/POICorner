@@ -168,8 +168,12 @@ public class ExcelManager {
 			
 			logger.trace("Working row #{}", rowId);
 			for(int colIdx = inColId; colIdx < rsmd.getColumnCount(); colIdx++){
-
-				org.apache.poi.ss.usermodel.Cell contentCell = bodyRow.createCell(colIdx);
+				org.apache.poi.ss.usermodel.Cell contentCell = bodyRow.getCell(colIdx);
+				
+				if(contentCell == null) {
+					contentCell = bodyRow.createCell(colIdx);
+				}
+				
 				if(applyDefaultStyle) {
 					contentCell.setCellStyle(this.defaultCellStyle);
 				}
