@@ -5,7 +5,7 @@
   <parent>
     <groupId>me.hoffnungland</groupId>
     <artifactId>POICorner</artifactId>
-    <version>0.0.5</version>
+    <version>0.0.6</version>
   </parent>
   <artifactId>ExtractShapesVsdx</artifactId>
   <name>ExtractShapesVsdx</name>
@@ -75,5 +75,5 @@
 			</resource>
 		</resources>
 	</build>
-  <version>0.0.4</version>
+  <version>0.0.5</version>
 </project>
