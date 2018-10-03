@@ -59,7 +59,12 @@ public class ExcelManager {
 		this.name = name;
 		
 		this.headerCellStyle = (XSSFCellStyle) this.wb.createCellStyle();
-		XSSFColor foreGroundcolor = new XSSFColor(new java.awt.Color(255,204,153));
+		//XSSFColor foreGroundcolor = new XSSFColor(new java.awt.Color(255,204,153));
+		byte[] rgb = new byte[3];
+		rgb[0] = (byte) 255; // red
+		rgb[1] = (byte) 204; // green
+		rgb[2] = (byte) 153; // blue
+		XSSFColor foreGroundcolor = new XSSFColor(rgb, new org.apache.poi.xssf.usermodel.DefaultIndexedColorMap()); // #f2dcdb
 		this.headerCellStyle.setFillForegroundColor(foreGroundcolor );
 		this.headerCellStyle.setFillPattern(org.apache.poi.ss.usermodel.FillPatternType.SOLID_FOREGROUND);
 		this.headerCellStyle.setBorderBottom(org.apache.poi.ss.usermodel.BorderStyle.THIN);
