@@ -10,3 +10,10 @@ mvn archetype:generate -DarchetypeCatalog=http://repo.maven.apache.org/maven2/ar
 	select COLUMN_NAME||'.type='||DATA_TYPE
 	from cols where table_name = <<table_name>> order by column_id
 	/
+
+
+#add .gitignore to mandatory empty directory
+	# Ignore everything in this directory
+	*
+	# Except this file
+	!.gitignore
