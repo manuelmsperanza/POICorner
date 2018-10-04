@@ -136,3 +136,10 @@ Add log4j, jdbc e POI update jUnit<br>
 	
 #RUN on 172.31.28.230 of MDI Real Time OSS
 /software/java/jdk1.7.0_79//bin/java -Dlog4j.configurationFile=log4j2.xml -jar CrossCheckMetadata-1.0.3-jar-with-dependencies.jar
+
+
+#add .gitignore to mandatory empty directory
+	# Ignore everything in this directory
+	*
+	# Except this file
+	!.gitignore
