@@ -23,7 +23,6 @@ import org.apache.poi.ss.usermodel.Comment;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.RichTextString;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 
 import me.hoffnungland.db.corner.dbconn.StatementCached;
@@ -42,11 +41,11 @@ public class ExcelManager {
 	private static final Logger logger = LogManager.getLogger(ExcelManager.class);
 	//private static String ls = System.getProperty("line.separator");
 	protected String name;
-	protected org.apache.poi.ss.usermodel.Workbook wb = new org.apache.poi.xssf.usermodel.XSSFWorkbook();
+	protected org.apache.poi.xssf.usermodel.XSSFWorkbook wb = new org.apache.poi.xssf.usermodel.XSSFWorkbook();
 	protected org.apache.poi.xssf.usermodel.XSSFCellStyle headerCellStyle;
 	protected org.apache.poi.xssf.usermodel.XSSFCellStyle defaultCellStyle;
 	protected org.apache.poi.xssf.usermodel.XSSFCellStyle dateCellStyle;
-	protected org.apache.poi.ss.usermodel.CreationHelper createHelper = wb.getCreationHelper();
+	protected org.apache.poi.xssf.usermodel.XSSFCreationHelper createHelper = this.wb.getCreationHelper();
 
 	/**
 	 * Constructor with input name string. Define also the styles.
@@ -58,7 +57,7 @@ public class ExcelManager {
 	public ExcelManager(String name){
 		this.name = name;
 		
-		this.headerCellStyle = (XSSFCellStyle) this.wb.createCellStyle();
+		this.headerCellStyle = this.wb.createCellStyle();
 		//XSSFColor foreGroundcolor = new XSSFColor(new java.awt.Color(255,204,153));
 		byte[] rgb = new byte[3];
 		rgb[0] = (byte) 255; // red
@@ -72,19 +71,19 @@ public class ExcelManager {
 		this.headerCellStyle.setBorderLeft(org.apache.poi.ss.usermodel.BorderStyle.THIN);
 		this.headerCellStyle.setBorderRight(org.apache.poi.ss.usermodel.BorderStyle.THIN);
 
-		this.defaultCellStyle = (XSSFCellStyle) this.wb.createCellStyle();
+		this.defaultCellStyle = this.wb.createCellStyle();
 		this.defaultCellStyle.setBorderBottom(org.apache.poi.ss.usermodel.BorderStyle.THIN);
 		this.defaultCellStyle.setBorderTop(org.apache.poi.ss.usermodel.BorderStyle.THIN);
 		this.defaultCellStyle.setBorderLeft(org.apache.poi.ss.usermodel.BorderStyle.THIN);
 		this.defaultCellStyle.setBorderRight(org.apache.poi.ss.usermodel.BorderStyle.THIN);
 		
-		this.dateCellStyle = (XSSFCellStyle) this.wb.createCellStyle();
+		this.dateCellStyle = this.wb.createCellStyle();
 		this.dateCellStyle.setBorderBottom(org.apache.poi.ss.usermodel.BorderStyle.THIN);
 		this.dateCellStyle.setBorderTop(org.apache.poi.ss.usermodel.BorderStyle.THIN);
 		this.dateCellStyle.setBorderLeft(org.apache.poi.ss.usermodel.BorderStyle.THIN);
 		this.dateCellStyle.setBorderRight(org.apache.poi.ss.usermodel.BorderStyle.THIN);
 		this.dateCellStyle.setDataFormat(this.createHelper.createDataFormat().getFormat("d/m/yyyy h:mm"));
-
+			
 	}
 
 	/**
@@ -103,7 +102,7 @@ public class ExcelManager {
 			throw new XlsWrkSheetException("Work-sheet " + sheetName + " [" + sheetName.length() + "] must not have more than 30 characters");
 		}
 
-		org.apache.poi.ss.usermodel.Sheet workSheet = this.wb.createSheet(sheetName);
+		org.apache.poi.xssf.usermodel.XSSFSheet workSheet = this.wb.createSheet(sheetName);
 		this.createSheetHeader(workSheet, prepStm, 0, 0);
 		this.createSheetContent(workSheet, prepStm, 1, 0, true);		
 		workSheet.createFreezePane(0, 1);
@@ -122,14 +121,14 @@ public class ExcelManager {
 	 * @author ***REMOVED***
 	 * @since 31-08-2016 
 	 */
-	protected void createSheetHeader(org.apache.poi.ss.usermodel.Sheet workSheet, StatementCached<PreparedStatement> prepStm, int inRowId, int inColId) throws SQLException{
+	protected void createSheetHeader(org.apache.poi.xssf.usermodel.XSSFSheet workSheet, StatementCached<PreparedStatement> prepStm, int inRowId, int inColId) throws SQLException{
 		logger.traceEntry();
-		org.apache.poi.ss.usermodel.Row headerRow = workSheet.createRow(inRowId);
+		org.apache.poi.xssf.usermodel.XSSFRow headerRow = workSheet.createRow(inRowId);
 		ResultSet resRs = prepStm.getStm().getResultSet();
 
 		ResultSetMetaData rsmd = resRs.getMetaData();
 		for(int headerIdx = inColId; headerIdx < rsmd.getColumnCount(); headerIdx++){
-			org.apache.poi.ss.usermodel.Cell columnNameCell = headerRow.createCell(headerIdx);
+			org.apache.poi.xssf.usermodel.XSSFCell columnNameCell = headerRow.createCell(headerIdx);
 			String columnaName = rsmd.getColumnName(headerIdx + 1);
 			columnNameCell.setCellValue(columnaName);
 			logger.debug(columnaName + " of type " + rsmd.getColumnTypeName(headerIdx + 1) + " ("+ rsmd.getColumnType(headerIdx + 1) + ")" );
@@ -155,7 +154,7 @@ public class ExcelManager {
 	 * @author ***REMOVED***
 	 * @since 31-08-2016
 	 */
-	protected void createSheetContent(org.apache.poi.ss.usermodel.Sheet workSheet, StatementCached<PreparedStatement> prepStm, int inRowId, int inColId, boolean applyDefaultStyle) throws SQLException, IOException{
+	protected void createSheetContent(org.apache.poi.xssf.usermodel.XSSFSheet workSheet, StatementCached<PreparedStatement> prepStm, int inRowId, int inColId, boolean applyDefaultStyle) throws SQLException, IOException{
 		logger.traceEntry();
 		int rowId = inRowId;
 		ResultSet resRs = prepStm.getStm().getResultSet();
@@ -166,14 +165,14 @@ public class ExcelManager {
 		logger.trace("Column count {}", rsmd.getColumnCount());
 		while (resRs.next()) {
 			
-			org.apache.poi.ss.usermodel.Row bodyRow = workSheet.getRow(rowId);
+			org.apache.poi.xssf.usermodel.XSSFRow bodyRow = workSheet.getRow(rowId);
 			if(bodyRow == null) {
 				bodyRow = workSheet.createRow(rowId);
 			}
 			
 			logger.trace("Working row #{}", rowId);
 			for(int colIdx = inColId; colIdx < rsmd.getColumnCount(); colIdx++){
-				org.apache.poi.ss.usermodel.Cell contentCell = bodyRow.getCell(colIdx);
+				org.apache.poi.xssf.usermodel.XSSFCell contentCell = bodyRow.getCell(colIdx);
 				
 				if(contentCell == null) {
 					contentCell = bodyRow.createCell(colIdx);
@@ -340,8 +339,8 @@ public class ExcelManager {
 	public void createSummaryPage(){
 		logger.traceEntry();
 		
-		org.apache.poi.ss.usermodel.Sheet selectedSheet = this.wb.getSheetAt(this.wb.getActiveSheetIndex());
-		org.apache.poi.ss.usermodel.Sheet summarySheet = this.wb.createSheet("Summary");
+		org.apache.poi.xssf.usermodel.XSSFSheet selectedSheet = this.wb.getSheetAt(this.wb.getActiveSheetIndex());
+		org.apache.poi.xssf.usermodel.XSSFSheet summarySheet = this.wb.createSheet("Summary");
 		
 		this.wb.setSheetOrder("Summary", 0);
 		
@@ -352,12 +351,12 @@ public class ExcelManager {
 		
 		int rowIdx = 0;
 		
-		org.apache.poi.ss.usermodel.Row summaryHeaderRow = summarySheet.createRow(rowIdx++);
-		org.apache.poi.ss.usermodel.Cell summaryHeadeeNameCell = summaryHeaderRow.createCell(0);
+		org.apache.poi.xssf.usermodel.XSSFRow summaryHeaderRow = summarySheet.createRow(rowIdx++);
+		org.apache.poi.xssf.usermodel.XSSFCell summaryHeadeeNameCell = summaryHeaderRow.createCell(0);
 		summaryHeadeeNameCell.setCellValue("Sheet name");
 		summaryHeadeeNameCell.setCellStyle(this.headerCellStyle);
 		
-		org.apache.poi.ss.usermodel.Cell summaryHeadeeCountCell = summaryHeaderRow.createCell(1);
+		org.apache.poi.xssf.usermodel.XSSFCell summaryHeadeeCountCell = summaryHeaderRow.createCell(1);
 		summaryHeadeeCountCell.setCellValue("Count");
 		summaryHeadeeCountCell.setCellStyle(this.headerCellStyle);
 		
@@ -365,15 +364,15 @@ public class ExcelManager {
 			int rowCount = curWorkSheet.getPhysicalNumberOfRows()-1;
 			if(rowCount > 0){
 				
-				org.apache.poi.ss.usermodel.Row summaryRow = summarySheet.createRow(rowIdx++);
-				org.apache.poi.ss.usermodel.Cell tableNameCell = summaryRow.createCell(0);
+				org.apache.poi.xssf.usermodel.XSSFRow summaryRow = summarySheet.createRow(rowIdx++);
+				org.apache.poi.xssf.usermodel.XSSFCell tableNameCell = summaryRow.createCell(0);
 				tableNameCell.setCellValue(curWorkSheet.getSheetName());
 				
 				
-				org.apache.poi.ss.usermodel.Hyperlink tableNameHl = this.createHelper.createHyperlink(org.apache.poi.common.usermodel.HyperlinkType.DOCUMENT);
+				org.apache.poi.xssf.usermodel.XSSFHyperlink tableNameHl = this.createHelper.createHyperlink(org.apache.poi.common.usermodel.HyperlinkType.DOCUMENT);
 				tableNameHl.setAddress("'" + curWorkSheet.getSheetName() + "'!A1");
 				tableNameCell.setHyperlink(tableNameHl);
-				org.apache.poi.ss.usermodel.Cell tableCountCell = summaryRow.createCell(1);
+				org.apache.poi.xssf.usermodel.XSSFCell tableCountCell = summaryRow.createCell(1);
 				tableCountCell.setCellValue(rowCount);
 				
 			}
@@ -401,7 +400,7 @@ public class ExcelManager {
 		
 		for(int workSheetIdx = this.wb.getNumberOfSheets() -1; workSheetIdx >= 0; workSheetIdx--){
 			
-			org.apache.poi.ss.usermodel.Sheet workSheet = this.wb.getSheetAt(workSheetIdx);
+			org.apache.poi.xssf.usermodel.XSSFSheet workSheet = this.wb.getSheetAt(workSheetIdx);
 			logger.debug(workSheet.getSheetName() + " has " + workSheet.getPhysicalNumberOfRows() + " row(s)");
 			if(workSheet.getPhysicalNumberOfRows() <= 1){
 				logger.debug("Removing " + workSheet.getSheetName());
