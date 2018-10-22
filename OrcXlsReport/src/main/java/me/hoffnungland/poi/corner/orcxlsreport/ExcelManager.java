@@ -23,6 +23,7 @@ import org.apache.poi.ss.usermodel.Comment;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.RichTextString;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 
 import me.hoffnungland.db.corner.dbconn.StatementCached;
@@ -110,6 +111,32 @@ public class ExcelManager {
 		
 		logger.traceExit();
 	}
+	
+	/**
+	 * Get the information within the ResultSet of the input query containing metadata and fill a new work-sheet.
+	 * @param query the executed query having a valid ResultSet.
+	 * @throws SQLException
+	 * @throws IOException
+	 * @throws XlsWrkSheetException raised in case of syntactic errors of the work-sheet data 
+	 * @author ***REMOVED***
+	 * @since 22-10-2018
+	 */
+	public void getMetadataResult(StatementCached<PreparedStatement> prepStm) throws SQLException, IOException, XlsWrkSheetException {
+		logger.traceEntry();
+		String sheetName = prepStm.getName();
+		if(sheetName.length() > 30){
+			throw new XlsWrkSheetException("Work-sheet " + sheetName + " [" + sheetName.length() + "] must not have more than 30 characters");
+		}
+
+		org.apache.poi.xssf.usermodel.XSSFSheet workSheet = this.wb.createSheet(sheetName);
+		this.createMetadataHeader(workSheet, prepStm, 0, 0);
+		this.createSheetHeader(workSheet, prepStm, 1, 0);
+		this.createSheetContent(workSheet, prepStm, 2, 0, true);		
+		workSheet.createFreezePane(0, 2);
+		workSheet.setZoom(85);
+		
+		logger.traceExit();
+	}
 
 	/**
 	 * Add the top row of the work-sheet. Get the information from the ResultSetMetaData of query's ResultSet.
@@ -138,6 +165,29 @@ public class ExcelManager {
 			}
 		}
 
+		logger.traceExit();
+	}
+	
+	/**
+	 * Add the top row of the work-sheet. Get the information from the ResultSetMetaData of query's ResultSet.
+	 * @param workSheet the working work-sheet
+	 * @param query the executed query having a valid ResultSet.
+	 * @param inRowId starting write row id (0 based)
+	 * @param inColId starting write column id (0 based)
+	 * @throws SQLException
+	 * @author ***REMOVED***
+	 * @since 22-10-2018 
+	 */
+	protected void createMetadataHeader(org.apache.poi.xssf.usermodel.XSSFSheet workSheet, StatementCached<PreparedStatement> prepStm, int inRowId, int inColId) throws SQLException{
+		logger.traceEntry();
+		org.apache.poi.xssf.usermodel.XSSFRow headerRow = workSheet.createRow(inRowId);
+		ResultSet resRs = prepStm.getStm().getResultSet();
+
+		ResultSetMetaData rsmd = resRs.getMetaData();
+		org.apache.poi.xssf.usermodel.XSSFCell columnNameCell = headerRow.createCell(inColId);
+		columnNameCell.setCellValue(workSheet.getSheetName());
+		workSheet.addMergedRegion(new CellRangeAddress(inRowId,inRowId,inColId,inColId + rsmd.getColumnCount()));
+		
 		logger.traceExit();
 	}
 	
