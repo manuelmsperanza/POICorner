@@ -186,7 +186,8 @@ public class ExcelManager {
 		ResultSetMetaData rsmd = resRs.getMetaData();
 		org.apache.poi.xssf.usermodel.XSSFCell columnNameCell = headerRow.createCell(inColId);
 		columnNameCell.setCellValue(workSheet.getSheetName());
-		workSheet.addMergedRegion(new CellRangeAddress(inRowId,inRowId,inColId,inColId + rsmd.getColumnCount()));
+		columnNameCell.setCellStyle(this.headerCellStyle);
+		workSheet.addMergedRegion(new CellRangeAddress(inRowId,inRowId,inColId,inColId + rsmd.getColumnCount()-1));
 		
 		logger.traceExit();
 	}
