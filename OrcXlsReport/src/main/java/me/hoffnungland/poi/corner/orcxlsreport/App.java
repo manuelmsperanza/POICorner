@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.PreparedStatement;
@@ -18,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 import me.hoffnungland.db.corner.oracleconn.OrclConnectionManager;
 import me.hoffnungland.poi.corner.orcxlsreport.ExcelManager;
 import me.hoffnungland.poi.corner.orcxlsreport.XlsWrkSheetException;
-
+import me.hoffnungland.db.corner.dbconn.ConnectionManager;
 import me.hoffnungland.db.corner.dbconn.StatementCached;
 
 
@@ -151,7 +152,20 @@ public class App
 
 
 		File tablesDir = new File("./" + ProjectName + "/tables");
+		writeTables(tablesDir, txtFilter, dbManager, targetPath);
+		File metadataDir = new File("./" + ProjectName + "/metadata");
+		writeTables(metadataDir, txtFilter, dbManager, targetPath);
+		
+		dbManager.disconnect();
+		logger.traceExit();
+	}
+	
+	
+	public static void writeTables(File tablesDir, FileFilter txtFilter, ConnectionManager dbManager, String targetPath) {
+		logger.traceEntry();
 		for (File curFile : tablesDir.listFiles(txtFilter)){
+			
+			ExcelManager xlsMng = null;
 			try{
 				logger.debug("Working " + curFile.getName());
 
@@ -163,7 +177,7 @@ public class App
 				int suffixPos = curFile.getName().lastIndexOf('.');
 				String excelName = curFile.getName().substring(0, suffixPos);
 				
-				xlsMng = new ExcelManager(excelName);
+				xlsMng  = new ExcelManager(excelName);
 				
 				while( ( line = reader.readLine() ) != null ) {
 
@@ -176,8 +190,11 @@ public class App
 						StatementCached<PreparedStatement> prepStm = dbManager.executeFullTableQuery(queryFileName, line);
 						
 						logger.info("Put query result into the excel file");
-						xlsMng.getQueryResult(prepStm);
-						
+						if("metadata".equals(tablesDir.getName())) {
+							xlsMng.getMetadataResult(prepStm);
+						}else {
+							xlsMng.getQueryResult(prepStm);
+						}
 					}
 				}
 				reader.close();
@@ -198,9 +215,9 @@ public class App
 				xlsMng.finalWrite(targetPath);
 			}
 		}
-		
-		dbManager.disconnect();
 		logger.traceExit();
+		
 	}
+	
 }
 
