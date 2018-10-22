@@ -167,7 +167,7 @@ public class App
 			
 			ExcelManager xlsMng = null;
 			try{
-				logger.debug("Working " + curFile.getName());
+				logger.info("Working " + curFile.getName());
 
 				BufferedReader reader = new BufferedReader( new FileReader (curFile));
 				String         line = null;
