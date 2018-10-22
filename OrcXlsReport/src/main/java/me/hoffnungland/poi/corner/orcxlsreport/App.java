@@ -114,7 +114,7 @@ public class App
 			}
 
 			xlsMng.cleanNoRecordSheets();
-			xlsMng.createSummaryPage();
+			xlsMng.createSummaryPage(1);
 
 
 		} catch (SQLException e) {
@@ -200,7 +200,7 @@ public class App
 				reader.close();
 
 				//xlsMng.cleanNoRecordSheets();
-				xlsMng.createSummaryPage();
+				xlsMng.createSummaryPage(2);
 
 			} catch (SQLException e) {
 				logger.error(e.getMessage(), e);

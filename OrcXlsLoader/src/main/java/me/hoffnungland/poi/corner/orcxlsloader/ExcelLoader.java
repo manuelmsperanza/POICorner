@@ -115,7 +115,7 @@ public class ExcelLoader {
 		}
 		
 		if(xlsMng != null) {
-			xlsMng.createSummaryPage();
+			xlsMng.createSummaryPage(1);
 			logger.info("Closing excel file");
 			xlsMng.finalWrite(this.sourcePath);
 		}
@@ -163,10 +163,10 @@ public class ExcelLoader {
 						String columnName = columnList.get(colIdx);
 						Element fieldEl = doc.createElement(columnName);
 						String fieldValue = null;
-						if(contentCell.getCellTypeEnum().equals(org.apache.poi.ss.usermodel.CellType.STRING)){
+						if(contentCell.getCellType().equals(org.apache.poi.ss.usermodel.CellType.STRING)){
 							logger.trace(contentCell.getStringCellValue());
 							fieldValue = contentCell.getStringCellValue();
-						} else if(contentCell.getCellTypeEnum().equals(org.apache.poi.ss.usermodel.CellType.NUMERIC)){
+						} else if(contentCell.getCellType().equals(org.apache.poi.ss.usermodel.CellType.NUMERIC)){
 							if(DateUtil.isCellDateFormatted(contentCell)){
 								logger.trace(contentCell.getDateCellValue());
 								fieldValue = df.format(contentCell.getDateCellValue());
