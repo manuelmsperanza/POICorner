@@ -82,7 +82,7 @@ public class App
 					logger.info("Executing the query " + curFile.getName());
 					StatementCached<PreparedStatement> prepStm = dbManager.executeQuery("./" + ProjectName + "/queries/" + curFile.getName());
 	
-					logger.info("Put query result into the excel file");
+					logger.info("Put query " + curFile.getName() + " result into the excel file");
 					xlsMng.getQueryResult(prepStm);
 	
 				}
@@ -96,7 +96,7 @@ public class App
 	
 					StatementCached<PreparedStatement> prepStm =  dbManager.generateAndExecuteQueryWithJunction("./" + ProjectName + "/queriesJnt/" + curFile.getName());
 	
-					logger.info("Put query result into the excel file");
+					logger.info("Put query " + curFile.getName() + " result into the excel file");
 					xlsMng.getQueryResult(prepStm);
 				}
 			}
@@ -108,7 +108,7 @@ public class App
 	
 					StatementCached<PreparedStatement> prepStm =  dbManager.executeQueryWithJunction("./" + ProjectName + "/queriesJntCached/" + curFile.getName());
 	
-					logger.info("Put query result into the excel file");
+					logger.info("Put query " + curFile.getName() + " result into the excel file");
 					xlsMng.getQueryResult(prepStm);
 				}
 			}
@@ -184,12 +184,12 @@ public class App
 					Matcher msgMatcher = p.matcher(line);
 
 					if(msgMatcher.find()){
-						String queryFileName =msgMatcher.group();
+						String queryFileName = msgMatcher.group();
 						
 						//StatementCached<PreparedStatement> prepStm = dbManager.executeFullTableQuery("./" + ProjectName + "/tables/" + queryFileName, line);
 						StatementCached<PreparedStatement> prepStm = dbManager.executeFullTableQuery(queryFileName, line);
 						
-						logger.info("Put query result into the excel file");
+						logger.info("Put query " + queryFileName + " result into the excel file");
 						if("metadata".equals(tablesDir.getName())) {
 							xlsMng.getMetadataResult(prepStm);
 						}else {
