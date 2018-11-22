@@ -41,9 +41,6 @@
 		<Logger name="me.hoffnungland.db.corner.oracleconn.OrclConnectionManager" level="${activeLevel}" additivity="false">
 			<AppenderRef ref="${activeProfile}" />
 		</Logger>
-		<Logger name="me.hoffnungland.db.corner.oracleconn.TOMOrclConnManager" level="${activeLevel}" additivity="false">
-			<AppenderRef ref="${activeProfile}" />
-		</Logger>
 		<Root level="error">
 			<AppenderRef ref="${activeProfile}"/>
 			<AppenderRef ref="rollingFile"/>
