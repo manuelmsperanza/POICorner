@@ -170,7 +170,7 @@ public class App
 				BufferedReader reader = new BufferedReader( new FileReader (curFile));
 				String         line = null;
 				
-				Pattern p = Pattern.compile("\\w+");
+				Pattern p = Pattern.compile("(?<=\\w+\\.)\\w+");
 				
 				int suffixPos = curFile.getName().lastIndexOf('.');
 				String excelName = curFile.getName().substring(0, suffixPos);
