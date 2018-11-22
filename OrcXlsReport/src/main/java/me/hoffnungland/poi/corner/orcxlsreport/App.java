@@ -170,7 +170,7 @@ public class App
 				BufferedReader reader = new BufferedReader( new FileReader (curFile));
 				String         line = null;
 				
-				Pattern p = Pattern.compile("(?<=\\w+\\.)\\w+");
+				Pattern p = Pattern.compile("(\\w+\\.)?(\\w+)");
 				
 				int suffixPos = curFile.getName().lastIndexOf('.');
 				String excelName = curFile.getName().substring(0, suffixPos);
@@ -182,7 +182,7 @@ public class App
 					Matcher msgMatcher = p.matcher(line);
 
 					if(msgMatcher.find()){
-						String queryFileName = msgMatcher.group();
+						String queryFileName = msgMatcher.group(2);
 						
 						//StatementCached<PreparedStatement> prepStm = dbManager.executeFullTableQuery("./" + ProjectName + "/tables/" + queryFileName, line);
 						StatementCached<PreparedStatement> prepStm = dbManager.executeFullTableQuery(queryFileName, line);
