@@ -11,7 +11,7 @@
 	</parent>
 	<artifactId>OrcXlsReport</artifactId>
 	<name>OrcXlsReport</name>
-	<version>0.0.11</version>
+	<version>0.0.12</version>
 	<url>http://maven.apache.org</url>
 	<prerequisites>
 		<maven>3.0</maven>
@@ -95,7 +95,7 @@
 		<dependency>
 			<groupId>me.hoffnungland</groupId>
 			<artifactId>OracleConn</artifactId>
-			<version>0.0.8</version>
+			<version>0.0.9</version>
 		</dependency>
 	</dependencies>
 
