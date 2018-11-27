@@ -72,7 +72,7 @@ public class App
 			
 			File queriesDir = new File("./" + ProjectName + "/queries");
 			File[] queriesDirList = queriesDir.listFiles(queriesFilter);
-			if(queriesDirList != null){
+			if(queriesDirList != null && queriesDirList.length > 0){
 				if(xlsMng == null) {
 					logger.info("Initialize the excel");
 					xlsMng = new ExcelManager(inExcelName);
@@ -91,7 +91,7 @@ public class App
 			
 			File queriesJntDir = new File("./" + ProjectName + "/queriesJnt");
 			File[] queriesJntDirList = queriesJntDir.listFiles(queriesFilter);
-			if(queriesJntDirList != null){
+			if(queriesJntDirList != null && queriesJntDirList.length > 0){
 				if(xlsMng == null) {
 					logger.info("Initialize the excel");
 					xlsMng = new ExcelManager(inExcelName);
@@ -107,7 +107,7 @@ public class App
 			}
 			File queriesJntCacheDir = new File("./" + ProjectName + "/queriesJntCached");
 			File[] queriesJntCacheDirList = queriesJntCacheDir.listFiles(queriesFilter);
-			if(queriesJntCacheDirList != null){
+			if(queriesJntCacheDirList != null && queriesJntCacheDirList.length > 0){
 				if(xlsMng == null) {
 					logger.info("Initialize the excel");
 					xlsMng = new ExcelManager(inExcelName);
