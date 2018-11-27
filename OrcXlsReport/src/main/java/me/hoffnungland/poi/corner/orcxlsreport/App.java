@@ -48,8 +48,7 @@ public class App
 		
 		OrclConnectionManager dbManager = new OrclConnectionManager();
 		
-		logger.info("Initialize the excel");
-		ExcelManager xlsMng = new ExcelManager(inExcelName);
+		ExcelManager xlsMng = null;
 		
 		try {
 			logger.info("DB Manager connecting to " + connectionName);
@@ -74,6 +73,10 @@ public class App
 			File queriesDir = new File("./" + ProjectName + "/queries");
 			File[] queriesDirList = queriesDir.listFiles(queriesFilter);
 			if(queriesDirList != null){
+				if(xlsMng == null) {
+					logger.info("Initialize the excel");
+					xlsMng = new ExcelManager(inExcelName);
+				}
 				for (File curFile : queriesDirList){
 					logger.debug("Loading " + curFile.getName());
 					
@@ -89,6 +92,10 @@ public class App
 			File queriesJntDir = new File("./" + ProjectName + "/queriesJnt");
 			File[] queriesJntDirList = queriesJntDir.listFiles(queriesFilter);
 			if(queriesJntDirList != null){
+				if(xlsMng == null) {
+					logger.info("Initialize the excel");
+					xlsMng = new ExcelManager(inExcelName);
+				}
 				for (File curFile : queriesJntDirList){
 					logger.debug("Loading " + curFile.getName());
 	
@@ -101,6 +108,10 @@ public class App
 			File queriesJntCacheDir = new File("./" + ProjectName + "/queriesJntCached");
 			File[] queriesJntCacheDirList = queriesJntCacheDir.listFiles(queriesFilter);
 			if(queriesJntCacheDirList != null){
+				if(xlsMng == null) {
+					logger.info("Initialize the excel");
+					xlsMng = new ExcelManager(inExcelName);
+				}
 				for (File curFile : queriesJntCacheDirList){
 					logger.debug("Loading " + curFile.getName());
 	
@@ -110,9 +121,11 @@ public class App
 					xlsMng.getQueryResult(prepStm);
 				}
 			}
-
-			xlsMng.cleanNoRecordSheets();
-			xlsMng.createSummaryPage(1);
+			
+			if(xlsMng != null) {
+				xlsMng.cleanNoRecordSheets();
+				xlsMng.createSummaryPage(1);
+			}
 
 
 		} catch (SQLException e) {
@@ -125,9 +138,10 @@ public class App
 			logger.error(e.getMessage(), e);
 		} finally {
 
-
-			xlsMng.finalWrite(targetPath);
-
+			if(xlsMng != null) {
+				xlsMng.finalWrite(targetPath);
+				xlsMng = null;
+			}
 			//dbManager.disconnect();
 
 		}
