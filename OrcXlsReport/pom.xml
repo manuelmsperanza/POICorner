@@ -11,7 +11,7 @@
 	</parent>
 	<artifactId>OrcXlsReport</artifactId>
 	<name>OrcXlsReport</name>
-	<version>0.0.13</version>
+	<version>0.0.14</version>
 	<url>http://maven.apache.org</url>
 	<prerequisites>
 		<maven>3.0</maven>
