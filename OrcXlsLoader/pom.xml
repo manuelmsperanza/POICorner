@@ -6,16 +6,15 @@
 	<parent>
 		<artifactId>POICorner</artifactId>
 		<groupId>me.hoffnungland</groupId>
-		<version>0.0.6</version>
+		<version>0.0.7</version>
 	</parent>
 
 	<groupId>me.hoffnungland</groupId>
 	<artifactId>OrcXlsLoader</artifactId>
-	<version>0.0.10</version>
+	<version>0.0.11</version>
 
 	<name>OrcXlsLoader</name>
 	<build>
-
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -45,7 +44,6 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.6</version>
 				<executions>
 					<execution>
 						<id>create-executable-jar</id>
@@ -72,7 +70,7 @@
 		<dependency>
 			<groupId>me.hoffnungland</groupId>
 			<artifactId>OrcXlsReport</artifactId>
-			<version>0.0.12</version>
+			<version>0.0.14</version>
 		</dependency>
 		<dependency>
 			<groupId>me.hoffnungland</groupId>
