@@ -40,10 +40,10 @@ import me.hoffnungland.poi.corner.orcxlsreport.ExcelManager;
 
 
 /**
- * Manage the work-sheet data read and write.
- * @version 0.7
+ * Extend the basic worksheet class, in order to bring xml content into excel workset 
+ * @version 0.2
  * @author ***REMOVED***
- * @since 31-08-2016
+ * @since 18-09-2017
  */
 
 public class XmlToXlsManager extends ExcelManager {
@@ -59,7 +59,7 @@ public class XmlToXlsManager extends ExcelManager {
 	 * Constructor with input name string. Define also the styles.
 	 * @param name The target excel file name prefix
 	 * @author ***REMOVED***
-	 * @since 31-08-2016
+	 * @since 18-09-2017
 	 */
 
 	public XmlToXlsManager(String name){

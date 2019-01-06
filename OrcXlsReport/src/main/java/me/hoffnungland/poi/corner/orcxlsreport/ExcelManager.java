@@ -35,7 +35,7 @@ import me.hoffnungland.db.corner.dbconn.StatementCached;
 
 /**
  * Manage the work-sheet data read and write.
- * @version 0.7
+ * @version 0.8
  * @author ***REMOVED***
  * @since 31-08-2016
  */
