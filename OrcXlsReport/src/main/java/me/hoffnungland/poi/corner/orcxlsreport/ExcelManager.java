@@ -18,6 +18,7 @@ import java.util.Calendar;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.poi.ooxml.POIXMLProperties;
 import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.ss.usermodel.Comment;
 import org.apache.poi.ss.usermodel.CreationHelper;
@@ -484,7 +485,10 @@ public class ExcelManager {
 		logger.traceEntry();
 		try {
 
-
+			POIXMLProperties props = this.wb.getProperties();
+			POIXMLProperties.CoreProperties coreProp = props.getCoreProperties();
+	        coreProp.setCreator(System.getProperty("user.name"));
+	        
 			String xlsFilename = this.name + ".xlsx";
 			if (targetPath != null && !"".equals(targetPath)){
 				xlsFilename = targetPath + xlsFilename;
