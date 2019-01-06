@@ -169,8 +169,8 @@ public class ExcelManager {
 		ResultSet resRs = prepStm.getStm().getResultSet();
 
 		ResultSetMetaData rsmd = resRs.getMetaData();
-		for(int headerIdx = inColId; headerIdx < rsmd.getColumnCount(); headerIdx++){
-			org.apache.poi.xssf.usermodel.XSSFCell columnNameCell = headerRow.createCell(headerIdx);
+		for(int headerIdx = 0; headerIdx < rsmd.getColumnCount(); headerIdx++){
+			org.apache.poi.xssf.usermodel.XSSFCell columnNameCell = headerRow.createCell(headerIdx + inColId);
 			String columnaName = rsmd.getColumnName(headerIdx + 1);
 			columnNameCell.setCellValue(columnaName);
 			logger.debug(columnaName + " of type " + rsmd.getColumnTypeName(headerIdx + 1) + " ("+ rsmd.getColumnType(headerIdx + 1) + ")" );
@@ -202,7 +202,7 @@ public class ExcelManager {
 		org.apache.poi.xssf.usermodel.XSSFCell columnNameCell = headerRow.createCell(inColId);
 		columnNameCell.setCellValue(workSheet.getSheetName());
 		columnNameCell.setCellStyle(this.metadataHeaderCellStyle);
-		workSheet.addMergedRegion(new CellRangeAddress(inRowId,inRowId,inColId,inColId + rsmd.getColumnCount()-1));
+		workSheet.addMergedRegion(new CellRangeAddress(inRowId, inRowId, inColId, inColId + rsmd.getColumnCount()-1));
 		
 		logger.traceExit();
 	}
