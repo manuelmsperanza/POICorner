@@ -21,7 +21,7 @@
 		<dependency>
 			<groupId>me.hoffnungland</groupId>
 			<artifactId>OrcXlsReport</artifactId>
-			<version>0.0.14</version>
+			<version>0.0.16</version>
 		</dependency>
 	</dependencies>
 </project>
