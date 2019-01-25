@@ -180,7 +180,25 @@ public class ExcelLoader {
 								}
 								
 							}
-							
+						} else if(contentCell.getCellType().equals(org.apache.poi.ss.usermodel.CellType.FORMULA)) {
+							if(contentCell.getCachedFormulaResultType().equals(org.apache.poi.ss.usermodel.CellType.STRING)){
+								logger.trace(contentCell.getStringCellValue());
+								fieldValue = contentCell.getStringCellValue();
+							} else if(contentCell.getCachedFormulaResultType().equals(org.apache.poi.ss.usermodel.CellType.NUMERIC)){
+								if(DateUtil.isCellDateFormatted(contentCell)){
+									logger.trace(contentCell.getDateCellValue());
+									fieldValue = df.format(contentCell.getDateCellValue());
+								} else {
+									logger.trace(contentCell.getNumericCellValue());
+									double d = contentCell.getNumericCellValue();
+									if(d == (long) d) {
+										fieldValue = String.format("%d",(long)d);
+									} else {
+										fieldValue = String.format("%s",d);
+									}
+
+								}
+							}
 						}
 						
 						if(fieldValue != null && !"".equals(fieldValue)) {
