@@ -76,7 +76,7 @@ public class ExcelLoader {
 	 * @author ***REMOVED***
 	 * @since 12-04-2018
 	 */
-	public void loadWb(OrclConnectionManager dbManager) throws IOException, SAXException, ParserConfigurationException, SQLException, XlsWrkSheetException{
+	public void loadWb(OrclConnectionManager dbManager, String[] ... fixValues) throws IOException, SAXException, ParserConfigurationException, SQLException, XlsWrkSheetException{
 		
 		logger.traceEntry();
 		DateFormat df = new SimpleDateFormat(dateMask);
@@ -145,6 +145,12 @@ public class ExcelLoader {
 					columnList.add(dbColumnName);
 				}
 				
+				for (int i = 0; i < fixValues.length; i++) {
+					String fixedColName = fixValues[i][0];
+					logger.trace("fixedColName[" + i + "] --> " + fixedColName);
+					columnList.add(fixedColName);
+				}
+				
 			}
 			
 			String xmlString = "<ROWSET/>";
@@ -156,11 +162,13 @@ public class ExcelLoader {
 				
 				org.apache.poi.ss.usermodel.Row contentRow = rowIter.next();
 				Iterator<org.apache.poi.ss.usermodel.Cell> cellIter = contentRow.cellIterator();
+				int counter = 0;
 				while(cellIter.hasNext()){
 					org.apache.poi.ss.usermodel.Cell contentCell = cellIter.next();
 					if(contentCell != null){
-						int colIdx = contentCell.getColumnIndex();
-						String columnName = columnList.get(colIdx);
+						//int colIdx = contentCell.getColumnIndex();
+						String columnName = columnList.get(counter);
+						counter++;
 						Element fieldEl = doc.createElement(columnName);
 						String fieldValue = null;
 						if(contentCell.getCellType().equals(org.apache.poi.ss.usermodel.CellType.STRING)){
@@ -206,6 +214,19 @@ public class ExcelLoader {
 							rowEl.appendChild(fieldEl);
 						}
 					}
+				}
+				
+				for (int i = 0; i < fixValues.length; i++) {
+					
+					String fixedColValue = fixValues[i][1];
+					logger.trace("fixedColValue[" + i + "] --> " + fixedColValue);
+					
+					String columnName = columnList.get(counter);
+					counter++;
+					Element fieldEl = doc.createElement(columnName);
+					fieldEl.setTextContent(fixedColValue);
+					rowEl.appendChild(fieldEl);
+						
 				}
 				
 				root.appendChild(rowEl);
