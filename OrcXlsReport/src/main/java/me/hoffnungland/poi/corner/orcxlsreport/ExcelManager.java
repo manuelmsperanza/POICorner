@@ -203,8 +203,9 @@ public class ExcelManager {
 		org.apache.poi.xssf.usermodel.XSSFCell columnNameCell = headerRow.createCell(inColId);
 		columnNameCell.setCellValue(workSheet.getSheetName());
 		columnNameCell.setCellStyle(this.metadataHeaderCellStyle);
-		workSheet.addMergedRegion(new CellRangeAddress(inRowId, inRowId, inColId, inColId + rsmd.getColumnCount()-1));
-		
+		if(rsmd.getColumnCount() > 1) {
+			workSheet.addMergedRegion(new CellRangeAddress(inRowId, inRowId, inColId, inColId + rsmd.getColumnCount()-1));
+		}
 		logger.traceExit();
 	}
 	
