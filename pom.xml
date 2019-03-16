@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>me.hoffnungland</groupId>
 	<artifactId>POICorner</artifactId>
-	<version>0.0.7</version>
+	<version>0.0.8</version>
 	<packaging>pom</packaging>
 	<name>POICorner</name>
 	<url>http://maven.apache.org</url>
@@ -50,7 +50,7 @@
 				</plugin>
 				<plugin>
 					<artifactId>maven-surefire-plugin</artifactId>
-					<version>3.0.0-M2</version>
+					<version>3.0.0-M3</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-jar-plugin</artifactId>
@@ -66,7 +66,7 @@
 				</plugin>
 				<plugin>
 					<artifactId>maven-assembly-plugin</artifactId>
-					<version>3.1.0</version>
+					<version>3.1.1</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -122,7 +122,7 @@
 		<dependency>
 			<groupId>me.hoffnungland</groupId>
 			<artifactId>Log4j</artifactId>
-			<version>1.0.1</version>
+			<version>1.0.2</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
 		<dependency>
