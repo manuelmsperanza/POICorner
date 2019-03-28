@@ -366,7 +366,7 @@ public class ExcelManager {
 								contentCell.setCellStyle(this.dateCellStyle);
 							}
 						}
-					} else if(columnType == Types.BLOB || columnType == Types.NULL || columnType == Types.OTHER){
+					} else if(columnType == Types.BLOB || columnType == Types.NULL || columnType == Types.OTHER || columnType == Types.VARBINARY){
 						logger.trace("columnType BLOB, NULL or OTHER");
 					} else if(columnType == Types.INTEGER){
 						logger.trace("columnType INTEGER");
