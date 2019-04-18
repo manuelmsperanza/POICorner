@@ -7,11 +7,11 @@
 	<parent>
 		<groupId>me.hoffnungland</groupId>
 		<artifactId>POICorner</artifactId>
-		<version>0.0.8</version>
+		<version>0.0.9</version>
 	</parent>
 	<artifactId>OrcXlsReport</artifactId>
 	<name>OrcXlsReport</name>
-	<version>0.0.16</version>
+	<version>0.0.17</version>
 	<url>http://maven.apache.org</url>
 	<build>
 		<plugins>
