@@ -8,11 +8,8 @@
 		<groupId>me.hoffnungland</groupId>
 		<version>0.0.9</version>
 	</parent>
-
-	<groupId>me.hoffnungland</groupId>
 	<artifactId>OrcXlsLoader</artifactId>
 	<version>0.0.15</version>
-
 	<name>OrcXlsLoader</name>
 	<build>
 		<pluginManagement>
