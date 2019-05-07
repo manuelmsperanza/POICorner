@@ -494,6 +494,7 @@ public class ExcelManager {
 			if (targetPath != null && !"".equals(targetPath)){
 				xlsFilename = targetPath + xlsFilename;
 			}
+			logger.trace("Writing " + xlsFilename);
 			FileOutputStream fileOut = new FileOutputStream(xlsFilename);
 			this.wb.write(fileOut);
 			fileOut.close();
