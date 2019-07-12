@@ -5,7 +5,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>me.hoffnungland</groupId>
+		<groupId>com.hoffnungland</groupId>
 		<artifactId>POICorner</artifactId>
 		<version>0.0.9</version>
 	</parent>
@@ -27,7 +27,7 @@
 							<manifest>
 								<addClasspath>true</addClasspath>
 								<classpathPrefix>CrossCheckMetadata_lib/</classpathPrefix>
-								<mainClass>me.hoffnungland.designSdc.App</mainClass>
+								<mainClass>com.hoffnungland.designSdc.App</mainClass>
 							</manifest>
 						</archive>
 					</configuration>
@@ -50,7 +50,7 @@
 							</descriptorRefs>
 							<archive>
 								<manifest>
-									<mainClass>me.hoffnungland.poi.corner.extractshapesvsdx.App</mainClass>
+									<mainClass>com.hoffnungland.poi.corner.extractshapesvsdx.App</mainClass>
 								</manifest>
 							</archive>
 						</configuration>

@@ -21,31 +21,31 @@
 		</RollingFile>
 	</Appenders>
 	<Loggers>
-		<Logger name="me.hoffnungland.db.corner.dbconn.ConnectionManager" level="${activeLevel}" additivity="false">
+		<Logger name="com.hoffnungland.db.corner.dbconn.ConnectionManager" level="${activeLevel}" additivity="false">
 			<AppenderRef ref="${activeProfile}"/>
 		</Logger>
-		<Logger name="me.hoffnungland.db.corner.dbconn.StatementCached" level="${activeLevel}" additivity="false">
+		<Logger name="com.hoffnungland.db.corner.dbconn.StatementCached" level="${activeLevel}" additivity="false">
 			<AppenderRef ref="${activeProfile}"/>
 		</Logger>
-		<Logger name="me.hoffnungland.db.corner.dbconn.StatementsCache" level="${activeLevel}" additivity="false">
+		<Logger name="com.hoffnungland.db.corner.dbconn.StatementsCache" level="${activeLevel}" additivity="false">
 			<AppenderRef ref="${activeProfile}"/>
 		</Logger>
-		<Logger name="me.hoffnungland.db.corner.oracleconn.OrclConnectionManager" level="${activeLevel}" additivity="false">
+		<Logger name="com.hoffnungland.db.corner.oracleconn.OrclConnectionManager" level="${activeLevel}" additivity="false">
 			<AppenderRef ref="${activeProfile}"/>
 		</Logger>
-		<Logger name="me.hoffnungland.db.corner.oracleconn.TOMOrclConnManager" level="${activeLevel}" additivity="false">
+		<Logger name="com.hoffnungland.db.corner.oracleconn.TOMOrclConnManager" level="${activeLevel}" additivity="false">
 			<AppenderRef ref="${activeProfile}"/>
 		</Logger>
-		<Logger name="me.hoffnungland.poi.corner.xmlxlsreport.App" level="${activeLevel}" additivity="false">
+		<Logger name="com.hoffnungland.poi.corner.xmlxlsreport.App" level="${activeLevel}" additivity="false">
 			<AppenderRef ref="${activeProfile}"/>
 		</Logger>
-		<Logger name="me.hoffnungland.poi.corner.xmlxlsreport.ExcelManager" level="${activeLevel}" additivity="false">
+		<Logger name="com.hoffnungland.poi.corner.xmlxlsreport.ExcelManager" level="${activeLevel}" additivity="false">
 			<AppenderRef ref="${activeProfile}"/>
 		</Logger>
-		<Logger name="me.hoffnungland.poi.corner.xmlxlsreport.NodeSheet" level="${activeLevel}" additivity="false">
+		<Logger name="com.hoffnungland.poi.corner.xmlxlsreport.NodeSheet" level="${activeLevel}" additivity="false">
 			<AppenderRef ref="${activeProfile}"/>
 		</Logger>
-		<Logger name="me.hoffnungland.poi.corner.xmlxlsreport.XmlReportWorkbook" level="${activeLevel}" additivity="false">
+		<Logger name="com.hoffnungland.poi.corner.xmlxlsreport.XmlReportWorkbook" level="${activeLevel}" additivity="false">
 			<AppenderRef ref="${activeProfile}"/>
 		</Logger>
 		<Root level="error">
