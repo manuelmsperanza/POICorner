@@ -1,5 +1,5 @@
 #Create a new project
-mvn archetype:generate -DarchetypeCatalog=org.apache.maven.archetypes -Dfilter=maven-archetype-quickstart -DgroupId=me.hoffnungland -DartifactId=POICorner -Dpackage=me.hoffnungland.poi.corner -Dversion=0.0.1-SNAPSHOT
+mvn archetype:generate -DarchetypeCatalog=org.apache.maven.archetypes -Dfilter=maven-archetype-quickstart -DgroupId=com.hoffnungland -DartifactId=POICorner -Dpackage=com.hoffnungland.poi.corner -Dversion=0.0.1-SNAPSHOT
 #Build settings
 ##Add prerequisites
 
