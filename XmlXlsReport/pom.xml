@@ -5,11 +5,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>me.hoffnungland</groupId>
+		<groupId>com.hoffnungland</groupId>
 		<artifactId>POICorner</artifactId>
 		<version>0.0.9</version>
 	</parent>
-	<groupId>me.hoffnungland</groupId>
+	<groupId>com.hoffnungland</groupId>
 	<artifactId>XmlXlsReport</artifactId>
 	<version>0.0.9</version>
 	<name>XmlXlsReport</name>
@@ -19,9 +19,9 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>me.hoffnungland</groupId>
+			<groupId>com.hoffnungland</groupId>
 			<artifactId>OrcXlsReport</artifactId>
-			<version>0.0.17</version>
+			<version>0.0.18</version>
 		</dependency>
 	</dependencies>
 </project>
