@@ -9,7 +9,7 @@
 		<version>0.0.9</version>
 	</parent>
 	<artifactId>OrcXlsLoader</artifactId>
-	<version>0.0.16</version>
+	<version>0.0.17</version>
 	<name>OrcXlsLoader</name>
 	<build>
 		<pluginManagement>
@@ -63,7 +63,7 @@
 		<dependency>
 			<groupId>com.hoffnungland</groupId>
 			<artifactId>OracleConn</artifactId>
-			<version>0.0.10</version>
+			<version>0.0.11</version>
 		</dependency>
 	</dependencies>
 </project>
