@@ -13,6 +13,8 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -229,6 +231,11 @@ public class ExcelManager {
 		ResultSetMetaData rsmd = resRs.getMetaData();
 		
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		DecimalFormat format = (DecimalFormat) DecimalFormat.getInstance();
+		DecimalFormatSymbols symbols = format.getDecimalFormatSymbols();
+		char sep = symbols.getDecimalSeparator();
+		DateFormat dfTs = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" + sep + "S");
+		DateFormat dfTsTz = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" + sep + "S XXX");
 		Calendar tsCal = Calendar.getInstance();
 		logger.trace("Column count {}", rsmd.getColumnCount());
 		while (resRs.next()) {
@@ -355,12 +362,24 @@ public class ExcelManager {
 							}
 						}
 						
-					} else if(columnType == Types.TIMESTAMP || columnTypeName.equals("TIMESTAMP WITH LOCAL TIME ZONE")){
+					} else if(columnType == Types.TIMESTAMP) {
 						logger.trace("columnType TIMESTAMP");
 						Timestamp tsVal = resRs.getTimestamp(colIdx + 1);
 						if(tsVal != null){
 							tsCal.setTimeInMillis(tsVal.getTime());
-							logger.trace("Col value: {}", df.format(tsCal.getTime()));
+							logger.trace("Col value: {}", dfTs.format(tsCal.getTime()));
+							contentCell.setCellValue(tsCal.getTime());
+							if(applyDefaultStyle) {
+								contentCell.setCellStyle(this.dateCellStyle);
+							}
+						}
+					} else if(columnTypeName.equals("TIMESTAMP WITH LOCAL TIME ZONE")){
+						
+						logger.trace("columnType TIMESTAMP");
+						Timestamp tsVal = resRs.getTimestamp(colIdx + 1);
+						if(tsVal != null){
+							tsCal.setTimeInMillis(tsVal.getTime());
+							logger.trace("Col value: {}", dfTsTz.format(tsCal.getTime()));
 							contentCell.setCellValue(tsCal.getTime());
 							if(applyDefaultStyle) {
 								contentCell.setCellStyle(this.dateCellStyle);
