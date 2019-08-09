@@ -6,10 +6,10 @@
 	<parent>
 		<artifactId>POICorner</artifactId>
 		<groupId>com.hoffnungland</groupId>
-		<version>0.0.9</version>
+		<version>0.0.10</version>
 	</parent>
 	<artifactId>OrcXlsLoader</artifactId>
-	<version>0.0.17</version>
+	<version>0.0.18</version>
 	<name>OrcXlsLoader</name>
 	<build>
 		<pluginManagement>
@@ -58,12 +58,12 @@
 		<dependency>
 			<groupId>com.hoffnungland</groupId>
 			<artifactId>OrcXlsReport</artifactId>
-			<version>0.0.19</version>
+			<version>0.0.20</version>
 		</dependency>
 		<dependency>
 			<groupId>com.hoffnungland</groupId>
 			<artifactId>OracleConn</artifactId>
-			<version>0.0.11</version>
+			<version>0.0.13</version>
 		</dependency>
 	</dependencies>
 </project>
