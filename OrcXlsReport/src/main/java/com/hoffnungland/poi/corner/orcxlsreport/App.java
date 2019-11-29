@@ -261,11 +261,8 @@ public class App
 						stm.executeQuery();
 						
 						logger.info("Put query " + queryFileName + " result into the excel file");
-						if("metadata".equals(tablesDir.getName())) {
-							xlsMng.getMetadataResult(queryFileName, stm);
-						}else {
-							xlsMng.getQueryResult(queryFileName, stm);
-						}
+						xlsMng.getMetadataResult(queryFileName, stm);
+						
 					}
 				}
 				reader.close();
