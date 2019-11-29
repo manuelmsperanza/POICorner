@@ -167,7 +167,8 @@ public class App
 		writeTables(tablesDir, txtFilter, dbManager, targetPath);
 		File metadataDir = new File("./" + ProjectName + "/metadata");
 		writeTables(metadataDir, txtFilter, dbManager, targetPath);
-		
+		File snapshotDir = new File("./" + ProjectName + "/snapshot");
+		writeSnapshot(snapshotDir, txtFilter, dbManager, targetPath);
 		dbManager.disconnect();
 		logger.traceExit();
 	}
@@ -198,7 +199,6 @@ public class App
 					if(msgMatcher.find()){
 						String queryFileName = msgMatcher.group(2);
 						
-						//StatementCached<PreparedStatement> prepStm = dbManager.executeFullTableQuery("./" + ProjectName + "/tables/" + queryFileName, line);
 						StatementCached<PreparedStatement> prepStm = dbManager.executeFullTableQuery(queryFileName, line);
 						
 						logger.info("Put query " + queryFileName + " result into the excel file");
@@ -206,6 +206,65 @@ public class App
 							xlsMng.getMetadataResult(prepStm);
 						}else {
 							xlsMng.getQueryResult(prepStm);
+						}
+					}
+				}
+				reader.close();
+
+				//xlsMng.cleanNoRecordSheets();
+				xlsMng.createSummaryPage(2);
+
+			} catch (SQLException e) {
+				logger.error(e.getMessage(), e);
+			} catch (FileNotFoundException e) {
+				logger.error(e.getMessage(), e);
+			} catch (IOException e) {
+				logger.error(e.getMessage(), e);
+			} catch (XlsWrkSheetException e) {
+				logger.error(e.getMessage(), e);
+			} finally {
+
+				xlsMng.finalWrite(targetPath);
+			}
+		}
+		logger.traceExit();
+		
+	}
+	public static void writeSnapshot(File tablesDir, FileFilter txtFilter, ConnectionManager dbManager, String targetPath) {
+		logger.traceEntry();
+		for (File curFile : tablesDir.listFiles(txtFilter)){
+			
+			ExcelManager xlsMng = null;
+			try{
+				logger.info("Working " + curFile.getName());
+
+				BufferedReader reader = new BufferedReader( new FileReader (curFile));
+				String         line = null;
+				
+				Pattern p = Pattern.compile("(\\w+\\.)?(\\w+)");
+				
+				int suffixPos = curFile.getName().lastIndexOf('.');
+				String excelName = curFile.getName().substring(0, suffixPos);
+				
+				xlsMng  = new ExcelManager(excelName);
+				
+				while( ( line = reader.readLine() ) != null ) {
+
+					Matcher msgMatcher = p.matcher(line);
+
+					if(msgMatcher.find()){
+						String queryFileName = msgMatcher.group(2);
+						
+						//StatementCached<PreparedStatement> prepStm = dbManager.executeFullTableQuery(queryFileName, line);
+						
+						PreparedStatement stm = dbManager.getPreparedStm("SELECT * FROM " + line);
+						stm.executeQuery();
+						
+						logger.info("Put query " + queryFileName + " result into the excel file");
+						if("metadata".equals(tablesDir.getName())) {
+							xlsMng.getMetadataResult(queryFileName, stm);
+						}else {
+							xlsMng.getQueryResult(queryFileName, stm);
 						}
 					}
 				}
