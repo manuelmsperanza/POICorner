@@ -116,7 +116,13 @@ public class ExcelManager {
 	 */
 	public void getQueryResult(StatementCached<PreparedStatement> prepStm) throws SQLException, IOException, XlsWrkSheetException {
 		logger.traceEntry();
-		String sheetName = prepStm.getName();
+		this.getQueryResult(prepStm.getName(), prepStm.getStm());
+			
+		logger.traceExit();
+	}
+	public void getQueryResult(String sheetName, PreparedStatement prepStm) throws SQLException, IOException, XlsWrkSheetException {
+		logger.traceEntry();
+		
 		if(sheetName.length() > 30){
 			throw new XlsWrkSheetException("Work-sheet " + sheetName + " [" + sheetName.length() + "] must not have more than 30 characters");
 		}
@@ -129,7 +135,6 @@ public class ExcelManager {
 		
 		logger.traceExit();
 	}
-	
 	/**
 	 * Get the information within the ResultSet of the input query containing metadata and fill a new work-sheet.
 	 * @param query the executed query having a valid ResultSet.
@@ -141,7 +146,14 @@ public class ExcelManager {
 	 */
 	public void getMetadataResult(StatementCached<PreparedStatement> prepStm) throws SQLException, IOException, XlsWrkSheetException {
 		logger.traceEntry();
-		String sheetName = prepStm.getName();
+		this.getMetadataResult(prepStm.getName(), prepStm.getStm());
+		
+		
+		logger.traceExit();
+	}
+	
+	public void getMetadataResult(String sheetName, PreparedStatement prepStm) throws SQLException, IOException, XlsWrkSheetException {
+		logger.traceEntry();
 		if(sheetName.length() > 30){
 			throw new XlsWrkSheetException("Work-sheet " + sheetName + " [" + sheetName.length() + "] must not have more than 30 characters");
 		}
@@ -166,10 +178,10 @@ public class ExcelManager {
 	 * @author ***REMOVED***
 	 * @since 31-08-2016 
 	 */
-	protected void createSheetHeader(org.apache.poi.xssf.usermodel.XSSFSheet workSheet, StatementCached<PreparedStatement> prepStm, int inRowId, int inColId) throws SQLException{
+	protected void createSheetHeader(org.apache.poi.xssf.usermodel.XSSFSheet workSheet, PreparedStatement prepStm, int inRowId, int inColId) throws SQLException{
 		logger.traceEntry();
 		org.apache.poi.xssf.usermodel.XSSFRow headerRow = workSheet.createRow(inRowId);
-		ResultSet resRs = prepStm.getStm().getResultSet();
+		ResultSet resRs = prepStm.getResultSet();
 
 		ResultSetMetaData rsmd = resRs.getMetaData();
 		for(int headerIdx = 0; headerIdx < rsmd.getColumnCount(); headerIdx++){
@@ -196,10 +208,10 @@ public class ExcelManager {
 	 * @author ***REMOVED***
 	 * @since 22-10-2018 
 	 */
-	protected void createMetadataHeader(org.apache.poi.xssf.usermodel.XSSFSheet workSheet, StatementCached<PreparedStatement> prepStm, int inRowId, int inColId) throws SQLException{
+	protected void createMetadataHeader(org.apache.poi.xssf.usermodel.XSSFSheet workSheet, PreparedStatement prepStm, int inRowId, int inColId) throws SQLException{
 		logger.traceEntry();
 		org.apache.poi.xssf.usermodel.XSSFRow headerRow = workSheet.createRow(inRowId);
-		ResultSet resRs = prepStm.getStm().getResultSet();
+		ResultSet resRs = prepStm.getResultSet();
 
 		ResultSetMetaData rsmd = resRs.getMetaData();
 		org.apache.poi.xssf.usermodel.XSSFCell columnNameCell = headerRow.createCell(inColId);
@@ -224,10 +236,10 @@ public class ExcelManager {
 	 * @author ***REMOVED***
 	 * @since 31-08-2016
 	 */
-	protected void createSheetContent(org.apache.poi.xssf.usermodel.XSSFSheet workSheet, StatementCached<PreparedStatement> prepStm, int inRowId, int inColId, boolean applyDefaultStyle) throws SQLException, IOException{
+	protected void createSheetContent(org.apache.poi.xssf.usermodel.XSSFSheet workSheet, PreparedStatement prepStm, int inRowId, int inColId, boolean applyDefaultStyle) throws SQLException, IOException{
 		logger.traceEntry();
 		int rowId = inRowId;
-		ResultSet resRs = prepStm.getStm().getResultSet();
+		ResultSet resRs = prepStm.getResultSet();
 		ResultSetMetaData rsmd = resRs.getMetaData();
 		
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
