@@ -416,6 +416,9 @@ public class ExcelManager {
 					} else if(columnType == Types.FLOAT){
 						logger.trace("columnType FLOAT");
 						contentCell.setCellValue(resRs.getFloat(colIdx + 1));
+					} else if(columnType == Types.ROWID){	
+						logger.trace("columnType ROWID");
+						contentCell.setCellValue(resRs.getRowId(colIdx + 1).toString());
 					} else {
 						logger.trace("columnType else {}", columnType);
 						contentCell.setCellValue(resRs.getLong(colIdx + 1));
