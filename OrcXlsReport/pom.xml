@@ -90,7 +90,7 @@
 		<dependency>
 			<groupId>com.hoffnungland</groupId>
 			<artifactId>OracleConn</artifactId>
-			<version>0.0.13</version>
+			<version>0.0.14</version>
 		</dependency>
 	</dependencies>
 
