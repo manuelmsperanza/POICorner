@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,7 +38,7 @@ public class App
 		logger.traceEntry();
 		
 		if(args.length < 4){
-			logger.error("Wrong input parameters. Params are: ConnectionName ProjectName ExcelName TargetPath");
+			logger.error("Wrong input parameters. Params are: ConnectionName ProjectName ExcelName TargetPath [id]");
 			return;
 		}
 		
@@ -45,6 +46,11 @@ public class App
 		String ProjectName = args[1];
 		String inExcelName = args[2];
 		String targetPath  = args[3];
+		
+		long pkId = 0L;
+		if(args.length == 5) {
+			pkId = Long.parseLong(args[4]);
+		}
 		
 		OrclConnectionManager dbManager = new OrclConnectionManager();
 		
@@ -89,6 +95,29 @@ public class App
 				}
 			}
 			
+			File queriesByIdDir = new File("./" + ProjectName + "/queriesById");
+			File[] queriesByIdDirList = queriesByIdDir.listFiles(queriesFilter);
+			if(queriesByIdDirList != null && queriesByIdDirList.length > 0){
+				if(xlsMng == null) {
+					logger.info("Initialize the excel");
+					xlsMng = new ExcelManager(inExcelName);
+				}
+				for (File curFile : queriesByIdDirList){
+					logger.debug("Loading " + curFile.getName());
+					
+					logger.info("Executing the query " + curFile.getName());
+										
+					StatementCached<PreparedStatement> prepStm = dbManager.getPreparedStatement("./" + ProjectName + "/queriesById/" + curFile.getName());
+					PreparedStatement resStm = prepStm.getStm();
+					resStm.setLong(1, pkId);
+					resStm.executeQuery();
+					
+					logger.info("Put query " + curFile.getName() + " result into the excel file");
+					xlsMng.getQueryResult(prepStm);
+	
+				}
+			}
+			
 			File queriesJntDir = new File("./" + ProjectName + "/queriesJnt");
 			File[] queriesJntDirList = queriesJntDir.listFiles(queriesFilter);
 			if(queriesJntDirList != null && queriesJntDirList.length > 0){
@@ -121,6 +150,8 @@ public class App
 					xlsMng.getQueryResult(prepStm);
 				}
 			}
+			
+			
 			
 			if(xlsMng != null) {
 				xlsMng.cleanNoRecordSheets();
