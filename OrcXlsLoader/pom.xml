@@ -9,7 +9,7 @@
 		<version>0.0.12</version>
 	</parent>
 	<artifactId>OrcXlsLoader</artifactId>
-	<version>0.0.19</version>
+	<version>0.0.20</version>
 	<name>OrcXlsLoader</name>
 	<build>
 		<pluginManagement>
@@ -58,7 +58,7 @@
 		<dependency>
 			<groupId>com.hoffnungland</groupId>
 			<artifactId>OrcXlsReport</artifactId>
-			<version>0.0.23</version>
+			<version>0.0.24</version>
 		</dependency>
 		<dependency>
 			<groupId>com.hoffnungland</groupId>
