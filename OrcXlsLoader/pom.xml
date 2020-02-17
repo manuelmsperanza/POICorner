@@ -6,10 +6,10 @@
 	<parent>
 		<artifactId>POICorner</artifactId>
 		<groupId>com.hoffnungland</groupId>
-		<version>0.0.12</version>
+		<version>0.0.13</version>
 	</parent>
 	<artifactId>OrcXlsLoader</artifactId>
-	<version>0.0.20</version>
+	<version>0.0.21</version>
 	<name>OrcXlsLoader</name>
 	<build>
 		<pluginManagement>
