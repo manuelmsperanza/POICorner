@@ -38,7 +38,7 @@ public class App
 		logger.traceEntry();
 		
 		if(args.length < 4){
-			logger.error("Wrong input parameters. Params are: ConnectionName ProjectName ExcelName TargetPath [id]");
+			logger.error("Wrong input parameters. Params are: ConnectionName ProjectName ExcelName TargetPath [id] [name]");
 			return;
 		}
 		
@@ -48,8 +48,12 @@ public class App
 		String targetPath  = args[3];
 		
 		long pkId = 0L;
-		if(args.length == 5) {
+		if(args.length > 4) {
 			pkId = Long.parseLong(args[4]);
+		}
+		String recordName = new String();
+		if(args.length > 5) {
+			recordName = args[5];
 		}
 		
 		OrclConnectionManager dbManager = new OrclConnectionManager();
@@ -110,6 +114,29 @@ public class App
 					StatementCached<PreparedStatement> prepStm = dbManager.getPreparedStatement("./" + ProjectName + "/queriesById/" + curFile.getName());
 					PreparedStatement resStm = prepStm.getStm();
 					resStm.setLong(1, pkId);
+					resStm.executeQuery();
+					
+					logger.info("Put query " + curFile.getName() + " result into the excel file");
+					xlsMng.getQueryResult(prepStm);
+	
+				}
+			}
+			
+			File queriesByNameDir = new File("./" + ProjectName + "/queriesByName");
+			File[] queriesByNameDirList = queriesByNameDir.listFiles(queriesFilter);
+			if(queriesByNameDirList != null && queriesByNameDirList.length > 0){
+				if(xlsMng == null) {
+					logger.info("Initialize the excel");
+					xlsMng = new ExcelManager(inExcelName);
+				}
+				for (File curFile : queriesByNameDirList){
+					logger.debug("Loading " + curFile.getName());
+					
+					logger.info("Executing the query " + curFile.getName());
+										
+					StatementCached<PreparedStatement> prepStm = dbManager.getPreparedStatement("./" + ProjectName + "/queriesByName/" + curFile.getName());
+					PreparedStatement resStm = prepStm.getStm();
+					resStm.setString(1, recordName);
 					resStm.executeQuery();
 					
 					logger.info("Put query " + curFile.getName() + " result into the excel file");
