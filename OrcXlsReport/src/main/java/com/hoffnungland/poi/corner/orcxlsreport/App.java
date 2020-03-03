@@ -122,29 +122,31 @@ public class App
 				}
 			}
 			
-			File queriesByNameDir = new File("./" + ProjectName + "/queriesByName");
-			File[] queriesByNameDirList = queriesByNameDir.listFiles(queriesFilter);
-			if(queriesByNameDirList != null && queriesByNameDirList.length > 0){
-				if(xlsMng == null) {
-					logger.info("Initialize the excel");
-					xlsMng = new ExcelManager(inExcelName);
-				}
-				for (File curFile : queriesByNameDirList){
-					logger.debug("Loading " + curFile.getName());
-					
-					logger.info("Executing the query " + curFile.getName());
-										
-					StatementCached<PreparedStatement> prepStm = dbManager.getPreparedStatement("./" + ProjectName + "/queriesByName/" + curFile.getName());
-					PreparedStatement resStm = prepStm.getStm();
-					resStm.setString(1, recordName);
-					resStm.executeQuery();
-					
-					logger.info("Put query " + curFile.getName() + " result into the excel file");
-					xlsMng.getQueryResult(prepStm);
-	
+			if(!"".equals(recordName)) {
+				
+				File queriesByNameDir = new File("./" + ProjectName + "/queriesByName");
+				File[] queriesByNameDirList = queriesByNameDir.listFiles(queriesFilter);
+				if(queriesByNameDirList != null && queriesByNameDirList.length > 0){
+					if(xlsMng == null) {
+						logger.info("Initialize the excel");
+						xlsMng = new ExcelManager(inExcelName);
+					}
+					for (File curFile : queriesByNameDirList){
+						logger.debug("Loading " + curFile.getName());
+						
+						logger.info("Executing the query " + curFile.getName());
+											
+						StatementCached<PreparedStatement> prepStm = dbManager.getPreparedStatement("./" + ProjectName + "/queriesByName/" + curFile.getName());
+						PreparedStatement resStm = prepStm.getStm();
+						resStm.setString(1, recordName);
+						resStm.executeQuery();
+						
+						logger.info("Put query " + curFile.getName() + " result into the excel file");
+						xlsMng.getQueryResult(prepStm);
+		
+					}
 				}
 			}
-			
 			File queriesJntDir = new File("./" + ProjectName + "/queriesJnt");
 			File[] queriesJntDirList = queriesJntDir.listFiles(queriesFilter);
 			if(queriesJntDirList != null && queriesJntDirList.length > 0){
