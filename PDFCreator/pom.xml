@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>POICorner</artifactId>
 		<groupId>com.hoffnungland</groupId>
-		<version>0.0.13</version>
+		<version>0.0.14</version>
 	</parent>
 
 	<groupId>com.hoffnungland</groupId>
