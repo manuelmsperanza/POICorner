@@ -246,7 +246,7 @@ public class ExcelLoader {
 			}
 			
 			logger.info("Saving into " + tableName);
-			dbManager.xmlSave(doc, tableName, 0, 0);
+			dbManager.xmlSave(doc, tableName, null, 0, 0);
 			
 			dbManager.commit();
 			logger.info("Loading to " + tableName + " is completed");
