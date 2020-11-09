@@ -1,5 +1,5 @@
 #Create a new project
-mvn archetype:generate -DarchetypeCatalog=org.apache.maven.archetypes -Dfilter=maven-archetype-quickstart -DgroupId=com.hoffnungland -DartifactId=OrcXlsLoader -Dpackage=com.hoffnungland.poi.corner.orcxlsloader -Dversion=0.0.1-SNAPSHOT
+mvn archetype:generate -Dfilter="org.apache.maven.archetypes:maven-archetype-quickstart" -DgroupId="com.hoffnungland" -DartifactId=OrcXlsLoader -Dpackage="com.hoffnungland.poi.corner.orcxlsloader" -Dversion="0.0.1-SNAPSHOT"
 #Build settings
 ##Remove junit:junit:3.8.1
 
