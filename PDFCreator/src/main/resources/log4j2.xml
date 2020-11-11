@@ -23,7 +23,7 @@
 		</RollingFile>
 	</Appenders>
 	<Loggers>
-		<Logger name="com.hoffnungland.poi.corner.pdfcreator.App" level="${activeLevel}" additivity="false">
+		<Logger name="com.hoffnungland" level="${activeLevel}" additivity="false">
 			<AppenderRef ref="${activeProfile}" />
 		</Logger>
 		<Root level="error">
