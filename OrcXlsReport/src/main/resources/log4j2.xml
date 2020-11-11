@@ -23,22 +23,7 @@
 		</RollingFile>
 	</Appenders>
 	<Loggers>
-		<Logger name="com.hoffnungland.poi.corner.orcxlsreport.App" level="${activeLevel}" additivity="false">
-			<AppenderRef ref="${activeProfile}" />
-		</Logger>
-		<Logger name="com.hoffnungland.poi.corner.orcxlsreport.ExcelManager" level="${activeLevel}" additivity="false">
-			<AppenderRef ref="${activeProfile}" />
-		</Logger>
-		<Logger name="com.hoffnungland.db.corner.dbconn.ConnectionManager" level="${activeLevel}" additivity="false">
-			<AppenderRef ref="${activeProfile}" />
-		</Logger>
-		<Logger name="com.hoffnungland.db.corner.dbconn.StatementCached" level="${activeLevel}" additivity="false">
-			<AppenderRef ref="${activeProfile}" />
-		</Logger>
-		<Logger name="com.hoffnungland.db.corner.dbconn.StatementsCache" level="${activeLevel}" additivity="false">
-			<AppenderRef ref="${activeProfile}" />
-		</Logger>
-		<Logger name="com.hoffnungland.db.corner.oracleconn.OrclConnectionManager" level="${activeLevel}" additivity="false">
+		<Logger name="com.hoffnungland" level="${activeLevel}" additivity="false">
 			<AppenderRef ref="${activeProfile}" />
 		</Logger>
 		<Root level="error">
