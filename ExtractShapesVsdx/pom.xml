@@ -7,9 +7,9 @@
 	<parent>
 		<groupId>com.hoffnungland</groupId>
 		<artifactId>POICorner</artifactId>
-		<version>0.0.15</version>
+		<version>0.0.16</version>
 	</parent>
-	<version>0.0.12</version>
+	<version>0.0.13</version>
 	<artifactId>ExtractShapesVsdx</artifactId>
 	<name>ExtractShapesVsdx</name>
 	<url>http://maven.apache.org</url>
@@ -68,5 +68,4 @@
 			</resource>
 		</resources>
 	</build>
-
 </project>
