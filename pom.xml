@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.hoffnungland</groupId>
 	<artifactId>POICorner</artifactId>
-	<version>0.0.15</version>
+	<version>0.0.16</version>
 	<packaging>pom</packaging>
 	<name>POICorner</name>
 	<url>http://maven.apache.org</url>
@@ -71,6 +71,11 @@
 					<artifactId>maven-enforcer-plugin</artifactId>
 					<version>3.0.0-M2</version>
 				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+	        		<artifactId>maven-jarsigner-plugin</artifactId>
+	        		<version>3.0.0</version>
+        		</plugin>
 			</plugins>
 		</pluginManagement>
 		<plugins>
@@ -106,6 +111,31 @@
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 			</plugin>
+			<plugin>
+        		<artifactId>maven-jarsigner-plugin</artifactId>
+		        <executions>
+		        	<execution>
+		            	<id>sign</id>
+		            	<goals>
+		              		<goal>sign</goal>
+		            	</goals>
+		            	<configuration>
+          					<keystore>${hoffnunglandJksPath}</keystore>
+          					<alias>${hoffnunglandJksEntry}</alias>
+          					<storepass>${hoffnunglandJksPasswd}</storepass>
+		            	</configuration>
+		          	</execution>
+		          	<execution>
+		            	<id>verify</id>
+		            	<goals>
+		              		<goal>verify</goal>
+		            	</goals>
+		            	<configuration>
+		            		<certs>true</certs>
+		            	</configuration>
+		          	</execution>
+		        </executions>
+      		</plugin>
 		</plugins>
 	</build>
 	<dependencies>
@@ -119,7 +149,7 @@
 		<dependency>
 			<groupId>com.hoffnungland</groupId>
 			<artifactId>Log4j</artifactId>
-			<version>1.0.7</version>
+			<version>1.0.8</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
 		<dependency>
