@@ -43,6 +43,8 @@
 							<descriptorRefs>
 								<descriptorRef>jar-with-dependencies</descriptorRef>
 							</descriptorRefs>
+							<appendAssemblyId>false</appendAssemblyId>
+							<finalName>${project.artifactId}</finalName>
 							<archive>
 								<manifest>
 									<mainClass>com.hoffnungland.poi.corner.orcxlsloader.App</mainClass>
