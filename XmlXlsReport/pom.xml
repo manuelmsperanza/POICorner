@@ -6,11 +6,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.hoffnungland</groupId>
-		<artifactId>POICorner</artifactId>
-		<version>0.0.16</version>
+		<artifactId>poicorner</artifactId>
+		<version>0.0.17</version>
 	</parent>
 	<groupId>com.hoffnungland</groupId>
-	<artifactId>XmlXlsReport</artifactId>
+	<artifactId>xmlxlsreport</artifactId>
 	<version>0.0.17</version>
 	<name>XmlXlsReport</name>
 	<url>http://maven.apache.org</url>
@@ -20,7 +20,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.hoffnungland</groupId>
-			<artifactId>OrcXlsReport</artifactId>
+			<artifactId>orcxlsreport</artifactId>
 			<version>0.0.30</version>
 		</dependency>
 	</dependencies>

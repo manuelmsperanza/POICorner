@@ -6,10 +6,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.hoffnungland</groupId>
-		<artifactId>POICorner</artifactId>
-		<version>0.0.16</version>
+		<artifactId>poicorner</artifactId>
+		<version>0.0.17</version>
 	</parent>
-	<artifactId>OrcXlsReport</artifactId>
+	<artifactId>orcxlsreport</artifactId>
 	<name>OrcXlsReport</name>
 	<version>0.0.30</version>
 	<url>http://maven.apache.org</url>
@@ -91,7 +91,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.hoffnungland</groupId>
-			<artifactId>OracleConn</artifactId>
+			<artifactId>oracleconn</artifactId>
 			<version>0.0.19</version>
 		</dependency>
 	</dependencies>

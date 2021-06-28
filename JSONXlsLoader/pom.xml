@@ -4,18 +4,17 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>POICorner</artifactId>
+		<artifactId>poicorner</artifactId>
 		<groupId>com.hoffnungland</groupId>
-		<version>0.0.16</version>
+		<version>0.0.17</version>
 	</parent>
 
 	<groupId>com.hoffnungland</groupId>
-	<artifactId>JSONXlsLoader</artifactId>
+	<artifactId>jsonxlsLoader</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
 	<name>JSONXlsLoader</name>
-	<!-- FIXME change it to the project's website -->
-	<url>http://www.example.com</url>
+	<url>https://hoffnungland.com</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -56,7 +55,7 @@
 						<archive>
 							<manifest>
 								<addClasspath>true</addClasspath>
-								<classpathPrefix>JTunneling_lib/</classpathPrefix>
+								<classpathPrefix>JSONXlsLoader_lib/</classpathPrefix>
 								<mainClass>com.hoffnungland.poi.corner.jsonxlsloader.App</mainClass>
 							</manifest>
 						</archive>
