@@ -4,11 +4,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>POICorner</artifactId>
+		<artifactId>poicorner</artifactId>
 		<groupId>com.hoffnungland</groupId>
-		<version>0.0.16</version>
+		<version>0.0.17</version>
 	</parent>
-	<artifactId>OrcXlsLoader</artifactId>
+	<artifactId>orcxlsloader</artifactId>
 	<version>0.0.25</version>
 	<name>OrcXlsLoader</name>
 	<build>
@@ -59,12 +59,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.hoffnungland</groupId>
-			<artifactId>OrcXlsReport</artifactId>
+			<artifactId>orcxlsreport</artifactId>
 			<version>0.0.30</version>
 		</dependency>
 		<dependency>
 			<groupId>com.hoffnungland</groupId>
-			<artifactId>OracleConn</artifactId>
+			<artifactId>oracleconn</artifactId>
 			<version>0.0.19</version>
 		</dependency>
 	</dependencies>
