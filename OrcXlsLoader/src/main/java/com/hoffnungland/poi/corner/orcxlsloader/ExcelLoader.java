@@ -55,7 +55,7 @@ public class ExcelLoader {
 	 * Utility method to manage the XML Document Builder creation
 	 * @return the private field Document Builder
 	 * @throws ParserConfigurationException
-	 * @author ***REMOVED***
+	 * @author manuel.m.speranza
 	 * @since 12-04-2018
 	 */
 	public DocumentBuilder getXmlDocumentBuilder() throws ParserConfigurationException{
@@ -74,7 +74,7 @@ public class ExcelLoader {
 	 * @throws ParserConfigurationException
 	 * @throws SQLException
 	 * @throws XlsWrkSheetException
-	 * @author ***REMOVED***
+	 * @author manuel.m.speranza
 	 * @since 12-04-2018
 	 */
 	public void loadWb(OrclConnectionManager dbManager, String[] ... fixValues) throws IOException, SAXException, ParserConfigurationException, SQLException, XlsWrkSheetException{
