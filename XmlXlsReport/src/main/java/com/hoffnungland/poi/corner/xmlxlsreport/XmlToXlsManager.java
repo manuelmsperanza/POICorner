@@ -42,7 +42,7 @@ import com.hoffnungland.poi.corner.orcxlsreport.ExcelManager;
 /**
  * Extend the basic worksheet class, in order to bring xml content into excel workset 
  * @version 0.2
- * @author ***REMOVED***
+ * @author manuel.m.speranza
  * @since 18-09-2017
  */
 
@@ -58,7 +58,7 @@ public class XmlToXlsManager extends ExcelManager {
 	/**
 	 * Constructor with input name string. Define also the styles.
 	 * @param name The target excel file name prefix
-	 * @author ***REMOVED***
+	 * @author manuel.m.speranza
 	 * @since 18-09-2017
 	 */
 
@@ -351,7 +351,7 @@ public class XmlToXlsManager extends ExcelManager {
 
 	/**
 	 * Loop all the workbook and create a summary page with the hyperlink toward the pages with at least one record
-	 * @author ***REMOVED***
+	 * @author manuel.m.speranza
 	 * @since 21-09-2016
 	 */
 	public void createSummaryPage(){
@@ -389,7 +389,7 @@ public class XmlToXlsManager extends ExcelManager {
 			}
 		}
 
-		if(System.getProperty("os.name").startsWith("***REMOVED***ows")){
+		if(System.getProperty("os.name").startsWith("Windows")){
 			summarySheet.autoSizeColumn(0);
 			summarySheet.autoSizeColumn(1);
 		}
@@ -403,7 +403,7 @@ public class XmlToXlsManager extends ExcelManager {
 
 	/**
 	 * Loop all the workbook and remove the page without record
-	 * @author ***REMOVED***
+	 * @author manuel.m.speranza
 	 * @since 22-09-2016
 	 */
 	public void cleanNoRecordSheets(){
@@ -424,7 +424,7 @@ public class XmlToXlsManager extends ExcelManager {
 
 	/**
 	 * Flush the workbook data into the file and close the workbook.
-	 * @author ***REMOVED***
+	 * @author manuel.m.speranza
 	 * @since 31-08-2016
 	 */
 	public void finalWrite(String targetPath)

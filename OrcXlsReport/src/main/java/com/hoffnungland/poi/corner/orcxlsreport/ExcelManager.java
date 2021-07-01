@@ -38,7 +38,7 @@ import com.hoffnungland.db.corner.dbconn.StatementCached;
 /**
  * Manage the work-sheet data read and write.
  * @version 0.8
- * @author ***REMOVED***
+ * @author manuel.m.speranza
  * @since 31-08-2016
  */
 
@@ -57,7 +57,7 @@ public class ExcelManager {
 	/**
 	 * Constructor with input name string. Define also the styles.
 	 * @param name The target excel file name prefix
-	 * @author ***REMOVED***
+	 * @author manuel.m.speranza
 	 * @since 31-08-2016
 	 */
 	
@@ -111,7 +111,7 @@ public class ExcelManager {
 	 * @throws SQLException
 	 * @throws IOException
 	 * @throws XlsWrkSheetException raised in case of syntactic errors of the work-sheet data 
-	 * @author ***REMOVED***
+	 * @author manuel.m.speranza
 	 * @since 31-08-2016
 	 */
 	public void getQueryResult(StatementCached<PreparedStatement> prepStm) throws SQLException, IOException, XlsWrkSheetException {
@@ -141,7 +141,7 @@ public class ExcelManager {
 	 * @throws SQLException
 	 * @throws IOException
 	 * @throws XlsWrkSheetException raised in case of syntactic errors of the work-sheet data 
-	 * @author ***REMOVED***
+	 * @author manuel.m.speranza
 	 * @since 22-10-2018
 	 */
 	public void getMetadataResult(StatementCached<PreparedStatement> prepStm) throws SQLException, IOException, XlsWrkSheetException {
@@ -175,7 +175,7 @@ public class ExcelManager {
 	 * @param inRowId starting write row id (0 based)
 	 * @param inColId starting write column id (0 based)
 	 * @throws SQLException
-	 * @author ***REMOVED***
+	 * @author manuel.m.speranza
 	 * @since 31-08-2016 
 	 */
 	protected void createSheetHeader(org.apache.poi.xssf.usermodel.XSSFSheet workSheet, PreparedStatement prepStm, int inRowId, int inColId) throws SQLException{
@@ -190,7 +190,7 @@ public class ExcelManager {
 			columnNameCell.setCellValue(columnaName);
 			logger.debug(columnaName + " of type " + rsmd.getColumnTypeName(headerIdx + 1) + " ("+ rsmd.getColumnType(headerIdx + 1) + ")" );
 			columnNameCell.setCellStyle(this.headerCellStyle);
-			if(System.getProperty("os.name").startsWith("***REMOVED***ows")){
+			if(System.getProperty("os.name").startsWith("Windows")){
 				workSheet.autoSizeColumn(headerIdx);
 			}
 		}
@@ -205,7 +205,7 @@ public class ExcelManager {
 	 * @param inRowId starting write row id (0 based)
 	 * @param inColId starting write column id (0 based)
 	 * @throws SQLException
-	 * @author ***REMOVED***
+	 * @author manuel.m.speranza
 	 * @since 22-10-2018 
 	 */
 	protected void createMetadataHeader(org.apache.poi.xssf.usermodel.XSSFSheet workSheet, PreparedStatement prepStm, int inRowId, int inColId) throws SQLException{
@@ -233,7 +233,7 @@ public class ExcelManager {
 	 * @param applyDefaultStyle true to apply default style
 	 * @throws SQLException
 	 * @throws IOException
-	 * @author ***REMOVED***
+	 * @author manuel.m.speranza
 	 * @since 31-08-2016
 	 */
 	protected void createSheetContent(org.apache.poi.xssf.usermodel.XSSFSheet workSheet, PreparedStatement prepStm, int inRowId, int inColId, boolean applyDefaultStyle) throws SQLException, IOException{
@@ -435,7 +435,7 @@ public class ExcelManager {
 	
 	/**
 	 * Loop all the workbook and create a summary page with the hyperlink toward the pages with at least one record
-	 * @author ***REMOVED***
+	 * @author manuel.m.speranza
 	 * @since 21-09-2016
 	 */
 	public void createSummaryPage(int excludeRows){
@@ -477,7 +477,7 @@ public class ExcelManager {
 			
 		}
 		
-		if(System.getProperty("os.name").startsWith("***REMOVED***ows")){
+		if(System.getProperty("os.name").startsWith("Windows")){
 			summarySheet.autoSizeColumn(0);
 			summarySheet.autoSizeColumn(1);
 		}
@@ -491,7 +491,7 @@ public class ExcelManager {
 	
 	/**
 	 * Loop all the workbook and remove the page without record
-	 * @author ***REMOVED***
+	 * @author manuel.m.speranza
 	 * @since 22-09-2016
 	 */
 	public void cleanNoRecordSheets(){
@@ -512,7 +512,7 @@ public class ExcelManager {
 	
 	/**
 	 * Flush the workbook data into the file and close the workbook.
-	 * @author ***REMOVED***
+	 * @author manuel.m.speranza
 	 * @since 31-08-2016
 	 */
 	public void finalWrite(String targetPath)
