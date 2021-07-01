@@ -74,8 +74,8 @@ public class App implements ActionListener{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					App ***REMOVED***ow = new App();
-					***REMOVED***ow.frame.setVisible(true);
+					App window = new App();
+					window.frame.setVisible(true);
 				} catch (Exception e) {
 					logger.error(e);
 					e.printStackTrace();
