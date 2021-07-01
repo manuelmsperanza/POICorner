@@ -25,7 +25,7 @@ import com.hoffnungland.poi.corner.orcxlsreport.XlsWrkSheetException;
 
 /**
  * Main class
- * @author ***REMOVED***
+ * @author manuel.m.speranza
  * @since 31-08-2016
  * @version 0.1
  */
