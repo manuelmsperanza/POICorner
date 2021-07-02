@@ -437,7 +437,7 @@ public class XmlToXlsManager extends ExcelManager {
 	        coreProp.setCreator(System.getProperty("user.name"));
 	        
 			String xlsFilename = this.name + ".xlsx";
-			if (targetPath != null & !"".equals(targetPath)){
+			if (targetPath != null && !"".equals(targetPath)){
 				xlsFilename = targetPath + xlsFilename;
 			}
 			FileOutputStream fileOut = new FileOutputStream(xlsFilename);
