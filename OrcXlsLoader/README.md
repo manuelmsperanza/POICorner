@@ -1,6 +1,6 @@
 # OrcXlsLoader
 
-Oracle excel loader can help you to bulk load the content of an excel file straight into a database.
+Oracle Excel loader can help you to bulk load the content of an excel file straight into a database.
 Each sheet can represent a database table.
 To make it work, you need to create a property file for every sheet and every environment you intend deploy your data.
 
