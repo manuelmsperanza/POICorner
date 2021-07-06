@@ -107,7 +107,8 @@ public class ExcelLoader {
 					xlsMng = new ExcelManager(xlsMngName);
 				}
 				
-				StatementCached<PreparedStatement> prepStm = dbManager.executeFullTableQuery(workSheet.getSheetName(), workSheet.getSheetName());
+				String tableName = connectionPropsFile.getProperty("TABLE_NAME", null);
+				StatementCached<PreparedStatement> prepStm = dbManager.executeFullTableQuery(tableName, tableName);
 				
 				logger.info("Put query result into the excel file");
 				xlsMng.getQueryResult(prepStm);						
