@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>poicorner</artifactId>
 		<groupId>com.hoffnungland</groupId>
-		<version>0.0.17</version>
+		<version>0.0.18</version>
 	</parent>
 
 	<groupId>com.hoffnungland</groupId>
@@ -98,4 +98,8 @@
 			<version>20210307</version>
 		</dependency>
 	</dependencies>
+
+  <scm>
+    <tag>poicorner-0.0.18</tag>
+  </scm>
 </project>
