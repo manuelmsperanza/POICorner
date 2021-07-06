@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.hoffnungland</groupId>
 		<artifactId>poicorner</artifactId>
-		<version>0.0.17</version>
+		<version>0.0.18</version>
 	</parent>
 	<artifactId>orcxlsreport</artifactId>
 	<name>OrcXlsReport</name>
@@ -92,4 +92,8 @@
 			<version>0.0.19</version>
 		</dependency>
 	</dependencies>
+
+  <scm>
+    <tag>poicorner-0.0.18</tag>
+  </scm>
 </project>
