@@ -107,7 +107,7 @@ public class ExcelManager {
 
 	/**
 	 * Get the information within the ResultSet of the input query and fill a new work-sheet.
-	 * @param query the executed query having a valid ResultSet.
+	 * @param prepStm the executed query having a valid ResultSet.
 	 * @throws SQLException
 	 * @throws IOException
 	 * @throws XlsWrkSheetException raised in case of syntactic errors of the work-sheet data 
@@ -137,7 +137,7 @@ public class ExcelManager {
 	}
 	/**
 	 * Get the information within the ResultSet of the input query containing metadata and fill a new work-sheet.
-	 * @param query the executed query having a valid ResultSet.
+	 * @param prepStm the executed query having a valid ResultSet.
 	 * @throws SQLException
 	 * @throws IOException
 	 * @throws XlsWrkSheetException raised in case of syntactic errors of the work-sheet data 
@@ -171,7 +171,7 @@ public class ExcelManager {
 	/**
 	 * Add the top row of the work-sheet. Get the information from the ResultSetMetaData of query's ResultSet.
 	 * @param workSheet the working work-sheet
-	 * @param query the executed query having a valid ResultSet.
+	 * @param prepStm the executed query having a valid ResultSet.
 	 * @param inRowId starting write row id (0 based)
 	 * @param inColId starting write column id (0 based)
 	 * @throws SQLException
@@ -201,7 +201,7 @@ public class ExcelManager {
 	/**
 	 * Add the top row of the work-sheet. Get the information from the ResultSetMetaData of query's ResultSet.
 	 * @param workSheet the working work-sheet
-	 * @param query the executed query having a valid ResultSet.
+	 * @param prepStm the executed query having a valid ResultSet.
 	 * @param inRowId starting write row id (0 based)
 	 * @param inColId starting write column id (0 based)
 	 * @throws SQLException
@@ -227,7 +227,7 @@ public class ExcelManager {
 	 * Add a row for each record within the query's ResultSet.
 	 * It manage the following Oracle data type: VARCHAR, CHAR, CLOB, DATE, TIME, TIMESTAMP and NUMBER
 	 * @param workSheet the working work-sheet
-	 * @param query the executed query having a valid ResultSet.
+	 * @param prepStm the executed query having a valid ResultSet.
 	 * @param inRowId starting write row id (0 based)
 	 * @param inColId starting write column id (0 based)
 	 * @param applyDefaultStyle true to apply default style
