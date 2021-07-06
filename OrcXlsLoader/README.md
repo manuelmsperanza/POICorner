@@ -14,12 +14,13 @@ Data mapping file must be in etc/worksheet_name/ directory and has the following
 
 The file contains these properties
 
-* TABLE_NAME:
-* TABLE.backup:
-* TABLE.clean:
-* EXEC_POST_LOAD:
-* SCHEDULE_PROCEDURE_POST_LOAD:
-
+* TABLE_NAME: the target table name
+* TABLE.backup: create an excel file containing the data before loading. 
+* TABLE.clean: if true, delete all rows before doing the insert
+* EXEC_POST_LOAD: procedure or function to invoke suddenly after the loading
+* SCHEDULE_PROCEDURE_POST_LOAD: procedure or function to scheduler after the loading
+* list of header_column_name mapped with the related table_column_name (e.g. Header #1=COLUMN_A)
+* list of table_column_name.type mapped with the related data type (e.g. COLUMN_A.type=VARCHAR2)
 
 #### How fill data mapping properties files
 
