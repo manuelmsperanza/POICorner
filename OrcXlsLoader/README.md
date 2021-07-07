@@ -40,7 +40,33 @@ You can run the following queries, copy the result and paste in the target file.
 ### Remove junit:junit:3.8.1
 
 
+# Run with Maven
+	
+	start mvn exec:java -Dexec.mainClass="com.hoffnungland.poi.corner.orcxlsloader.App" -Dlog4j.configurationFile=src/main/resources/log4j2.xml
 
+# Create Jar with dependencies
+
+## Configure the pom.xml
+
+	<plugin>
+		<artifactId>maven-assembly-plugin</artifactId>
+		<configuration>
+			<descriptorRefs>
+				<descriptorRef>jar-with-dependencies</descriptorRef>
+			</descriptorRefs>
+			<appendAssemblyId>false</appendAssemblyId>
+			<finalName>${project.artifactId}</finalName>
+			<archive>
+				<manifest>
+					<mainClass>com.hoffnungland.poi.corner.orcxlsloader.App</mainClass>
+				</manifest>
+			</archive>
+		</configuration>
+	</plugin>
+
+## Execute the maven assembly single
+
+	mvn assembly:single
 
 #add .gitignore to mandatory empty directory
 	# Ignore everything in this directory
