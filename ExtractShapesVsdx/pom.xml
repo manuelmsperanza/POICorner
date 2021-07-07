@@ -23,8 +23,8 @@
 						<archive>
 							<manifest>
 								<addClasspath>true</addClasspath>
-								<classpathPrefix>CrossCheckMetadata_lib/</classpathPrefix>
-								<mainClass>com.hoffnungland.designSdc.App</mainClass>
+								<classpathPrefix>ExtractShapesVsdx_lib/</classpathPrefix>
+								<mainClass>com.hoffnungland.poi.corner.extractshapesvsdx.App</mainClass>
 							</manifest>
 						</archive>
 					</configuration>
@@ -34,27 +34,18 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>create-executable-jar</id>
-						<!-- phase>package</phase-->
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<descriptorRefs>
-								<descriptorRef>jar-with-dependencies</descriptorRef>
-							</descriptorRefs>
-							<appendAssemblyId>false</appendAssemblyId>
-							<finalName>${project.artifactId}</finalName>
-							<archive>
-								<manifest>
-									<mainClass>com.hoffnungland.poi.corner.extractshapesvsdx.App</mainClass>
-								</manifest>
-							</archive>
-						</configuration>
-					</execution>
-				</executions>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<appendAssemblyId>false</appendAssemblyId>
+					<finalName>${project.artifactId}</finalName>
+					<archive>
+						<manifest>
+							<mainClass>com.hoffnungland.poi.corner.extractshapesvsdx.App</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
 			</plugin>
 		</plugins>
 		<resources>
