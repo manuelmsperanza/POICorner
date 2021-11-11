@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.hoffnungland</groupId>
 	<artifactId>poicorner</artifactId>
-	<version>0.0.23-SNAPSHOT</version>
+	<version>0.0.23</version>
 	<packaging>pom</packaging>
 	<name>POICorner</name>
 	<url>http://maven.apache.org</url>
@@ -18,7 +18,7 @@
 	<scm>
 		<connection>scm:git:https://github.com/manuelmsperanza/POICorner.git</connection>
 		<developerConnection>scm:git:git@github.com:manuelmsperanza/POICorner.git</developerConnection>
-		<tag>poicorner-0.0.20</tag>
+		<tag>poicorner-0.0.23</tag>
 	</scm>
 
 	<issueManagement>
