@@ -8,7 +8,7 @@
 	</parent>
 
 	<groupId>com.hoffnungland</groupId>
-	<artifactId>jsonxlsLoader</artifactId>
+	<artifactId>jsonxlsloader</artifactId>
 	<version>0.0.6-SNAPSHOT</version>
 
 	<name>JSONXlsLoader</name>
