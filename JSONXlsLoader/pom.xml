@@ -4,12 +4,12 @@
 	<parent>
 		<artifactId>poicorner</artifactId>
 		<groupId>com.hoffnungland</groupId>
-		<version>0.0.24-SNAPSHOT</version>
+		<version>0.0.24</version>
 	</parent>
 
 	<groupId>com.hoffnungland</groupId>
 	<artifactId>jsonxlsloader</artifactId>
-	<version>0.0.7-SNAPSHOT</version>
+	<version>0.0.7</version>
 
 	<name>JSONXlsLoader</name>
 	<url>https://hoffnungland.com</url>
