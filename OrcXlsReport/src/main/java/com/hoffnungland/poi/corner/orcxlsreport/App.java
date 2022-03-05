@@ -18,8 +18,8 @@ import org.apache.logging.log4j.Logger;
 import com.hoffnungland.db.corner.dbconn.ConnectionManager;
 import com.hoffnungland.db.corner.dbconn.StatementCached;
 import com.hoffnungland.db.corner.oracleconn.OrclConnectionManager;
-import com.hoffnungland.poi.corner.orcxlsreport.ExcelManager;
-import com.hoffnungland.poi.corner.orcxlsreport.XlsWrkSheetException;
+import com.hoffnungland.poi.corner.dbxlsreport.ExcelManager;
+import com.hoffnungland.poi.corner.dbxlsreport.XlsWrkSheetException;
 
 
 

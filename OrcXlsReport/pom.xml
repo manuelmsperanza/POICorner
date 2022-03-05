@@ -54,29 +54,12 @@
 		</resources>
 	</build>
 	<dependencies>
-		<!-- Below dependencies resolves:
-		ERROR StatusLogger Caught java.lang.AbstractMethodError setting feature http://xml.org/sax/features/external-general-entities to false on DocumentBuilderFactory oracle.xml.jaxp.JXDocumentBuilderFactory@589838eb: java.lang.AbstractMethodError: javax.xml.parsers.DocumentBuilderFactory.setFeature(Ljava/lang/String;Z)V
+		<dependency>
+			<groupId>com.hoffnungland</groupId>
+			<artifactId>dbxlsreport</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		
-		Dependencies order matter.
-		-->
-		<!-- https://mvnrepository.com/artifact/xerces/xercesImpl -->
-		<dependency>
-			<groupId>xerces</groupId>
-			<artifactId>xercesImpl</artifactId>
-			<version>2.12.2</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/xalan/xalan -->
-		<dependency>
-			<groupId>xalan</groupId>
-			<artifactId>xalan</artifactId>
-			<version>2.7.2</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/xalan/serializer -->
-		<dependency>
-			<groupId>xalan</groupId>
-			<artifactId>serializer</artifactId>
-			<version>2.7.2</version>
-		</dependency>
 		<dependency>
 			<groupId>com.hoffnungland</groupId>
 			<artifactId>oracleconn</artifactId>

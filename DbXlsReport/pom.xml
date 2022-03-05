@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>poicorner</artifactId>
+		<groupId>com.hoffnungland</groupId>
+		<version>0.0.31-SNAPSHOT</version>
+	</parent>
+
+	<groupId>com.hoffnungland</groupId>
+	<artifactId>dbxlsreport</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<name>DbXlsReport</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.hoffnungland</groupId>
+			<artifactId>dbconn</artifactId>
+			<version>0.0.18</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/xerces/xercesImpl -->
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+			<version>2.12.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/xalan/xalan -->
+		<dependency>
+			<groupId>xalan</groupId>
+			<artifactId>xalan</artifactId>
+			<version>2.7.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/xalan/serializer -->
+		<dependency>
+			<groupId>xalan</groupId>
+			<artifactId>serializer</artifactId>
+			<version>2.7.2</version>
+		</dependency>
+	</dependencies>
+</project>
