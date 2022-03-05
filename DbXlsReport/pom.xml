@@ -4,12 +4,12 @@
 	<parent>
 		<artifactId>poicorner</artifactId>
 		<groupId>com.hoffnungland</groupId>
-		<version>0.0.31-SNAPSHOT</version>
+		<version>0.0.31</version>
 	</parent>
 
 	<groupId>com.hoffnungland</groupId>
 	<artifactId>dbxlsreport</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 
 	<name>DbXlsReport</name>
 
