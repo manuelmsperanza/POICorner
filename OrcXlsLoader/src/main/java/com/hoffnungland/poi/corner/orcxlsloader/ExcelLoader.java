@@ -28,9 +28,8 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.hoffnungland.db.corner.oracleconn.OrclConnectionManager;
-import com.hoffnungland.poi.corner.orcxlsreport.ExcelManager;
-import com.hoffnungland.poi.corner.orcxlsreport.XlsWrkSheetException;
-
+import com.hoffnungland.poi.corner.dbxlsreport.ExcelManager;
+import com.hoffnungland.poi.corner.dbxlsreport.XlsWrkSheetException;
 import com.hoffnungland.db.corner.dbconn.StatementCached;
 
 public class ExcelLoader {

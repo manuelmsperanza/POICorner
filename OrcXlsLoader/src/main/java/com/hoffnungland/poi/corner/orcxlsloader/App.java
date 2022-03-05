@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.xml.sax.SAXException;
 
 import com.hoffnungland.db.corner.oracleconn.OrclConnectionManager;
-import com.hoffnungland.poi.corner.orcxlsreport.XlsWrkSheetException;
+import com.hoffnungland.poi.corner.dbxlsreport.XlsWrkSheetException;
 
 
 /**
