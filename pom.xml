@@ -219,7 +219,7 @@
 	</dependencies>
 	<modules>
 		<module>ExtractShapesVsdx</module>
-		<module>DbXlsReport</module>
+		<module>XlsReport</module>
 		<module>OrcXlsReport</module>
 		<module>XmlXlsReport</module>
 		<module>OrcXlsLoader</module>
