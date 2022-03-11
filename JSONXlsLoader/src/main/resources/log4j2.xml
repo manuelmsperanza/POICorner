@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN" monitorInterval="0">
 	<Properties>
-		<Property name="activeProfile">rollingFile</Property>
-		<Property name="activeLevel">TRACE</Property>
+		<Property name="activeProfile">stdout</Property>
+		<Property name="activeLevel">INFO</Property>
 		<Property name="rollingFilename">JSONXlsLoader</Property>
 	</Properties>
 	<Appenders>
