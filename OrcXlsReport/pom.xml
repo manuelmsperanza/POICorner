@@ -4,11 +4,11 @@
 	<parent>
 		<groupId>com.hoffnungland</groupId>
 		<artifactId>poicorner</artifactId>
-		<version>0.0.32-SNAPSHOT</version>
+		<version>0.0.32</version>
 	</parent>
 	<artifactId>orcxlsreport</artifactId>
 	<name>OrcXlsReport</name>
-	<version>0.1.44-SNAPSHOT</version>
+	<version>0.1.44</version>
 	<url>http://maven.apache.org</url>
 	<build>
 		<plugins>
@@ -57,7 +57,7 @@
 		<dependency>
 			<groupId>com.hoffnungland</groupId>
 			<artifactId>xlsreport</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
+			<version>1.0.2</version>
 		</dependency>
 		
 		<dependency>
