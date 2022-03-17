@@ -250,7 +250,8 @@ public class App implements ActionListener{
 			String excelFileName = this.xlsxNameTextField.getText();
 			logger.info("Initialize the excel");
 			xlsMng = new ExcelManager(excelFileName.substring(0, excelFileName.lastIndexOf(".")));
-			for(File curJsonFile :  this.selectedJsonFiles) {				
+			for(File curJsonFile :  this.selectedJsonFiles) {	
+				logger.info("Working " + curJsonFile.getName());
 				String jsonStr = Files.readString(Path.of(curJsonFile.getAbsolutePath()));
 				//String sheetName = (excelFileName.length() > 31) ? excelFileName.substring(0, 31) : excelFileName;			
 				xlsMng.getJsonResult(curJsonFile.getName(), null, jsonStr);
@@ -271,6 +272,7 @@ public class App implements ActionListener{
 				xlsMng.finalWrite(targetPath);
 				xlsMng = null;
 			}
+			logger.info("Excel done");
 			JOptionPane.showMessageDialog(this.frame, "JSON Tabulation completed", "Conversion completed", JOptionPane.INFORMATION_MESSAGE);
 		}
 		logger.traceExit();
