@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>poicorner</artifactId>
+    <groupId>com.hoffnungland</groupId>
+    <version>0.0.34-SNAPSHOT</version>
+  </parent>
+
+  <groupId>com.hoffnungland</groupId>
+  <artifactId>h2xlsreport</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+
+  <name>H2XlsReport</name>
+  <build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>H2XlsReport_lib/</classpathPrefix>
+							<mainClass>com.hoffnungland.poi.corner.h2xlsreport.App</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<appendAssemblyId>false</appendAssemblyId>
+					<finalName>${project.artifactId}</finalName>
+					<archive>
+						<manifest>
+							<mainClass>com.hoffnungland.poi.corner.h2xlsreport.App</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+		<filters>
+			<filter>src/main/filters/default.properties</filter>
+		</filters>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<targetPath>${project.build.directory}</targetPath>
+				<includes>
+					<include>log4j2.xml</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>com.hoffnungland</groupId>
+			<artifactId>xlsreport</artifactId>
+			<version>1.0.4-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.hoffnungland</groupId>
+			<artifactId>h2dbconn</artifactId>
+			<version>0.0.8</version>
+		</dependency>
+	</dependencies>
+</project>
