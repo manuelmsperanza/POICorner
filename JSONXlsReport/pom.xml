@@ -8,10 +8,10 @@
 	</parent>
 
 	<groupId>com.hoffnungland</groupId>
-	<artifactId>jsonxlsloader</artifactId>
+	<artifactId>jsonxlsreport</artifactId>
 	<version>1.0.16-SNAPSHOT</version>
 
-	<name>JSONXlsLoader</name>
+	<name>JSONXlsReport</name>
 	<url>https://hoffnungland.com</url>
 
 	<properties>
