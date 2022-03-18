@@ -4,12 +4,12 @@
 	<parent>
 		<artifactId>poicorner</artifactId>
 		<groupId>com.hoffnungland</groupId>
-		<version>0.0.33-SNAPSHOT</version>
+		<version>0.0.33</version>
 	</parent>
 
 	<groupId>com.hoffnungland</groupId>
 	<artifactId>xlsreport</artifactId>
-	<version>1.0.3-SNAPSHOT</version>
+	<version>1.0.3</version>
 
 	<name>XlsReport</name>
 
