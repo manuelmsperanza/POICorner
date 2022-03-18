@@ -3,7 +3,7 @@
 	<Properties>
 		<Property name="activeProfile">stdout</Property>
 		<Property name="activeLevel">INFO</Property>
-		<Property name="rollingFilename">JSONXlsLoader</Property>
+		<Property name="rollingFilename">JSONXlsReport</Property>
 	</Properties>
 	<Appenders>
 		<Console name="stdout" target="SYSTEM_OUT">
