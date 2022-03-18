@@ -224,6 +224,6 @@
 		<module>XmlXlsReport</module>
 		<module>OrcXlsLoader</module>
 		<module>PDFCreator</module>
-		<module>JSONXlsLoader</module>
+		<module>JSONXlsReport</module>
 	</modules>
 </project>
