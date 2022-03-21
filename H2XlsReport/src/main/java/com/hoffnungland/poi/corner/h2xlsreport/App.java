@@ -191,6 +191,7 @@ public class App
 		} finally {
 
 			if(xlsMng != null) {
+				logger.info("Excel " + inExcelName + " done");
 				xlsMng.finalWrite(targetPath);
 				xlsMng = null;
 			}
