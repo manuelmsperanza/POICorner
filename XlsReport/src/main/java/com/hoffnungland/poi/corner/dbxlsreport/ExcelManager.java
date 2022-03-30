@@ -25,6 +25,7 @@ import java.util.Map.Entry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.ooxml.POIXMLProperties;
+import org.apache.poi.ss.SpreadsheetVersion;
 import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.ss.usermodel.Comment;
 import org.apache.poi.ss.usermodel.CreationHelper;
@@ -135,11 +136,28 @@ public class ExcelManager {
 			throw new XlsWrkSheetException("Work-sheet " + sheetName + " [" + sheetName.length() + "] must not have more than 30 characters");
 		}
 
-		org.apache.poi.xssf.usermodel.XSSFSheet workSheet = this.wb.createSheet(sheetName);
-		this.createSheetHeader(workSheet, prepStm, 0, 0);
-		this.createSheetContent(workSheet, prepStm, 1, 0, true);		
-		workSheet.createFreezePane(0, 1);
-		workSheet.setZoom(85);
+		int sheetCounter = 0;
+		int rowCount = 0;
+		do {
+			String sheetNewName = sheetName;
+			if(sheetCounter > 0) {
+				String sheetSuffix = "(" + sheetCounter + ")";
+				if(sheetName.length() + sheetSuffix.length() > 30) {
+					sheetNewName = sheetName.substring(0, 30+(30-(sheetName.length() + sheetSuffix.length()))) + sheetSuffix;
+				} else {
+					sheetNewName = sheetName + sheetSuffix;
+				}
+			}
+			logger.debug("Creating new Worksheet " + sheetNewName);
+			org.apache.poi.xssf.usermodel.XSSFSheet workSheet = this.wb.createSheet(sheetNewName);
+			this.createSheetHeader(workSheet, prepStm, 0, 0);
+			rowCount = this.createSheetContent(workSheet, prepStm, 1, 0, true);		
+			workSheet.createFreezePane(0, 1);
+			workSheet.setZoom(85);
+			sheetCounter++;
+			
+
+		}while(!prepStm.getResultSet().isAfterLast() && rowCount > 0);
 		
 		logger.traceExit();
 	}
@@ -165,13 +183,27 @@ public class ExcelManager {
 		if(sheetName.length() > 30){
 			throw new XlsWrkSheetException("Work-sheet " + sheetName + " [" + sheetName.length() + "] must not have more than 30 characters");
 		}
-
-		org.apache.poi.xssf.usermodel.XSSFSheet workSheet = this.wb.createSheet(sheetName);
-		this.createMetadataHeader(workSheet, prepStm, 0, 0);
-		this.createSheetHeader(workSheet, prepStm, 1, 0);
-		this.createSheetContent(workSheet, prepStm, 2, 0, true);		
-		workSheet.createFreezePane(0, 2);
-		workSheet.setZoom(85);
+		int sheetCounter = 0;
+		int rowCount = 0;
+		do {
+			String sheetNewName = sheetName;
+			if(sheetCounter > 0) {
+				String sheetSuffix = "(" + sheetNewName + ")";
+				if(sheetName.length() + sheetSuffix.length() > 30) {
+					sheetNewName = sheetName.substring(0, 30+(30-(sheetName.length() + sheetSuffix.length()))) + sheetSuffix;
+				} else {
+					sheetNewName = sheetName + sheetSuffix;
+				}
+			}
+			logger.debug("Creating new Worksheet " + sheetNewName);
+			org.apache.poi.xssf.usermodel.XSSFSheet workSheet = this.wb.createSheet(sheetNewName);
+			this.createMetadataHeader(workSheet, prepStm, 0, 0);
+			this.createSheetHeader(workSheet, prepStm, 1, 0);
+			rowCount = this.createSheetContent(workSheet, prepStm, 2, 0, true);		
+			workSheet.createFreezePane(0, 2);
+			workSheet.setZoom(85);
+			sheetCounter++;
+		}while(!prepStm.getResultSet().isAfterLast() && rowCount > 0);
 		
 		logger.traceExit();
 	}
@@ -244,12 +276,11 @@ public class ExcelManager {
 	 * @author manuel.m.speranza
 	 * @since 31-08-2016
 	 */
-	protected void createSheetContent(org.apache.poi.xssf.usermodel.XSSFSheet workSheet, PreparedStatement prepStm, int inRowIdx, int inColIdx, boolean applyDefaultStyle) throws SQLException, IOException{
+	protected int createSheetContent(org.apache.poi.xssf.usermodel.XSSFSheet workSheet, PreparedStatement prepStm, int inRowIdx, int inColIdx, boolean applyDefaultStyle) throws SQLException, IOException{
 		logger.traceEntry();
 		int rowIdx = inRowIdx;
 		ResultSet resRs = prepStm.getResultSet();
-		ResultSetMetaData rsmd = resRs.getMetaData();
-		
+		ResultSetMetaData rsmd = resRs.getMetaData();	
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		DecimalFormat format = (DecimalFormat) DecimalFormat.getInstance();
 		DecimalFormatSymbols symbols = format.getDecimalFormatSymbols();
@@ -258,13 +289,15 @@ public class ExcelManager {
 		DateFormat dfTsTz = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" + sep + "S XXX");
 		Calendar tsCal = Calendar.getInstance();
 		logger.trace("Column count {}", rsmd.getColumnCount());
-		while (resRs.next()) {
-			
+		int availableRows = SpreadsheetVersion.EXCEL2007.getMaxRows() - inRowIdx;
+		int rowCount = 0;
+		while (resRs.next() && availableRows > 0) {
 			org.apache.poi.xssf.usermodel.XSSFRow bodyRow = workSheet.getRow(rowIdx);
 			if(bodyRow == null) {
 				bodyRow = workSheet.createRow(rowIdx);
 			}
-			
+			rowCount++;
+			availableRows--;
 			logger.trace("Working row #{}", rowIdx);
 			for(int colIdx = inColIdx; colIdx < rsmd.getColumnCount(); colIdx++){
 				org.apache.poi.xssf.usermodel.XSSFCell contentCell = bodyRow.getCell(colIdx);
@@ -429,7 +462,7 @@ public class ExcelManager {
 						contentCell.setCellValue(resRs.getRowId(colIdx + 1).toString());
 					} else {
 						logger.trace("columnType else {}", columnType);
-						contentCell.setCellValue(resRs.getLong(colIdx + 1));
+						contentCell.setCellValue(resRs.getObject(colIdx + 1).toString());
 					}
 				}
 				
@@ -438,7 +471,7 @@ public class ExcelManager {
 			rowIdx++;
 		}
 
-		logger.traceExit();
+		return logger.traceExit(rowCount);
 	}
 	
 	/**
