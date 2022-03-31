@@ -20,22 +20,9 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.poi.ooxml.POIXMLProperties;
-import org.apache.poi.ss.SpreadsheetVersion;
-import org.apache.poi.ss.usermodel.ClientAnchor;
-import org.apache.poi.ss.usermodel.Comment;
-import org.apache.poi.ss.usermodel.CreationHelper;
-import org.apache.poi.ss.usermodel.Drawing;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.RichTextString;
-import org.apache.poi.ss.usermodel.VerticalAlignment;
-import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.usermodel.XSSFColor;
-import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -56,11 +43,12 @@ public class ExcelManager {
 	//private static String ls = System.getProperty("line.separator");
 	protected String name;
 	protected org.apache.poi.xssf.usermodel.XSSFWorkbook wb = new org.apache.poi.xssf.usermodel.XSSFWorkbook();
+	protected org.apache.poi.xssf.streaming.SXSSFWorkbook swb = null;
 	protected org.apache.poi.xssf.usermodel.XSSFCellStyle metadataHeaderCellStyle;
 	protected org.apache.poi.xssf.usermodel.XSSFCellStyle headerCellStyle;
 	protected org.apache.poi.xssf.usermodel.XSSFCellStyle defaultCellStyle;
 	protected org.apache.poi.xssf.usermodel.XSSFCellStyle dateCellStyle;
-	protected org.apache.poi.xssf.usermodel.XSSFCreationHelper createHelper = this.wb.getCreationHelper();
+	protected org.apache.poi.ss.usermodel.CreationHelper createHelper = this.wb.getCreationHelper();
 
 	/**
 	 * Constructor with input name string. Define also the styles.
@@ -78,8 +66,9 @@ public class ExcelManager {
 		rgb[0] = (byte) 255; // red
 		rgb[1] = (byte) 204; // green
 		rgb[2] = (byte) 153; // blue
-		XSSFColor foreGroundcolor = new XSSFColor(rgb, new org.apache.poi.xssf.usermodel.DefaultIndexedColorMap()); // #f2dcdb
-		this.headerCellStyle.setFillForegroundColor(foreGroundcolor );
+		org.apache.poi.xssf.usermodel.XSSFColor foreGroundcolor = new org.apache.poi.xssf.usermodel.XSSFColor(rgb, new org.apache.poi.xssf.usermodel.DefaultIndexedColorMap()); // #f2dcdb
+		this.headerCellStyle.setFillForegroundColor(foreGroundcolor);
+		
 		this.headerCellStyle.setFillPattern(org.apache.poi.ss.usermodel.FillPatternType.SOLID_FOREGROUND);
 		this.headerCellStyle.setBorderBottom(org.apache.poi.ss.usermodel.BorderStyle.THIN);
 		this.headerCellStyle.setBorderTop(org.apache.poi.ss.usermodel.BorderStyle.THIN);
@@ -93,8 +82,8 @@ public class ExcelManager {
 		this.metadataHeaderCellStyle.setBorderTop(org.apache.poi.ss.usermodel.BorderStyle.THIN);
 		this.metadataHeaderCellStyle.setBorderLeft(org.apache.poi.ss.usermodel.BorderStyle.THIN);
 		this.metadataHeaderCellStyle.setBorderRight(org.apache.poi.ss.usermodel.BorderStyle.THIN);
-		this.metadataHeaderCellStyle.setAlignment(HorizontalAlignment.CENTER);
-		XSSFFont defaultFont= this.wb.createFont();
+		this.metadataHeaderCellStyle.setAlignment(org.apache.poi.ss.usermodel.HorizontalAlignment.CENTER);
+		org.apache.poi.ss.usermodel.Font defaultFont= this.wb.createFont();
 		defaultFont.setBold(true);
 		this.metadataHeaderCellStyle.setFont(defaultFont);
 
@@ -103,7 +92,7 @@ public class ExcelManager {
 		this.defaultCellStyle.setBorderTop(org.apache.poi.ss.usermodel.BorderStyle.THIN);
 		this.defaultCellStyle.setBorderLeft(org.apache.poi.ss.usermodel.BorderStyle.THIN);
 		this.defaultCellStyle.setBorderRight(org.apache.poi.ss.usermodel.BorderStyle.THIN);
-		this.defaultCellStyle.setVerticalAlignment(VerticalAlignment.TOP);
+		this.defaultCellStyle.setVerticalAlignment(org.apache.poi.ss.usermodel.VerticalAlignment.TOP);
 		
 		this.dateCellStyle = this.wb.createCellStyle();
 		this.dateCellStyle.setBorderBottom(org.apache.poi.ss.usermodel.BorderStyle.THIN);
@@ -112,6 +101,8 @@ public class ExcelManager {
 		this.dateCellStyle.setBorderRight(org.apache.poi.ss.usermodel.BorderStyle.THIN);
 		this.dateCellStyle.setDataFormat(this.createHelper.createDataFormat().getFormat("d/m/yyyy h:mm"));
 		
+		this.swb = new org.apache.poi.xssf.streaming.SXSSFWorkbook(this.wb, 10000, true, true);
+
 	}
 
 	/**
@@ -149,7 +140,7 @@ public class ExcelManager {
 				}
 			}
 			logger.debug("Creating new Worksheet " + sheetNewName);
-			org.apache.poi.xssf.usermodel.XSSFSheet workSheet = this.wb.createSheet(sheetNewName);
+			org.apache.poi.xssf.streaming.SXSSFSheet workSheet = this.swb.createSheet(sheetNewName);
 			this.createSheetHeader(workSheet, prepStm, 0, 0);
 			rowCount = this.createSheetContent(workSheet, prepStm, 1, 0, true);		
 			workSheet.createFreezePane(0, 1);
@@ -196,7 +187,7 @@ public class ExcelManager {
 				}
 			}
 			logger.debug("Creating new Worksheet " + sheetNewName);
-			org.apache.poi.xssf.usermodel.XSSFSheet workSheet = this.wb.createSheet(sheetNewName);
+			org.apache.poi.xssf.streaming.SXSSFSheet workSheet = this.swb.createSheet(sheetNewName);
 			this.createMetadataHeader(workSheet, prepStm, 0, 0);
 			this.createSheetHeader(workSheet, prepStm, 1, 0);
 			rowCount = this.createSheetContent(workSheet, prepStm, 2, 0, true);		
@@ -218,21 +209,21 @@ public class ExcelManager {
 	 * @author manuel.m.speranza
 	 * @since 31-08-2016 
 	 */
-	protected void createSheetHeader(org.apache.poi.xssf.usermodel.XSSFSheet workSheet, PreparedStatement prepStm, int inRowIdx, int inColIdx) throws SQLException{
+	protected void createSheetHeader(org.apache.poi.xssf.streaming.SXSSFSheet workSheet, PreparedStatement prepStm, int inRowIdx, int inColIdx) throws SQLException{
 		logger.traceEntry();
-		org.apache.poi.xssf.usermodel.XSSFRow headerRow = workSheet.createRow(inRowIdx);
+		org.apache.poi.xssf.streaming.SXSSFRow headerRow = workSheet.createRow(inRowIdx);
 		ResultSet resRs = prepStm.getResultSet();
 
 		ResultSetMetaData rsmd = resRs.getMetaData();
 		for(int headerIdx = 0; headerIdx < rsmd.getColumnCount(); headerIdx++){
-			org.apache.poi.xssf.usermodel.XSSFCell columnNameCell = headerRow.createCell(headerIdx + inColIdx);
+			org.apache.poi.xssf.streaming.SXSSFCell columnNameCell = headerRow.createCell(headerIdx + inColIdx);
 			String columnName = rsmd.getColumnName(headerIdx + 1);
 			columnNameCell.setCellValue(columnName);
 			logger.debug(columnName + " of type " + rsmd.getColumnTypeName(headerIdx + 1) + " ("+ rsmd.getColumnType(headerIdx + 1) + ")" );
 			columnNameCell.setCellStyle(this.headerCellStyle);
-			if(System.getProperty("os.name").startsWith("Windows")){
+			/*if(System.getProperty("os.name").startsWith("Windows")){
 				workSheet.autoSizeColumn(headerIdx);
-			}
+			}*/
 		}
 
 		logger.traceExit();
@@ -248,17 +239,17 @@ public class ExcelManager {
 	 * @author manuel.m.speranza
 	 * @since 22-10-2018 
 	 */
-	protected void createMetadataHeader(org.apache.poi.xssf.usermodel.XSSFSheet workSheet, PreparedStatement prepStm, int inRowIdx, int inColIdx) throws SQLException{
+	protected void createMetadataHeader(org.apache.poi.xssf.streaming.SXSSFSheet workSheet, PreparedStatement prepStm, int inRowIdx, int inColIdx) throws SQLException{
 		logger.traceEntry();
-		org.apache.poi.xssf.usermodel.XSSFRow headerRow = workSheet.createRow(inRowIdx);
+		org.apache.poi.xssf.streaming.SXSSFRow headerRow = workSheet.createRow(inRowIdx);
 		ResultSet resRs = prepStm.getResultSet();
 
 		ResultSetMetaData rsmd = resRs.getMetaData();
-		org.apache.poi.xssf.usermodel.XSSFCell columnNameCell = headerRow.createCell(inColIdx);
+		org.apache.poi.xssf.streaming.SXSSFCell columnNameCell = headerRow.createCell(inColIdx);
 		columnNameCell.setCellValue(workSheet.getSheetName());
 		columnNameCell.setCellStyle(this.metadataHeaderCellStyle);
 		if(rsmd.getColumnCount() > 1) {
-			workSheet.addMergedRegion(new CellRangeAddress(inRowIdx, inRowIdx, inColIdx, inColIdx + rsmd.getColumnCount()-1));
+			workSheet.addMergedRegion(new org.apache.poi.ss.util.CellRangeAddress(inRowIdx, inRowIdx, inColIdx, inColIdx + rsmd.getColumnCount()-1));
 		}
 		logger.traceExit();
 	}
@@ -276,7 +267,7 @@ public class ExcelManager {
 	 * @author manuel.m.speranza
 	 * @since 31-08-2016
 	 */
-	protected int createSheetContent(org.apache.poi.xssf.usermodel.XSSFSheet workSheet, PreparedStatement prepStm, int inRowIdx, int inColIdx, boolean applyDefaultStyle) throws SQLException, IOException{
+	protected int createSheetContent(org.apache.poi.xssf.streaming.SXSSFSheet workSheet, PreparedStatement prepStm, int inRowIdx, int inColIdx, boolean applyDefaultStyle) throws SQLException, IOException{
 		logger.traceEntry();
 		int rowIdx = inRowIdx;
 		ResultSet resRs = prepStm.getResultSet();
@@ -289,10 +280,10 @@ public class ExcelManager {
 		DateFormat dfTsTz = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" + sep + "S XXX");
 		Calendar tsCal = Calendar.getInstance();
 		logger.trace("Column count {}", rsmd.getColumnCount());
-		int availableRows = SpreadsheetVersion.EXCEL2007.getMaxRows() - inRowIdx;
+		int availableRows = org.apache.poi.ss.SpreadsheetVersion.EXCEL2007.getMaxRows() - inRowIdx;
 		int rowCount = 0;
 		while (resRs.next() && availableRows > 0) {
-			org.apache.poi.xssf.usermodel.XSSFRow bodyRow = workSheet.getRow(rowIdx);
+			org.apache.poi.xssf.streaming.SXSSFRow bodyRow = workSheet.getRow(rowIdx);
 			if(bodyRow == null) {
 				bodyRow = workSheet.createRow(rowIdx);
 			}
@@ -300,7 +291,7 @@ public class ExcelManager {
 			availableRows--;
 			logger.trace("Working row #{}", rowIdx);
 			for(int colIdx = inColIdx; colIdx < rsmd.getColumnCount(); colIdx++){
-				org.apache.poi.xssf.usermodel.XSSFCell contentCell = bodyRow.getCell(colIdx);
+				org.apache.poi.xssf.streaming.SXSSFCell contentCell = bodyRow.getCell(colIdx);
 				
 				if(contentCell == null) {
 					contentCell = bodyRow.createCell(colIdx);
@@ -368,18 +359,18 @@ public class ExcelManager {
 							if (stringBuilder.length() > 32767){
 								contentCell.setCellValue(stringBuilder.substring(0, 32766));
 								
-								CreationHelper factory = wb.getCreationHelper();
-								Drawing<?> drawing = workSheet.createDrawingPatriarch();
+								org.apache.poi.ss.usermodel.CreationHelper factory = this.swb.getCreationHelper();
+								org.apache.poi.ss.usermodel.Drawing<?> drawing = workSheet.createDrawingPatriarch();
 								// When the comment box is visible, have it show in a 1x3 space
-							    ClientAnchor anchor = factory.createClientAnchor();
+								org.apache.poi.ss.usermodel.ClientAnchor anchor = factory.createClientAnchor();
 							    anchor.setCol1(contentCell.getColumnIndex());
 							    anchor.setCol2(contentCell.getColumnIndex()+1);
 							    anchor.setRow1(contentCell.getRowIndex());
 							    anchor.setRow2(contentCell.getRowIndex()+3);
 
 							    // Create the comment and set the text+author
-							    Comment comment = drawing.createCellComment(anchor);
-							    RichTextString str = factory.createRichTextString("DB value length " + stringBuilder.length());
+							    org.apache.poi.ss.usermodel.Comment comment = drawing.createCellComment(anchor);
+							    org.apache.poi.ss.usermodel.RichTextString str = factory.createRichTextString("DB value length " + stringBuilder.length());
 							    comment.setString(str);
 							    comment.setAuthor(System.getProperty("user.name"));
 
@@ -482,46 +473,46 @@ public class ExcelManager {
 	public void createSummaryPage(int excludeRows){
 		logger.traceEntry();
 		
-		org.apache.poi.xssf.usermodel.XSSFSheet selectedSheet = this.wb.getSheetAt(this.wb.getActiveSheetIndex());
-		org.apache.poi.xssf.usermodel.XSSFSheet summarySheet = this.wb.createSheet("Summary");
+		org.apache.poi.xssf.streaming.SXSSFSheet selectedSheet = this.swb.getSheetAt(this.swb.getActiveSheetIndex());
+		org.apache.poi.xssf.streaming.SXSSFSheet summarySheet = this.swb.createSheet("Summary");
 		
-		this.wb.setSheetOrder("Summary", 0);
+		this.swb.setSheetOrder("Summary", 0);
 		
 		summarySheet.setSelected(true);
 		selectedSheet.setSelected(false);
 
-		this.wb.setActiveSheet(0);
+		this.swb.setActiveSheet(0);
 		
 		int rowIdx = 0;
 		
-		org.apache.poi.xssf.usermodel.XSSFRow summaryHeaderRow = summarySheet.createRow(rowIdx++);
-		org.apache.poi.xssf.usermodel.XSSFCell summaryHeadeeNameCell = summaryHeaderRow.createCell(0);
+		org.apache.poi.xssf.streaming.SXSSFRow summaryHeaderRow = summarySheet.createRow(rowIdx++);
+		org.apache.poi.xssf.streaming.SXSSFCell summaryHeadeeNameCell = summaryHeaderRow.createCell(0);
 		summaryHeadeeNameCell.setCellValue("Sheet name");
 		summaryHeadeeNameCell.setCellStyle(this.headerCellStyle);
 		
-		org.apache.poi.xssf.usermodel.XSSFCell summaryHeadeeCountCell = summaryHeaderRow.createCell(1);
+		org.apache.poi.xssf.streaming.SXSSFCell summaryHeadeeCountCell = summaryHeaderRow.createCell(1);
 		summaryHeadeeCountCell.setCellValue("Count");
 		summaryHeadeeCountCell.setCellStyle(this.headerCellStyle);
 		
-		for (org.apache.poi.ss.usermodel.Sheet curWorkSheet : this.wb){
+		for (org.apache.poi.ss.usermodel.Sheet curWorkSheet : this.swb){
 			int rowCount = curWorkSheet.getPhysicalNumberOfRows() - excludeRows;
 				
-			org.apache.poi.xssf.usermodel.XSSFRow summaryRow = summarySheet.createRow(rowIdx++);
-			org.apache.poi.xssf.usermodel.XSSFCell tableNameCell = summaryRow.createCell(0);
+			org.apache.poi.xssf.streaming.SXSSFRow summaryRow = summarySheet.createRow(rowIdx++);
+			org.apache.poi.xssf.streaming.SXSSFCell tableNameCell = summaryRow.createCell(0);
 			tableNameCell.setCellValue(curWorkSheet.getSheetName());
 			
-			org.apache.poi.xssf.usermodel.XSSFHyperlink tableNameHl = this.createHelper.createHyperlink(org.apache.poi.common.usermodel.HyperlinkType.DOCUMENT);
+			org.apache.poi.ss.usermodel.Hyperlink tableNameHl = this.createHelper.createHyperlink(org.apache.poi.common.usermodel.HyperlinkType.DOCUMENT);
 			tableNameHl.setAddress("'" + curWorkSheet.getSheetName() + "'!A1");
 			tableNameCell.setHyperlink(tableNameHl);
-			org.apache.poi.xssf.usermodel.XSSFCell tableCountCell = summaryRow.createCell(1);
+			org.apache.poi.xssf.streaming.SXSSFCell tableCountCell = summaryRow.createCell(1);
 			tableCountCell.setCellValue(rowCount);
 			
 		}
 		
-		if(System.getProperty("os.name").startsWith("Windows")){
+		/*if(System.getProperty("os.name").startsWith("Windows")){
 			summarySheet.autoSizeColumn(0);
 			summarySheet.autoSizeColumn(1);
-		}
+		}*/
 		
 		summarySheet.setZoom(85);
 		
@@ -538,13 +529,13 @@ public class ExcelManager {
 	public void cleanNoRecordSheets(){
 		logger.traceEntry();
 		
-		for(int workSheetIdx = this.wb.getNumberOfSheets() -1; workSheetIdx >= 0; workSheetIdx--){
+		for(int workSheetIdx = this.swb.getNumberOfSheets() -1; workSheetIdx >= 0; workSheetIdx--){
 			
-			org.apache.poi.xssf.usermodel.XSSFSheet workSheet = this.wb.getSheetAt(workSheetIdx);
+			org.apache.poi.xssf.streaming.SXSSFSheet workSheet = this.swb.getSheetAt(workSheetIdx);
 			logger.debug(workSheet.getSheetName() + " has " + workSheet.getPhysicalNumberOfRows() + " row(s)");
 			if(workSheet.getPhysicalNumberOfRows() <= 1){
 				logger.debug("Removing " + workSheet.getSheetName());
-				this.wb.removeSheetAt(workSheetIdx);
+				this.swb.removeSheetAt(workSheetIdx);
 			}
 		}
 		
@@ -560,9 +551,9 @@ public class ExcelManager {
 	{
 		logger.traceEntry();
 		try {
-
-			POIXMLProperties props = this.wb.getProperties();
-			POIXMLProperties.CoreProperties coreProp = props.getCoreProperties();
+			
+			org.apache.poi.ooxml.POIXMLProperties props = this.wb.getProperties();
+			org.apache.poi.ooxml.POIXMLProperties.CoreProperties coreProp = props.getCoreProperties();
 	        coreProp.setCreator(System.getProperty("user.name"));
 	        
 			String xlsFilename = this.name + ".xlsx";
@@ -571,9 +562,9 @@ public class ExcelManager {
 			}
 			logger.trace("Writing " + xlsFilename);
 			FileOutputStream fileOut = new FileOutputStream(xlsFilename);
-			this.wb.write(fileOut);
+			this.swb.write(fileOut);
 			fileOut.close();
-			this.wb.close();
+			this.swb.close();
 			
 		} catch (FileNotFoundException e) {
 			logger.error(e.getMessage(), e);
@@ -581,6 +572,7 @@ public class ExcelManager {
 			logger.error(e.getMessage(), e);
 		} finally {
 			this.wb = null;
+			this.swb = null;
 			logger.traceExit();
 		}
 	}
@@ -590,7 +582,7 @@ public class ExcelManager {
 	 * @since 03-11-2016
 	 */
 	public boolean isWbEmpty(){
-		return (this.wb.getNumberOfSheets() == 0);
+		return (this.swb.getNumberOfSheets() == 0);
 	}
 	/**
 	 * @return The object name
@@ -611,20 +603,20 @@ public class ExcelManager {
 	public void getJsonResult(String sheetHeader, String sheetName, String jsonStr) throws XlsWrkSheetException {
 		logger.traceEntry();
 		
-		org.apache.poi.xssf.usermodel.XSSFSheet workSheet = null;
+		org.apache.poi.xssf.streaming.SXSSFSheet workSheet = null;
 		if(sheetName != null && !"".equals(sheetName)) {
 			if(sheetName.length() > 31){
 				throw new XlsWrkSheetException("Work-sheet " + sheetName + " [" + sheetName.length() + "] must not have more than 31 characters");
 			}
-			workSheet = this.wb.createSheet(sheetName);
+			workSheet = this.swb.createSheet(sheetName);
 		} else {
-			workSheet = this.wb.createSheet();
+			workSheet = this.swb.createSheet();
 		}
 		
 		int rowIdx = 0;
 		if(sheetHeader != null && !"".equals(sheetHeader)) {
-			org.apache.poi.xssf.usermodel.XSSFRow headerRow = workSheet.createRow(rowIdx);
-			org.apache.poi.xssf.usermodel.XSSFCell columnNameCell = headerRow.createCell(0);
+			org.apache.poi.xssf.streaming.SXSSFRow headerRow = workSheet.createRow(rowIdx);
+			org.apache.poi.xssf.streaming.SXSSFCell columnNameCell = headerRow.createCell(0);
 			columnNameCell.setCellValue(sheetHeader);
 			columnNameCell.setCellStyle(this.headerCellStyle);
 			workSheet.createFreezePane(0, 1);
@@ -646,7 +638,7 @@ public class ExcelManager {
 	 * @author manuel.m.speranza 
 	 * @since 11-03-2022
 	 */
-	public int writeJsonObject(org.apache.poi.xssf.usermodel.XSSFSheet workSheet, JSONObject jsonObj, int startRowIdx, int startColIdx) {
+	public int writeJsonObject(org.apache.poi.xssf.streaming.SXSSFSheet workSheet, JSONObject jsonObj, int startRowIdx, int startColIdx) {
 		logger.traceEntry();
 		int rowIdx = startRowIdx;
 		
@@ -655,12 +647,12 @@ public class ExcelManager {
 			String jsonKey = jsonObjKeyIter.next();
 			logger.debug("jsonKey " + jsonKey + " @" + rowIdx + ", " + startColIdx);
 			
-			org.apache.poi.xssf.usermodel.XSSFRow contentRow = workSheet.getRow(rowIdx);
+			org.apache.poi.xssf.streaming.SXSSFRow contentRow = workSheet.getRow(rowIdx);
 			if(contentRow == null) {
 				contentRow = workSheet.createRow(rowIdx);
 			}
 			
-			org.apache.poi.xssf.usermodel.XSSFCell contentCell = contentRow.getCell(startColIdx);
+			org.apache.poi.xssf.streaming.SXSSFCell contentCell = contentRow.getCell(startColIdx);
 			if(contentCell == null) {
 				contentCell = contentRow.createCell(startColIdx);
 			}
@@ -678,7 +670,7 @@ public class ExcelManager {
 	 * @author manuel.m.speranza 
 	 * @since 11-03-2022
 	 */
-	public int writeJsonArray(org.apache.poi.xssf.usermodel.XSSFSheet workSheet, JSONArray jsonArray, int startRowIdx, int startColIdx) {
+	public int writeJsonArray(org.apache.poi.xssf.streaming.SXSSFSheet workSheet, JSONArray jsonArray, int startRowIdx, int startColIdx) {
 		logger.traceEntry();
 		int rowIdx = startRowIdx;
 		int arrayItemIdx = 0;
@@ -687,12 +679,12 @@ public class ExcelManager {
 			logger.debug("arrayItemIdx #" + arrayItemIdx + " @" + rowIdx + ", " + startColIdx);
 			Object curObject = jsonArrayItr.next();
 			
-			org.apache.poi.xssf.usermodel.XSSFRow contentRow = workSheet.getRow(rowIdx);
+			org.apache.poi.xssf.streaming.SXSSFRow contentRow = workSheet.getRow(rowIdx);
 			if(contentRow == null) {
 				contentRow = workSheet.createRow(rowIdx);
 			}
 			
-			org.apache.poi.xssf.usermodel.XSSFCell contentCell = contentRow.getCell(startColIdx);
+			org.apache.poi.xssf.streaming.SXSSFCell contentCell = contentRow.getCell(startColIdx);
 			if(contentCell == null) {
 				contentCell = contentRow.createCell(startColIdx);
 			}
@@ -711,7 +703,7 @@ public class ExcelManager {
 	 * @author manuel.m.speranza 
 	 * @since 11-03-2022
 	 */
-	public int manageJsonValue(org.apache.poi.xssf.usermodel.XSSFSheet workSheet, org.apache.poi.xssf.usermodel.XSSFRow contentRow, Object value, int startRowIdx, int startColIdx) {
+	public int manageJsonValue(org.apache.poi.xssf.streaming.SXSSFSheet workSheet, org.apache.poi.xssf.streaming.SXSSFRow contentRow, Object value, int startRowIdx, int startColIdx) {
 		logger.traceEntry();
 		int rowIdx = startRowIdx;
 		
@@ -725,7 +717,7 @@ public class ExcelManager {
 			logger.warn("instanceof List");
 		} else {
 			logger.debug("value " + value + " @" + rowIdx + ", " + startColIdx+1);
-			org.apache.poi.xssf.usermodel.XSSFCell contentCell = contentRow.getCell(startColIdx+1);
+			org.apache.poi.xssf.streaming.SXSSFCell contentCell = contentRow.getCell(startColIdx+1);
 			if(contentCell == null) {
 				contentCell = contentRow.createCell(startColIdx+1);
 			}
@@ -735,7 +727,7 @@ public class ExcelManager {
 		}
 		
 		if(rowIdx - startRowIdx > 1) {
-			workSheet.addMergedRegion(new CellRangeAddress(startRowIdx, rowIdx-1, startColIdx, startColIdx));
+			workSheet.addMergedRegion(new org.apache.poi.ss.util.CellRangeAddress(startRowIdx, rowIdx-1, startColIdx, startColIdx));
 		}
 		
 		return logger.traceExit(rowIdx);
