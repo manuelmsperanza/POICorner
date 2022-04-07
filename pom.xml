@@ -76,7 +76,7 @@
           					
           <artifactId>maven-clean-plugin</artifactId>
           					
-          <version>3.1.0</version>
+          <version>3.2.0</version>
           				
         </plugin>
         				
@@ -94,7 +94,7 @@
           					
           <artifactId>maven-compiler-plugin</artifactId>
           					
-          <version>3.8.1</version>
+          <version>3.10.1</version>
           					
           <configuration>
             						
@@ -112,7 +112,7 @@
           					
           <artifactId>maven-surefire-plugin</artifactId>
           					
-          <version>3.0.0-M5</version>
+          <version>3.0.0-M6</version>
           				
         </plugin>
         				
@@ -120,7 +120,7 @@
           					
           <artifactId>maven-jar-plugin</artifactId>
           					
-          <version>3.2.0</version>
+          <version>3.2.2</version>
           				
         </plugin>
         				
@@ -136,7 +136,7 @@
           					
           <artifactId>maven-deploy-plugin</artifactId>
           					
-          <version>3.0.0-M1</version>
+          <version>3.0.0-M2</version>
           				
         </plugin>
         				
@@ -154,7 +154,7 @@
           					
           <artifactId>maven-enforcer-plugin</artifactId>
           					
-          <version>3.0.0-M3</version>
+          <version>3.0.0</version>
           				
         </plugin>
         				
