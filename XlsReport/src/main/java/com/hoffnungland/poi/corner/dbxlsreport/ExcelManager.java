@@ -16,10 +16,14 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -139,10 +143,22 @@ public class ExcelManager {
 					sheetNewName = sheetName + sheetSuffix;
 				}
 			}
-			logger.debug("Creating new Worksheet " + sheetNewName);
+			logger.debug("Creating new Worksheet {}", sheetNewName);
 			org.apache.poi.xssf.streaming.SXSSFSheet workSheet = this.swb.createSheet(sheetNewName);
-			this.createSheetHeader(workSheet, prepStm, 0, 0);
-			rowCount = this.createSheetContent(workSheet, prepStm, 1, 0, true);		
+			ResultSet resRs = prepStm.getResultSet();
+			ResultSetMetaData rsmd = resRs.getMetaData();
+			int columnsWidth[] = new int[rsmd.getColumnCount()];
+			this.createSheetHeader(workSheet, columnsWidth, prepStm, 0, 0);
+			logger.debug("columnsWidth {}", Arrays.toString(columnsWidth));
+			rowCount = this.createSheetContent(workSheet, columnsWidth, prepStm, 1, 0, true);
+			logger.debug("columnsWidth {}", Arrays.toString(columnsWidth));
+			for(int colIdx = 0; colIdx < columnsWidth.length; colIdx++){
+				//width = Truncate([{Number of Visible Characters} * {Maximum Digit Width} + {5 pixel padding}]/{Maximum Digit Width}*256)/256
+				//workSheet.setColumnWidth(colIdx, (columnsWidth[colIdx] * 256));
+				int width = (int) Math.ceil((columnsWidth[colIdx] + 1) * 7.2 / 7 * 256) + 5;
+				workSheet.setColumnWidth(colIdx, width > 256*256 ? 256*256 : width);
+			}
+			
 			workSheet.createFreezePane(0, 1);
 			workSheet.setZoom(85);
 			sheetCounter++;
@@ -186,11 +202,25 @@ public class ExcelManager {
 					sheetNewName = sheetName + sheetSuffix;
 				}
 			}
-			logger.debug("Creating new Worksheet " + sheetNewName);
+			logger.debug("Creating new Worksheet {}", sheetNewName);
 			org.apache.poi.xssf.streaming.SXSSFSheet workSheet = this.swb.createSheet(sheetNewName);
 			this.createMetadataHeader(workSheet, prepStm, 0, 0);
-			this.createSheetHeader(workSheet, prepStm, 1, 0);
-			rowCount = this.createSheetContent(workSheet, prepStm, 2, 0, true);		
+			
+			ResultSet resRs = prepStm.getResultSet();
+			ResultSetMetaData rsmd = resRs.getMetaData();
+			int columnsWidth[] = new int[rsmd.getColumnCount()];
+			
+			this.createSheetHeader(workSheet, columnsWidth, prepStm, 1, 0);
+			logger.debug("columnsWidth {}", Arrays.toString(columnsWidth));
+			rowCount = this.createSheetContent(workSheet, columnsWidth, prepStm, 2, 0, true);
+			logger.debug("columnsWidth {}", Arrays.toString(columnsWidth));
+			for(int colIdx = 0; colIdx < columnsWidth.length; colIdx++){
+				//width = Truncate([{Number of Visible Characters} * {Maximum Digit Width} + {5 pixel padding}]/{Maximum Digit Width}*256)/256
+				//workSheet.setColumnWidth(colIdx, (columnsWidth[colIdx] * 256));
+				int width = (int) Math.ceil((columnsWidth[colIdx] + 1) * 7.2 / 7 * 256) + 5;
+				workSheet.setColumnWidth(colIdx, width > 256*256 ? 256*256 : width);
+			}
+			
 			workSheet.createFreezePane(0, 2);
 			workSheet.setZoom(85);
 			sheetCounter++;
@@ -209,7 +239,7 @@ public class ExcelManager {
 	 * @author manuel.m.speranza
 	 * @since 31-08-2016 
 	 */
-	protected void createSheetHeader(org.apache.poi.xssf.streaming.SXSSFSheet workSheet, PreparedStatement prepStm, int inRowIdx, int inColIdx) throws SQLException{
+	protected void createSheetHeader(org.apache.poi.xssf.streaming.SXSSFSheet workSheet, int[] columnsWidth, PreparedStatement prepStm, int inRowIdx, int inColIdx) throws SQLException{
 		logger.traceEntry();
 		org.apache.poi.xssf.streaming.SXSSFRow headerRow = workSheet.createRow(inRowIdx);
 		ResultSet resRs = prepStm.getResultSet();
@@ -219,6 +249,7 @@ public class ExcelManager {
 			org.apache.poi.xssf.streaming.SXSSFCell columnNameCell = headerRow.createCell(headerIdx + inColIdx);
 			String columnName = rsmd.getColumnName(headerIdx + 1);
 			columnNameCell.setCellValue(columnName);
+			columnsWidth[headerIdx] = columnName.length();
 			logger.debug(columnName + " of type " + rsmd.getColumnTypeName(headerIdx + 1) + " ("+ rsmd.getColumnType(headerIdx + 1) + ")" );
 			columnNameCell.setCellStyle(this.headerCellStyle);
 			/*if(System.getProperty("os.name").startsWith("Windows")){
@@ -267,7 +298,7 @@ public class ExcelManager {
 	 * @author manuel.m.speranza
 	 * @since 31-08-2016
 	 */
-	protected int createSheetContent(org.apache.poi.xssf.streaming.SXSSFSheet workSheet, PreparedStatement prepStm, int inRowIdx, int inColIdx, boolean applyDefaultStyle) throws SQLException, IOException{
+	protected int createSheetContent(org.apache.poi.xssf.streaming.SXSSFSheet workSheet, int[] columnsWidth, PreparedStatement prepStm, int inRowIdx, int inColIdx, boolean applyDefaultStyle) throws SQLException, IOException{
 		logger.traceEntry();
 		int rowIdx = inRowIdx;
 		ResultSet resRs = prepStm.getResultSet();
@@ -293,6 +324,7 @@ public class ExcelManager {
 			for(int colIdx = inColIdx; colIdx < rsmd.getColumnCount(); colIdx++){
 				org.apache.poi.xssf.streaming.SXSSFCell contentCell = bodyRow.getCell(colIdx);
 				
+				int lineLength = 0;
 				if(contentCell == null) {
 					contentCell = bodyRow.createCell(colIdx);
 				}
@@ -312,6 +344,7 @@ public class ExcelManager {
 						logger.trace("columnType VARCHAR or CHAR");
 						String value = resRs.getString(colIdx + 1);
 						logger.trace("Col value: {}", value);
+						lineLength = value.length();
 						contentCell.setCellValue(resRs.getString(colIdx + 1));
 						
 					} else if(columnType == Types.LONGVARCHAR){
@@ -348,7 +381,12 @@ public class ExcelManager {
 							String         line = null;
 							StringBuilder  stringBuilder = new StringBuilder();
 		
+							
 							while( ( line = reader.readLine() ) != null ) {
+								if(line != null && line.length() > lineLength && line.length() < 256) {
+									lineLength = line.length();	
+								}
+								
 								stringBuilder.append( line );
 								stringBuilder.append( "\n" );
 							}
@@ -388,7 +426,10 @@ public class ExcelManager {
 						
 						if(dateVal != null){
 							tsCal.setTime(dateVal);
-							logger.trace("Col value: {}", df.format(tsCal.getTime()));
+							String value = df.format(tsCal.getTime());
+							logger.trace("Col value: {}", value);
+							lineLength = value.length();
+							
 							contentCell.setCellValue(tsCal.getTime());
 							if(applyDefaultStyle) {
 								contentCell.setCellStyle(this.dateCellStyle);
@@ -399,7 +440,10 @@ public class ExcelManager {
 						Time timeVal = resRs.getTime(colIdx + 1);
 						if(timeVal != null){
 							tsCal.setTime(timeVal);
-							logger.trace("Col value: {}", df.format(tsCal.getTime()));
+							String value = df.format(tsCal.getTime());
+							logger.trace("Col value: {}", value);
+							lineLength = value.length();
+							
 							contentCell.setCellValue(tsCal.getTime());
 							if(applyDefaultStyle) {
 								contentCell.setCellStyle(this.dateCellStyle);
@@ -411,7 +455,10 @@ public class ExcelManager {
 						Timestamp tsVal = resRs.getTimestamp(colIdx + 1);
 						if(tsVal != null){
 							tsCal.setTimeInMillis(tsVal.getTime());
-							logger.trace("Col value: {}", dfTs.format(tsCal.getTime()));
+							String value = dfTs.format(tsCal.getTime());
+							logger.trace("Col value: {}", value);
+							lineLength = value.length();
+							
 							contentCell.setCellValue(tsCal.getTime());
 							if(applyDefaultStyle) {
 								contentCell.setCellStyle(this.dateCellStyle);
@@ -423,7 +470,11 @@ public class ExcelManager {
 						Timestamp tsVal = resRs.getTimestamp(colIdx + 1);
 						if(tsVal != null){
 							tsCal.setTimeInMillis(tsVal.getTime());
-							logger.trace("Col value: {}", dfTsTz.format(tsCal.getTime()));
+							
+							String value = dfTsTz.format(tsCal.getTime());
+							logger.trace("Col value: {}", value);
+							lineLength = value.length();
+							
 							contentCell.setCellValue(tsCal.getTime());
 							if(applyDefaultStyle) {
 								contentCell.setCellStyle(this.dateCellStyle);
@@ -433,30 +484,46 @@ public class ExcelManager {
 						logger.trace("columnType BLOB, NULL or OTHER");
 					} else if(columnType == Types.INTEGER){
 						logger.trace("columnType INTEGER");
-						contentCell.setCellValue(resRs.getInt(colIdx + 1));
+						int intValue = resRs.getInt(colIdx + 1);
+						lineLength = String.valueOf(intValue).length();
+						contentCell.setCellValue(intValue);
 					} else if(columnType == Types.NUMERIC){
 						logger.trace("columnType NUMERIC");
 						long value = resRs.getLong(colIdx + 1);
 						logger.trace("Col value: {}", value);
+						lineLength = String.valueOf(value).length();
 						contentCell.setCellValue(value);
 					} else if(columnType == Types.DECIMAL){
 						logger.trace("columnType DECIMAL");
-						contentCell.setCellValue(resRs.getDouble(colIdx + 1));
+						double doubleValue = resRs.getDouble(colIdx + 1);
+						lineLength = String.valueOf(doubleValue).length();
+						contentCell.setCellValue(doubleValue);
 					} else if(columnType == Types.DOUBLE){
 						logger.trace("columnType DOUBLE");
-						contentCell.setCellValue(resRs.getDouble(colIdx + 1));
+						double doubleValue = resRs.getDouble(colIdx + 1);
+						lineLength = String.valueOf(doubleValue).length();
+						contentCell.setCellValue(doubleValue);
 					} else if(columnType == Types.FLOAT){
 						logger.trace("columnType FLOAT");
-						contentCell.setCellValue(resRs.getFloat(colIdx + 1));
+						float floatValue = resRs.getFloat(colIdx + 1);
+						lineLength = String.valueOf(floatValue).length();
+						contentCell.setCellValue(floatValue);
 					} else if(columnType == Types.ROWID){	
 						logger.trace("columnType ROWID");
-						contentCell.setCellValue(resRs.getRowId(colIdx + 1).toString());
+						String value = resRs.getRowId(colIdx + 1).toString();
+						lineLength = value.length();
+						contentCell.setCellValue(value);
 					} else {
 						logger.trace("columnType else {}", columnType);
-						contentCell.setCellValue(resRs.getObject(colIdx + 1).toString());
+						String value = resRs.getObject(colIdx + 1).toString();
+						lineLength = value.length();
+						contentCell.setCellValue(value);
 					}
 				}
 				
+				if(lineLength > columnsWidth[colIdx - inColIdx] && lineLength < 256) {
+					columnsWidth[colIdx - inColIdx] = lineLength;
+				}
 			}
 
 			rowIdx++;
@@ -622,14 +689,25 @@ public class ExcelManager {
 			workSheet.createFreezePane(0, 1);
 			rowIdx++;
 		}
-		
+		Map<Integer, Integer> columnsWidth = new HashMap<Integer, Integer>();
 		if(jsonStr.startsWith("{")) {
-			this.writeJsonObject(workSheet, new JSONObject(jsonStr), rowIdx, 0);
+			this.writeJsonObject(workSheet, columnsWidth, new JSONObject(jsonStr), rowIdx, 0);
 		} else if(jsonStr.startsWith("[")) {
-			this.writeJsonArray(workSheet, new JSONArray(jsonStr), rowIdx, 0);
+			this.writeJsonArray(workSheet, columnsWidth, new JSONArray(jsonStr), rowIdx, 0);
+		}
+		logger.debug("columnsWidth {}", columnsWidth);
+		
+		
+				
+		for(Entry<Integer, Integer> curEntry : columnsWidth.entrySet()){
+			//width = Truncate([{Number of Visible Characters} * {Maximum Digit Width} + {5 pixel padding}]/{Maximum Digit Width}*256)/256
+			//workSheet.setColumnWidth(colIdx, (columnsWidth.get(colIdx) * 256));
+			int width = (int) Math.ceil((curEntry.getValue() + 1) * 7.2 / 7 * 256) + 5;
+			workSheet.setColumnWidth(curEntry.getKey(), width > 256*256 ? 256*256 : width);
 		}
 		
 		workSheet.setZoom(85);
+		
 		logger.traceExit();
 	}
 	
@@ -638,7 +716,7 @@ public class ExcelManager {
 	 * @author manuel.m.speranza 
 	 * @since 11-03-2022
 	 */
-	public int writeJsonObject(org.apache.poi.xssf.streaming.SXSSFSheet workSheet, JSONObject jsonObj, int startRowIdx, int startColIdx) {
+	public int writeJsonObject(org.apache.poi.xssf.streaming.SXSSFSheet workSheet, Map<Integer, Integer> columnsWidth, JSONObject jsonObj, int startRowIdx, int startColIdx) {
 		logger.traceEntry();
 		int rowIdx = startRowIdx;
 		
@@ -657,9 +735,13 @@ public class ExcelManager {
 				contentCell = contentRow.createCell(startColIdx);
 			}
 			contentCell.setCellValue(jsonKey);
+			int cellValueLength = jsonKey.length();
+			if(!columnsWidth.containsKey(startColIdx) || cellValueLength > columnsWidth.get(startColIdx) && cellValueLength < 256){
+				columnsWidth.put(startColIdx, cellValueLength);
+			}
 			contentCell.setCellStyle(this.defaultCellStyle);
 			
-			rowIdx = this.manageJsonValue(workSheet, contentRow, jsonObj.get(jsonKey), rowIdx, startColIdx);
+			rowIdx = this.manageJsonValue(workSheet, columnsWidth, contentRow, jsonObj.get(jsonKey), rowIdx, startColIdx);
 		}
 		
 		return logger.traceExit(rowIdx);
@@ -670,7 +752,7 @@ public class ExcelManager {
 	 * @author manuel.m.speranza 
 	 * @since 11-03-2022
 	 */
-	public int writeJsonArray(org.apache.poi.xssf.streaming.SXSSFSheet workSheet, JSONArray jsonArray, int startRowIdx, int startColIdx) {
+	public int writeJsonArray(org.apache.poi.xssf.streaming.SXSSFSheet workSheet, Map<Integer, Integer> columnsWidth, JSONArray jsonArray, int startRowIdx, int startColIdx) {
 		logger.traceEntry();
 		int rowIdx = startRowIdx;
 		int arrayItemIdx = 0;
@@ -688,10 +770,15 @@ public class ExcelManager {
 			if(contentCell == null) {
 				contentCell = contentRow.createCell(startColIdx);
 			}
-			contentCell.setCellValue("#"+arrayItemIdx);
+			contentCell.setCellValue("#" + arrayItemIdx);
+			int cellValueLength = String.valueOf(arrayItemIdx).length() + 1;
+			if(!columnsWidth.containsKey(startColIdx) || cellValueLength > columnsWidth.get(startColIdx) && cellValueLength < 256){
+				columnsWidth.put(startColIdx, cellValueLength);
+			}
+			
 			contentCell.setCellStyle(this.defaultCellStyle);
 			
-			rowIdx = this.manageJsonValue(workSheet, contentRow, curObject, rowIdx, startColIdx);
+			rowIdx = this.manageJsonValue(workSheet, columnsWidth, contentRow, curObject, rowIdx, startColIdx);
 			arrayItemIdx++;
 		}
 		
@@ -703,16 +790,16 @@ public class ExcelManager {
 	 * @author manuel.m.speranza 
 	 * @since 11-03-2022
 	 */
-	public int manageJsonValue(org.apache.poi.xssf.streaming.SXSSFSheet workSheet, org.apache.poi.xssf.streaming.SXSSFRow contentRow, Object value, int startRowIdx, int startColIdx) {
+	public int manageJsonValue(org.apache.poi.xssf.streaming.SXSSFSheet workSheet, Map<Integer, Integer> columnsWidth, org.apache.poi.xssf.streaming.SXSSFRow contentRow, Object value, int startRowIdx, int startColIdx) {
 		logger.traceEntry();
 		int rowIdx = startRowIdx;
 		
 		if(value instanceof JSONObject) {
-			rowIdx = this.writeJsonObject(workSheet, (JSONObject) value, rowIdx, startColIdx+1);
+			rowIdx = this.writeJsonObject(workSheet, columnsWidth, (JSONObject) value, rowIdx, startColIdx+1);
 		} else if(value instanceof Map) {
 			logger.warn("instanceof Map");
 		} else if(value instanceof JSONArray) {
-			rowIdx = this.writeJsonArray(workSheet, (JSONArray) value, rowIdx, startColIdx+1);	
+			rowIdx = this.writeJsonArray(workSheet, columnsWidth, (JSONArray) value, rowIdx, startColIdx+1);	
 		} else if(value instanceof List) {
 			logger.warn("instanceof List");
 		} else {
