@@ -566,7 +566,9 @@ public class ExcelManager {
 				
 			org.apache.poi.xssf.streaming.SXSSFRow summaryRow = summarySheet.createRow(rowIdx++);
 			org.apache.poi.xssf.streaming.SXSSFCell tableNameCell = summaryRow.createCell(0);
-			tableNameCell.setCellValue(curWorkSheet.getSheetName());
+			//tableNameCell.setCellValue(curWorkSheet.getSheetName());
+			String tableName = curWorkSheet.getRow(0).getCell(0).getStringCellValue();
+			tableNameCell.setCellValue(tableName);
 			
 			org.apache.poi.ss.usermodel.Hyperlink tableNameHl = this.createHelper.createHyperlink(org.apache.poi.common.usermodel.HyperlinkType.DOCUMENT);
 			tableNameHl.setAddress("'" + curWorkSheet.getSheetName() + "'!A1");

@@ -31,10 +31,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -54,6 +56,7 @@ public class App implements ActionListener{
 	private static final String TARGET_DIR_ACTION = "Targer DIR Action";
 	private static final String CONVERT_ACTION = "Convert Action";
 	private File[] selectedJsonFiles;
+	private JCheckBox chckbxSkipAutoSheetName;
 	/**
 	 * Launch the application.
 	 */
@@ -117,7 +120,6 @@ public class App implements ActionListener{
 		jsonTextField.setEditable(false);
 		springLayout.putConstraint(SpringLayout.NORTH, jsonTextField, 1, SpringLayout.NORTH, loadJsonButton);
 		springLayout.putConstraint(SpringLayout.WEST, jsonTextField, 10, SpringLayout.EAST, loadJsonButton);
-		springLayout.putConstraint(SpringLayout.EAST, jsonTextField, -10, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(jsonTextField);
 		jsonTextField.setColumns(10);
 		
@@ -130,8 +132,9 @@ public class App implements ActionListener{
 		frame.getContentPane().add(targetDirButton);
 		
 		targetDirTextField = new JTextField();
+		springLayout.putConstraint(SpringLayout.EAST, jsonTextField, 0, SpringLayout.EAST, targetDirTextField);
 		springLayout.putConstraint(SpringLayout.NORTH, targetDirTextField, 1, SpringLayout.NORTH, targetDirButton);
-		springLayout.putConstraint(SpringLayout.WEST, targetDirTextField, 0, SpringLayout.WEST, jsonTextField);
+		springLayout.putConstraint(SpringLayout.WEST, targetDirTextField, 10, SpringLayout.EAST, targetDirButton);
 		springLayout.putConstraint(SpringLayout.EAST, targetDirTextField, -10, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(targetDirTextField);
 		targetDirTextField.setColumns(10);
@@ -155,6 +158,11 @@ public class App implements ActionListener{
 		convertButton.addActionListener(this);
 		frame.getContentPane().add(convertButton);
 		
+		chckbxSkipAutoSheetName = new JCheckBox("Skip Automatic Sheet Naming");
+		springLayout.putConstraint(SpringLayout.WEST, chckbxSkipAutoSheetName, 0, SpringLayout.WEST, loadJsonButton);
+		springLayout.putConstraint(SpringLayout.SOUTH, chckbxSkipAutoSheetName, 0, SpringLayout.SOUTH, convertButton);
+		frame.getContentPane().add(chckbxSkipAutoSheetName);
+		
 		logger.traceExit();
 	}
 
@@ -176,7 +184,20 @@ public class App implements ActionListener{
 		logger.traceExit();
 	}
 	
-	
+	private void getJsonFiles(File[] listFiles, List<File> selectedFiles) {
+		logger.traceEntry();
+
+		for(File curFile : listFiles) {
+			if(curFile.isFile()) {
+				if(curFile.getName().endsWith(".json")) {					
+					selectedFiles.add(curFile);
+				}
+			} else {
+				this.getJsonFiles(curFile.listFiles(), selectedFiles);
+			}
+		}
+		logger.traceExit();
+	}
 
 	private void loadJsonFile() {
 		
@@ -187,12 +208,16 @@ public class App implements ActionListener{
 		fc.setMultiSelectionEnabled(true);
 		fc.setFileFilter(fcJsonFiler);
 		fc.addChoosableFileFilter(fcJsonFiler);
-		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		
+		fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		int returnVal = fc.showOpenDialog(this.frame);
 		
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
-			this.selectedJsonFiles = fc.getSelectedFiles();
+			
+			List<File> selectedFiles = new ArrayList<File>();
+			this.getJsonFiles(fc.getSelectedFiles(), selectedFiles);
+			
+			this.selectedJsonFiles = new File[selectedFiles.size()];
+			this.selectedJsonFiles = selectedFiles.toArray(this.selectedJsonFiles);
 				
 			File selectedFile = this.selectedJsonFiles[0];
 			String jsonFilePath = selectedFile.getPath();
@@ -246,6 +271,7 @@ public class App implements ActionListener{
 		
 		logger.traceEntry();
 		ExcelManager xlsMng = null;
+		Set<String> sheetsName = new HashSet<String>();
 		try {
 			String excelFileName = this.xlsxNameTextField.getText();
 			logger.info("Initialize the excel");
@@ -253,8 +279,38 @@ public class App implements ActionListener{
 			for(File curJsonFile :  this.selectedJsonFiles) {	
 				logger.info("Working " + curJsonFile.getName());
 				String jsonStr = Files.readString(Path.of(curJsonFile.getAbsolutePath()));
-				//String sheetName = (excelFileName.length() > 31) ? excelFileName.substring(0, 31) : excelFileName;			
-				xlsMng.getJsonResult(curJsonFile.getName(), null, jsonStr);
+				String sheetHeader = curJsonFile.getName();
+				String sheetName = null;
+				if(!this.chckbxSkipAutoSheetName.isSelected()) {
+					sheetName = sheetHeader.substring(0, sheetHeader.indexOf(".json"));
+					while(sheetName.length() > 31 || sheetsName.contains(sheetName)) {
+						int messageType = JOptionPane.WARNING_MESSAGE;
+						String title = null;
+						String message = null;
+						if(sheetsName.contains(sheetName)) {
+							messageType = JOptionPane.ERROR_MESSAGE;
+							title = "Sheet name already exists";
+							message = "Sheet name " + sheetName + " already exists";
+						} else {
+							title = "Sheet name too long";
+							message = "Sheet name " + sheetName + " too long (" + sheetName.length() + ")\n" + 
+							"Maximum 31 characters";
+						}
+						
+						String tmpSheetName = (String)JOptionPane.showInputDialog(this.frame,
+								message,
+								title,
+								messageType,
+			                    null,
+			                    null,
+			                    sheetName);
+						if(tmpSheetName != null) {
+							sheetName = tmpSheetName;
+						}
+					}
+					sheetsName.add(sheetName);
+				}			
+				xlsMng.getJsonResult(sheetHeader, sheetName, jsonStr);
 			}
 			
 		} catch (IOException e) {
@@ -268,6 +324,11 @@ public class App implements ActionListener{
 			if(!targetPath.endsWith(File.separator)) {
 				targetPath += File.separator;
 			}
+			
+			if(xlsMng != null) {
+				xlsMng.createSummaryPage(1);
+			}
+			
 			if(xlsMng != null) {
 				xlsMng.finalWrite(targetPath);
 				xlsMng = null;
