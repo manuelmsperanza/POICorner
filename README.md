@@ -1,9 +1,7 @@
-# Create a new project
-
-	mvn archetype:generate -Dfilter="org.apache.maven.archetypes:maven-archetype-quickstart" -DgroupId="com.hoffnungland" -DartifactId=POICorner -Dpackage="com.hoffnungland.poi.corner" -Dversion="0.0.1-SNAPSHOT"
-	
-# Build settings
-## Add prerequisites
+#Create a new project
+mvn archetype:generate -Dfilter="org.apache.maven.archetypes:maven-archetype-quickstart" -DgroupId="com.hoffnungland" -DartifactId=POICorner -Dpackage="com.hoffnungland.poi.corner" -Dversion="0.0.1-SNAPSHOT"
+#Build settings
+##Add prerequisites
 
 	<prerequisites>
 		<maven>3.1.0</maven>
@@ -17,7 +15,7 @@ Update to java 1.8<br>
 		<java.target.version>1.8</java.target.version>
 	</properties>
 
-## Configure the plugins
+##Configure the plugins
 	
 	<build>
 		<pluginManagement><!-- lock down plugins versions to avoid using Maven 
@@ -91,14 +89,11 @@ Update to java 1.8<br>
 	</build>
 
 
-# Relationship
-## Add the dependencies
-### Oracle jdbc dependencies
-
+#Relationship
+##Add the dependencies
+###Oracle jdbc dependencies
 [Add the Oracle Maven Repository](http://docs.oracle.com/middleware/1213/core/MAVEN/config_maven_repo.htm#MAVEN9010)
-
-### Instruction to encrypt the password on maven settings.xml
-
+###Instruction to encrypt the password on maven settings.xml
 [Encryption guide](http://maven.apache.org/guides/mini/guide-encryption.html)<br>
 Add log4j, jdbc e POI update jUnit<br>
 
@@ -190,16 +185,14 @@ Add log4j, jdbc e POI update jUnit<br>
 		</dependency>
 	</dependencies>
 
+	
+	
+#RUN on 172.31.28.230 of MDI Real Time OSS
+/software/java/jdk1.7.0_79//bin/java -Dlog4j.configurationFile=log4j2.xml -jar CrossCheckMetadata-1.0.3-jar-with-dependencies.jar
 
-# add .gitignore to mandatory empty directory
+
+#add .gitignore to mandatory empty directory
 	# Ignore everything in this directory
 	*
 	# Except this file
 	!.gitignore
-
-
-# Configure the Package Clean UP Automation with GitHub Action
-
-The Action run during the release phase of package (or you can run it manually).
-Leave only the latest package version into the repository.
-Create the .github/workflows/cleanupPackages.yml file.
