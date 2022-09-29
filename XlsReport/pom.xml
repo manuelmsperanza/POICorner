@@ -17,7 +17,7 @@
 		<dependency>
 			<groupId>com.hoffnungland</groupId>
 			<artifactId>dbconn</artifactId>
-			<version>0.0.22</version>
+			<version>0.0.19</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/xerces/xercesImpl -->
 		<dependency>
@@ -41,7 +41,7 @@
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
-			<version>20220924</version>
+			<version>20220320</version>
 		</dependency>
 	</dependencies>
 </project>
