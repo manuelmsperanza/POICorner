@@ -4,12 +4,12 @@
 	<parent>
 		<artifactId>poicorner</artifactId>
 		<groupId>com.hoffnungland</groupId>
-		<version>0.0.43</version>
+		<version>0.0.44-SNAPSHOT</version>
 	</parent>
 
 	<groupId>com.hoffnungland</groupId>
 	<artifactId>pdfcreator</artifactId>
-	<version>0.0.26</version>
+	<version>0.0.27-SNAPSHOT</version>
 
 	<name>PDFCreator</name>
 </project>
