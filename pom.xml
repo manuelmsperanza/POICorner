@@ -24,7 +24,7 @@
     <url>https://github.com/manuelmsperanza/POICorner/issues</url>
   </issueManagement>
   <prerequisites>
-    <maven>3.2.5</maven>
+    <maven>3.1.1</maven>
   </prerequisites>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -37,53 +37,33 @@
 			moved to parent pom) -->
       <plugins>
         <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>3.2.0</version>
-        </plugin>
-        <!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
-        <plugin>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>3.2.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.10.1</version>
-          <configuration>
-            <encoding>UTF-8</encoding>
-            <source>${java.source.version}</source>
-            <target>${java.target.version}</target>
-          </configuration>
-        </plugin>
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.0.0-M6</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>3.2.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-install-plugin</artifactId>
-          <version>3.0.0-M1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.0.0-M2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-assembly-plugin</artifactId>
-          <version>3.3.0</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.0.0</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-jarsigner-plugin</artifactId>
-          <version>3.0.0</version>
-        </plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+			        <artifactId>maven-compiler-plugin</artifactId>
+			        <version>3.11.0</version>
+					<configuration>
+						<encoding>UTF-8</encoding>
+						<source>${java.source.version}</source>
+						<target>${java.target.version}</target>
+					</configuration>
+				</plugin>
+				<plugin>
+    				<groupId>org.apache.maven.plugins</groupId>
+    				<artifactId>maven-release-plugin</artifactId>
+    				<version>3.0.0-M7</version>
+    				<configuration>
+      					<releaseProfiles>github</releaseProfiles>
+    				</configuration>
+  				</plugin>
+  				<plugin>
+    				<groupId>org.apache.maven.plugins</groupId>
+    				<artifactId>maven-enforcer-plugin</artifactId>
+    				<version>3.2.1</version>
+  				</plugin>
+  				<plugin>
+    				<groupId>org.apache.maven.plugins</groupId>
+    				<artifactId>maven-jarsigner-plugin</artifactId>
+    				<version>3.0.0</version>
+  				</plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -99,7 +79,7 @@
             <configuration>
               <rules>
                 <requireMavenVersion>
-                  <version>3.0.5</version>
+                  <version>3.2.5</version>
                 </requireMavenVersion>
                 <requireJavaVersion>
                   <version>1.8.0</version>
@@ -109,13 +89,15 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
+      <!--plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <version>3.0.0</version>
-        <!-- <configuration> <async>true</async> <mainClass>com.hoffnungland.circe.App</mainClass> 
-				</configuration> -->
-      </plugin>
+        <configuration>
+          <async>true</async>
+          <mainClass>com.hoffnungland.circe.App</mainClass> 
+				</configuration>
+      </plugin-->
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
       </plugin>
@@ -159,7 +141,7 @@
     <dependency>
       <groupId>com.hoffnungland</groupId>
       <artifactId>log4j</artifactId>
-      <version>1.0.20</version>
+      <version>1.0.34</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
     <dependency>
