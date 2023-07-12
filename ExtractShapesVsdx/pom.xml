@@ -4,9 +4,9 @@
 	<parent>
 		<groupId>com.hoffnungland</groupId>
 		<artifactId>poicorner</artifactId>
-		<version>0.0.45</version>
+		<version>0.0.46-SNAPSHOT</version>
 	</parent>
-	<version>0.0.40</version>
+	<version>0.0.41-SNAPSHOT</version>
 	<artifactId>extractshapesvsdx</artifactId>
 	<name>ExtractShapesVsdx</name>
 	<url>http://maven.apache.org</url>
