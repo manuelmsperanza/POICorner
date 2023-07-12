@@ -4,11 +4,11 @@
 	<parent>
 		<groupId>com.hoffnungland</groupId>
 		<artifactId>poicorner</artifactId>
-		<version>0.0.45-SNAPSHOT</version>
+		<version>0.0.45</version>
 	</parent>
 	<groupId>com.hoffnungland</groupId>
 	<artifactId>xmlxlsreport</artifactId>
-	<version>1.1.44-SNAPSHOT</version>
+	<version>1.1.44</version>
 	<name>XmlXlsReport</name>
 	<url>http://maven.apache.org</url>
 	<properties>
@@ -18,7 +18,7 @@
 		<dependency>
 			<groupId>com.hoffnungland</groupId>
 			<artifactId>xlsreport</artifactId>
-			<version>2.1.15-SNAPSHOT</version>
+			<version>2.1.15</version>
 		</dependency>
 	</dependencies>
 </project>
