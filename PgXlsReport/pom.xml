@@ -20,8 +20,8 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<classpathPrefix>OrcXlsReport_lib/</classpathPrefix>
-							<mainClass>com.hoffnungland.poi.corner.orcxlsreport.App</mainClass>
+							<classpathPrefix>PgXlsReport_lib/</classpathPrefix>
+							<mainClass>com.hoffnungland.poi.corner.pgxlsreport.App</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -36,7 +36,7 @@
 					<finalName>${project.artifactId}</finalName>
 					<archive>
 						<manifest>
-							<mainClass>com.hoffnungland.poi.corner.orcxlsreport.App</mainClass>
+							<mainClass>com.hoffnungland.poi.corner.pgxlsreport.App</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
