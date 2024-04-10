@@ -7,7 +7,7 @@
     
   <artifactId>poicorner</artifactId>
     
-  <version>5.2.5.48-SNAPSHOT</version>
+  <version>5.2.5.48</version>
     	
   
   <packaging>pom</packaging>
@@ -36,7 +36,7 @@
         
     <developerConnection>scm:git:git@github.com:manuelmsperanza/POICorner.git</developerConnection>
         
-    <tag>HEAD</tag>
+    <tag>poicorner-5.2.5.48</tag>
       
   </scm>
     
