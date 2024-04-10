@@ -53,8 +53,14 @@ public class ExcelManager {
 	protected org.apache.poi.xssf.usermodel.XSSFCellStyle defaultCellStyle;
 	protected org.apache.poi.xssf.usermodel.XSSFCellStyle dateCellStyle;
 	protected org.apache.poi.xssf.usermodel.XSSFCellStyle hyperlinkCellStyle;
-	protected org.apache.poi.ss.usermodel.CreationHelper createHelper = this.wb.getCreationHelper();
-
+	protected org.apache.poi.xssf.usermodel.XSSFCreationHelper createHelper = this.wb.getCreationHelper();
+	
+	protected String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
+	protected String urlRegex = "^(https?://)?(www\\.)?[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}(/.*)?$";
+	
+	 protected java.util.regex.Pattern emailPattern;
+	 protected java.util.regex.Pattern urlPattern;
+	
 	/**
 	 * Constructor with input name string. Define also the styles.
 	 * @param name The target excel file name prefix
@@ -113,8 +119,17 @@ public class ExcelManager {
         byte[] rgbBlue = new byte[]{(byte) 0, (byte) 0, (byte) 255};
         hyperlinkFont.setColor(new org.apache.poi.xssf.usermodel.XSSFColor(rgbBlue));
         this.hyperlinkCellStyle.setFont(hyperlinkFont);
-		
+        this.hyperlinkCellStyle.setBorderBottom(org.apache.poi.ss.usermodel.BorderStyle.THIN);
+		this.hyperlinkCellStyle.setBorderTop(org.apache.poi.ss.usermodel.BorderStyle.THIN);
+		this.hyperlinkCellStyle.setBorderLeft(org.apache.poi.ss.usermodel.BorderStyle.THIN);
+		this.hyperlinkCellStyle.setBorderRight(org.apache.poi.ss.usermodel.BorderStyle.THIN);
+		this.hyperlinkCellStyle.setVerticalAlignment(org.apache.poi.ss.usermodel.VerticalAlignment.TOP);
+        
+        
 		this.swb = new org.apache.poi.xssf.streaming.SXSSFWorkbook(this.wb, 10000, true, true);
+		
+		this.emailPattern = java.util.regex.Pattern.compile(this.emailRegex);
+		this.urlPattern = java.util.regex.Pattern.compile(this.urlRegex);
 
 	}
 
@@ -354,7 +369,21 @@ public class ExcelManager {
 						String value = resRs.getString(colIdx + 1);
 						logger.trace("Col value: {}", value);
 						lineLength = value.length();
-						contentCell.setCellValue(resRs.getString(colIdx + 1));
+						
+						//contentCell.setCellValue(resRs.getString(colIdx + 1));
+						contentCell.setCellValue(value);
+						/*if(this.urlPattern.matcher(value).matches()) {
+							contentCell.setCellStyle(this.hyperlinkCellStyle);
+							org.apache.poi.xssf.usermodel.XSSFHyperlink contentCellHl = this.createHelper.createHyperlink(org.apache.poi.common.usermodel.HyperlinkType.URL);
+							contentCellHl.setAddress(value);
+							contentCell.setHyperlink(contentCellHl);
+							
+						} else if(this.emailPattern.matcher(value).matches()) {
+							contentCell.setCellStyle(this.hyperlinkCellStyle);
+							org.apache.poi.xssf.usermodel.XSSFHyperlink contentCellHl = this.createHelper.createHyperlink(org.apache.poi.common.usermodel.HyperlinkType.EMAIL);
+							contentCellHl.setAddress("mailto:" + value);
+							contentCell.setHyperlink(contentCellHl);
+						}*/
 						
 					} else if(columnType == Types.LONGVARCHAR){
 						logger.trace("columnType LONGVARCHAR");
@@ -580,11 +609,11 @@ public class ExcelManager {
 			org.apache.poi.xssf.streaming.SXSSFRow summaryRow = summarySheet.createRow(rowIdx++);
 			org.apache.poi.xssf.streaming.SXSSFCell tableNameCell = summaryRow.createCell(0);
 			tableNameCell.setCellValue(curWorkSheet.getSheetName());
-			tableNameCell.setCellStyle(this.hyperlinkCellStyle);
 			//String tableName = curWorkSheet.getRow(curWorkSheet.getFirstRowNum()).getCell(0).getStringCellValue();
 			//tableNameCell.setCellValue(tableName);
 			
-			org.apache.poi.ss.usermodel.Hyperlink tableNameHl = this.createHelper.createHyperlink(org.apache.poi.common.usermodel.HyperlinkType.DOCUMENT);
+			tableNameCell.setCellStyle(this.hyperlinkCellStyle);
+			org.apache.poi.xssf.usermodel.XSSFHyperlink tableNameHl = this.createHelper.createHyperlink(org.apache.poi.common.usermodel.HyperlinkType.DOCUMENT);
 			tableNameHl.setAddress("'" + curWorkSheet.getSheetName() + "'!A1");
 			tableNameCell.setHyperlink(tableNameHl);
 			org.apache.poi.xssf.streaming.SXSSFCell tableCountCell = summaryRow.createCell(1);
@@ -645,9 +674,9 @@ public class ExcelManager {
 			//tableNameCell.setCellValue(curWorkSheet.getSheetName());
 			String tableName = curWorkSheet.getRow(curWorkSheet.getFirstRowNum()).getCell(0).getStringCellValue();
 			tableNameCell.setCellValue(tableName);
-			tableNameCell.setCellStyle(this.hyperlinkCellStyle);
 			
-			org.apache.poi.ss.usermodel.Hyperlink tableNameHl = this.createHelper.createHyperlink(org.apache.poi.common.usermodel.HyperlinkType.DOCUMENT);
+			tableNameCell.setCellStyle(this.hyperlinkCellStyle);
+			org.apache.poi.xssf.usermodel.XSSFHyperlink tableNameHl = this.createHelper.createHyperlink(org.apache.poi.common.usermodel.HyperlinkType.DOCUMENT);
 			tableNameHl.setAddress("'" + curWorkSheet.getSheetName() + "'!A1");
 			tableNameCell.setHyperlink(tableNameHl);
 			org.apache.poi.xssf.streaming.SXSSFCell tableCountCell = summaryRow.createCell(1);
