@@ -1,94 +1,184 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    
   <modelVersion>4.0.0</modelVersion>
+    
   <groupId>com.hoffnungland</groupId>
+    
   <artifactId>poicorner</artifactId>
-  <version>5.2.5.48-SNAPSHOT</version>  	
+    
+  <version>5.2.5.48-SNAPSHOT</version>
+    	
+  
   <packaging>pom</packaging>
+    
   <name>POICorner</name>
+    
   <url>http://maven.apache.org</url>
+    
   <distributionManagement>
+        
     <repository>
+            
       <id>manuelmsperanza.github</id>
+            
       <name>GitHub manuelmsperanza Apache Maven Packages</name>
+            
       <url>https://maven.pkg.github.com/manuelmsperanza/POICorner</url>
+          
     </repository>
+      
   </distributionManagement>
+    
   <scm>
+        
     <connection>scm:git:https://github.com/manuelmsperanza/POICorner.git</connection>
+        
     <developerConnection>scm:git:git@github.com:manuelmsperanza/POICorner.git</developerConnection>
+        
     <tag>HEAD</tag>
+      
   </scm>
+    
   <issueManagement>
+        
     <system>GitHub</system>
+        
     <url>https://github.com/manuelmsperanza/POICorner/issues</url>
+      
   </issueManagement>
+    
   <prerequisites>
+        
     <maven>3.1.1</maven>
+      
   </prerequisites>
+    
   <properties>
+        
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
     <java.source.version>21</java.source.version>
+        
     <java.target.version>21</java.target.version>
+      
   </properties>
+    
   <build>
+        
     <pluginManagement>
+            
       <!-- lock down plugins versions to avoid using Maven defaults (may be 
 			moved to parent pom) -->
+            
       <plugins>
+                
         <plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-			        <artifactId>maven-compiler-plugin</artifactId>
-			        <version>3.12.1</version>
-					<configuration>
-						<encoding>UTF-8</encoding>
-						<source>${java.source.version}</source>
-						<target>${java.target.version}</target>
-					</configuration>
-				</plugin>
-				<plugin>
-    				<groupId>org.apache.maven.plugins</groupId>
-    				<artifactId>maven-release-plugin</artifactId>
-    				<version>3.0.0-M7</version>
-    				<configuration>
-      					<releaseProfiles>github</releaseProfiles>
-    				</configuration>
-  				</plugin>
-  				<plugin>
-    				<groupId>org.apache.maven.plugins</groupId>
-    				<artifactId>maven-enforcer-plugin</artifactId>
-    				<version>3.2.1</version>
-  				</plugin>
-  				<plugin>
-    				<groupId>org.apache.maven.plugins</groupId>
-    				<artifactId>maven-jarsigner-plugin</artifactId>
-    				<version>3.0.0</version>
-  				</plugin>
+          					
+          <groupId>org.apache.maven.plugins</groupId>
+          			        
+          <artifactId>maven-compiler-plugin</artifactId>
+          			        
+          <version>3.12.1</version>
+          					
+          <configuration>
+            						
+            <encoding>UTF-8</encoding>
+            						
+            <source>${java.source.version}</source>
+            						
+            <target>${java.target.version}</target>
+            					
+          </configuration>
+          				
+        </plugin>
+        				
+        <plugin>
+              				
+          <groupId>org.apache.maven.plugins</groupId>
+              				
+          <artifactId>maven-release-plugin</artifactId>
+              				
+          <version>3.0.0-M7</version>
+              				
+          <configuration>
+                  					
+            <releaseProfiles>github</releaseProfiles>
+                				
+          </configuration>
+            				
+        </plugin>
+          				
+        <plugin>
+              				
+          <groupId>org.apache.maven.plugins</groupId>
+              				
+          <artifactId>maven-enforcer-plugin</artifactId>
+              				
+          <version>3.2.1</version>
+            				
+        </plugin>
+          				
+        <plugin>
+              				
+          <groupId>org.apache.maven.plugins</groupId>
+              				
+          <artifactId>maven-jarsigner-plugin</artifactId>
+              				
+          <version>3.0.0</version>
+            				
+        </plugin>
+              
       </plugins>
+          
     </pluginManagement>
+        
     <plugins>
+            
       <plugin>
+                
         <groupId>org.apache.maven.plugins</groupId>
+                
         <artifactId>maven-enforcer-plugin</artifactId>
+                
         <executions>
+                    
           <execution>
+                        
             <id>enforce-maven</id>
+                        
             <goals>
+                            
               <goal>enforce</goal>
+                          
             </goals>
+                        
             <configuration>
+                            
               <rules>
+                                
                 <requireMavenVersion>
+                                    
                   <version>3.2.5</version>
+                                  
                 </requireMavenVersion>
+                                
                 <requireJavaVersion>
+                                    
                   <version>1.8.0</version>
+                                  
                 </requireJavaVersion>
+                              
               </rules>
+                          
             </configuration>
+                      
           </execution>
+                  
         </executions>
+              
       </plugin>
+            
       <!--plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
@@ -98,115 +188,229 @@
           <mainClass>com.hoffnungland.circe.App</mainClass> 
 				</configuration>
       </plugin-->
+            
       <plugin>
+                
         <artifactId>maven-assembly-plugin</artifactId>
+              
       </plugin>
+            
       <plugin>
+                
         <artifactId>maven-jarsigner-plugin</artifactId>
+                
         <executions>
+                    
           <execution>
+                        
             <id>sign</id>
+                        
             <goals>
+                            
               <goal>sign</goal>
+                          
             </goals>
+                        
             <configuration>
+                            
               <keystore>${hoffnunglandJksPath}</keystore>
+                            
               <alias>${hoffnunglandJksEntry}</alias>
+                            
               <storepass>${hoffnunglandJksPasswd}</storepass>
+                            
               <keypass>${hoffnunglandKeyPasswd}</keypass>
+                            
               <tsa>${hoffnunglandTsaUrl}</tsa>
+                          
             </configuration>
+                      
           </execution>
+                    
           <execution>
+                        
             <id>verify</id>
+                        
             <goals>
+                            
               <goal>verify</goal>
+                          
             </goals>
+                        
             <configuration>
+                            
               <certs>true</certs>
+                          
             </configuration>
+                      
           </execution>
+                  
         </executions>
+              
       </plugin>
+          
     </plugins>
+      
   </build>
+    
   <dependencies>
+        
     <!-- https://mvnrepository.com/artifact/junit/junit -->
+        
     <dependency>
+            
       <groupId>junit</groupId>
+            
       <artifactId>junit</artifactId>
+            
       <version>4.13.2</version>
+            
       <scope>test</scope>
+          
     </dependency>
+        
     <dependency>
+            
       <groupId>com.hoffnungland</groupId>
+            
       <artifactId>log4j</artifactId>
-      <version>2.22.1.29</version>
+            
+      <version>2.23.1.30</version>
+          
     </dependency>
+        
     <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+        
     <dependency>
+            
       <groupId>org.apache.poi</groupId>
+            
       <artifactId>poi</artifactId>
+            
       <version>5.2.5</version>
+          
     </dependency>
+        
     <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+        
     <dependency>
+            
       <groupId>org.apache.poi</groupId>
+            
       <artifactId>poi-ooxml</artifactId>
+            
       <version>5.2.5</version>
+          
     </dependency>
+        
     <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml-schemas -->
+        
     <dependency>
+            
       <groupId>org.apache.poi</groupId>
+            
       <artifactId>poi-ooxml-schemas</artifactId>
+            
       <version>4.1.2</version>
+          
     </dependency>
+        
     <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-scratchpad -->
+        
     <dependency>
+            
       <groupId>org.apache.poi</groupId>
+            
       <artifactId>poi-scratchpad</artifactId>
+            
       <version>5.2.5</version>
+          
     </dependency>
+        
     <!-- https://mvnrepository.com/artifact/org.apache.poi/ooxml-schemas -->
+        
     <dependency>
+            
       <groupId>org.apache.poi</groupId>
+            
       <artifactId>ooxml-schemas</artifactId>
+            
       <version>1.4</version>
+          
     </dependency>
+        
     <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-contrib -->
+        
     <dependency>
+            
       <groupId>org.apache.poi</groupId>
+            
       <artifactId>poi-contrib</artifactId>
+            
       <version>3.6</version>
+          
     </dependency>
+        
     <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-excelant -->
+        
     <dependency>
+            
       <groupId>org.apache.poi</groupId>
+            
       <artifactId>poi-excelant</artifactId>
+            
       <version>5.2.5</version>
+          
     </dependency>
+        
     <!-- https://mvnrepository.com/artifact/org.apache.poi/ooxml-security -->
+        
     <dependency>
+            
       <groupId>org.apache.poi</groupId>
+            
       <artifactId>ooxml-security</artifactId>
+            
       <version>1.1</version>
+          
     </dependency>
+        
     <!-- https://mvnrepository.com/artifact/com.itextpdf/root -->
+        
     <dependency>
+            
       <groupId>com.itextpdf</groupId>
+            
       <artifactId>itext7-core</artifactId>
-      <version>8.0.2</version>
+            
+      <version>8.0.3</version>
+            
       <type>pom</type>
+          
     </dependency>
+      
   </dependencies>
+    
   <modules>
+        
     <module>ExtractShapesVsdx</module>
+        
     <module>XlsReport</module>
+        
     <module>OrcXlsReport</module>
+        
     <module>XmlXlsReport</module>
+        
     <module>OrcXlsLoader</module>
+        
     <module>PDFCreator</module>
+        
     <module>JSONXlsReport</module>
+        
     <module>H2XlsReport</module>
+        
+    <module>PgXlsReport</module>
+      
   </modules>
+  
 </project>

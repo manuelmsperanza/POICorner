@@ -52,6 +52,7 @@ public class ExcelManager {
 	protected org.apache.poi.xssf.usermodel.XSSFCellStyle headerCellStyle;
 	protected org.apache.poi.xssf.usermodel.XSSFCellStyle defaultCellStyle;
 	protected org.apache.poi.xssf.usermodel.XSSFCellStyle dateCellStyle;
+	protected org.apache.poi.xssf.usermodel.XSSFCellStyle hyperlinkCellStyle;
 	protected org.apache.poi.ss.usermodel.CreationHelper createHelper = this.wb.getCreationHelper();
 
 	/**
@@ -104,6 +105,14 @@ public class ExcelManager {
 		this.dateCellStyle.setBorderLeft(org.apache.poi.ss.usermodel.BorderStyle.THIN);
 		this.dateCellStyle.setBorderRight(org.apache.poi.ss.usermodel.BorderStyle.THIN);
 		this.dateCellStyle.setDataFormat(this.createHelper.createDataFormat().getFormat("d/m/yyyy h:mm"));
+		
+		this.hyperlinkCellStyle = this.wb.createCellStyle();
+		org.apache.poi.xssf.usermodel.XSSFFont hyperlinkFont = this.wb.createFont();
+        hyperlinkFont.setUnderline(org.apache.poi.xssf.usermodel.XSSFFont.U_SINGLE);
+        
+        byte[] rgbBlue = new byte[]{(byte) 0, (byte) 0, (byte) 255};
+        hyperlinkFont.setColor(new org.apache.poi.xssf.usermodel.XSSFColor(rgbBlue));
+        this.hyperlinkCellStyle.setFont(hyperlinkFont);
 		
 		this.swb = new org.apache.poi.xssf.streaming.SXSSFWorkbook(this.wb, 10000, true, true);
 
@@ -562,13 +571,81 @@ public class ExcelManager {
 		summaryHeadeeCountCell.setCellStyle(this.headerCellStyle);
 		
 		for (org.apache.poi.ss.usermodel.Sheet curWorkSheet : this.swb){
+			if(summarySheet.getSheetName().equals(curWorkSheet.getSheetName())) {
+				continue;
+			}
 			int rowCount = curWorkSheet.getPhysicalNumberOfRows() - excludeRows;
+			//logger.debug("Insert " + curWorkSheet.getSheetName() + "[" + curWorkSheet.getFirstRowNum() +"] into summary having " + rowCount + " row(s)");
+				
+			org.apache.poi.xssf.streaming.SXSSFRow summaryRow = summarySheet.createRow(rowIdx++);
+			org.apache.poi.xssf.streaming.SXSSFCell tableNameCell = summaryRow.createCell(0);
+			tableNameCell.setCellValue(curWorkSheet.getSheetName());
+			tableNameCell.setCellStyle(this.hyperlinkCellStyle);
+			//String tableName = curWorkSheet.getRow(curWorkSheet.getFirstRowNum()).getCell(0).getStringCellValue();
+			//tableNameCell.setCellValue(tableName);
+			
+			org.apache.poi.ss.usermodel.Hyperlink tableNameHl = this.createHelper.createHyperlink(org.apache.poi.common.usermodel.HyperlinkType.DOCUMENT);
+			tableNameHl.setAddress("'" + curWorkSheet.getSheetName() + "'!A1");
+			tableNameCell.setHyperlink(tableNameHl);
+			org.apache.poi.xssf.streaming.SXSSFCell tableCountCell = summaryRow.createCell(1);
+			tableCountCell.setCellValue(rowCount);
+			
+		}
+		
+		/*if(System.getProperty("os.name").startsWith("Windows")){
+			summarySheet.autoSizeColumn(0);
+			summarySheet.autoSizeColumn(1);
+		}*/
+		
+		summarySheet.setZoom(85);
+		
+		
+		logger.traceExit();
+		
+	}
+	
+	/**
+	 * Loop all the workbook and create a summary page with the hyperlink toward the pages with at least one record
+	 * @author manuel.m.speranza
+	 * @since 10-04-2024
+	 */
+	public void createMetadataSummaryPage(int excludeRows){
+		logger.traceEntry();
+		
+		org.apache.poi.xssf.streaming.SXSSFSheet selectedSheet = this.swb.getSheetAt(this.swb.getActiveSheetIndex());
+		org.apache.poi.xssf.streaming.SXSSFSheet summarySheet = this.swb.createSheet("Summary");
+		
+		this.swb.setSheetOrder("Summary", 0);
+		
+		summarySheet.setSelected(true);
+		selectedSheet.setSelected(false);
+
+		this.swb.setActiveSheet(0);
+		
+		int rowIdx = 0;
+		
+		org.apache.poi.xssf.streaming.SXSSFRow summaryHeaderRow = summarySheet.createRow(rowIdx++);
+		org.apache.poi.xssf.streaming.SXSSFCell summaryHeadeeNameCell = summaryHeaderRow.createCell(0);
+		summaryHeadeeNameCell.setCellValue("Sheet name");
+		summaryHeadeeNameCell.setCellStyle(this.headerCellStyle);
+		
+		org.apache.poi.xssf.streaming.SXSSFCell summaryHeadeeCountCell = summaryHeaderRow.createCell(1);
+		summaryHeadeeCountCell.setCellValue("Count");
+		summaryHeadeeCountCell.setCellStyle(this.headerCellStyle);
+		
+		for (org.apache.poi.ss.usermodel.Sheet curWorkSheet : this.swb){
+			if(summarySheet.getSheetName().equals(curWorkSheet.getSheetName())) {
+				continue;
+			}
+			int rowCount = curWorkSheet.getPhysicalNumberOfRows() - excludeRows;
+			logger.debug("Insert " + curWorkSheet.getSheetName() + "[" + curWorkSheet.getFirstRowNum() +"] into summary having " + rowCount + " row(s)");
 				
 			org.apache.poi.xssf.streaming.SXSSFRow summaryRow = summarySheet.createRow(rowIdx++);
 			org.apache.poi.xssf.streaming.SXSSFCell tableNameCell = summaryRow.createCell(0);
 			//tableNameCell.setCellValue(curWorkSheet.getSheetName());
-			String tableName = curWorkSheet.getRow(0).getCell(0).getStringCellValue();
+			String tableName = curWorkSheet.getRow(curWorkSheet.getFirstRowNum()).getCell(0).getStringCellValue();
 			tableNameCell.setCellValue(tableName);
+			tableNameCell.setCellStyle(this.hyperlinkCellStyle);
 			
 			org.apache.poi.ss.usermodel.Hyperlink tableNameHl = this.createHelper.createHyperlink(org.apache.poi.common.usermodel.HyperlinkType.DOCUMENT);
 			tableNameHl.setAddress("'" + curWorkSheet.getSheetName() + "'!A1");

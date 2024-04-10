@@ -272,7 +272,7 @@ public class App
 				reader.close();
 
 				//xlsMng.cleanNoRecordSheets();
-				xlsMng.createSummaryPage(2);
+				xlsMng.createMetadataSummaryPage(2);
 
 			} catch (SQLException e) {
 				logger.error(e.getMessage(), e);
@@ -328,7 +328,7 @@ public class App
 				reader.close();
 
 				//xlsMng.cleanNoRecordSheets();
-				xlsMng.createSummaryPage(2);
+				xlsMng.createMetadataSummaryPage(2);
 
 			} catch (SQLException e) {
 				logger.error(e.getMessage(), e);

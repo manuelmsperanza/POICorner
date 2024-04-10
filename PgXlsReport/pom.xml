@@ -8,10 +8,10 @@
   </parent>
 
   <groupId>com.hoffnungland</groupId>
-  <artifactId>h2xlsreport</artifactId>
-  <version>1.0.15-SNAPSHOT</version>
+  <artifactId>pgxlsreport</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
 
-  <name>H2XlsReport</name>
+  <name>PgXlsReport</name>
   <build>
 		<plugins>
 			<plugin>
@@ -20,8 +20,8 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<classpathPrefix>H2XlsReport_lib/</classpathPrefix>
-							<mainClass>com.hoffnungland.poi.corner.h2xlsreport.App</mainClass>
+							<classpathPrefix>OrcXlsReport_lib/</classpathPrefix>
+							<mainClass>com.hoffnungland.poi.corner.orcxlsreport.App</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -36,7 +36,7 @@
 					<finalName>${project.artifactId}</finalName>
 					<archive>
 						<manifest>
-							<mainClass>com.hoffnungland.poi.corner.h2xlsreport.App</mainClass>
+							<mainClass>com.hoffnungland.poi.corner.orcxlsreport.App</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -64,8 +64,8 @@
 		
 		<dependency>
 			<groupId>com.hoffnungland</groupId>
-			<artifactId>h2dbconn</artifactId>
-			<version>2.2.224.19</version>
+			<artifactId>pgdbconn</artifactId>
+			<version>42.7.3.1</version>
 		</dependency>
 	</dependencies>
 </project>
