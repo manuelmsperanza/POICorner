@@ -65,7 +65,7 @@
 		<dependency>
 			<groupId>com.hoffnungland</groupId>
 			<artifactId>pgdbconn</artifactId>
-			<version>42.7.3.2</version>
+			<version>42.7.3.3</version>
 		</dependency>
 	</dependencies>
 </project>
