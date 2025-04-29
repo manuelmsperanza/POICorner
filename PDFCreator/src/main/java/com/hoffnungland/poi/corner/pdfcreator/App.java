@@ -21,7 +21,7 @@ public class App
 	{
 		logger.traceEntry();
 		try {
-			PdfWriter writer = new PdfWriter("Test.pdf", new WriterProperties().setPdfVersion(PdfVersion.PDF_2_0));
+			PdfWriter writer = new PdfWriter("Test.pdf", new WriterProperties().setFullCompressionMode(true).setPdfVersion(PdfVersion.PDF_2_0));
 			PdfDocument pdfDocument = new PdfDocument(writer);
 			pdfDocument.setTagged();
 			Document document = new Document(pdfDocument);
