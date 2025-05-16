@@ -16,7 +16,6 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -126,7 +125,9 @@ public class ExcelManager {
 		this.hyperlinkCellStyle.setVerticalAlignment(org.apache.poi.ss.usermodel.VerticalAlignment.TOP);
         
         
-		this.swb = new org.apache.poi.xssf.streaming.SXSSFWorkbook(this.wb, 10000, true, true);
+		int rowAccessWindowSize = 100000; // Adjust based on memory and performance trade-offs
+		boolean compressTempFiles = false; // Disable compression if disk I/O is fast
+		this.swb = new org.apache.poi.xssf.streaming.SXSSFWorkbook(this.wb, rowAccessWindowSize, true, compressTempFiles);
 		
 		this.emailPattern = java.util.regex.Pattern.compile(this.emailRegex);
 		this.urlPattern = java.util.regex.Pattern.compile(this.urlRegex);

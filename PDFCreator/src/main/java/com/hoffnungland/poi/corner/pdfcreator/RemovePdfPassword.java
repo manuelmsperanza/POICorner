@@ -7,9 +7,7 @@ import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.ReaderProperties;
-import com.itextpdf.kernel.pdf.WriterProperties;
 
-import java.io.File;
 import java.io.IOException;
 
 public class RemovePdfPassword {

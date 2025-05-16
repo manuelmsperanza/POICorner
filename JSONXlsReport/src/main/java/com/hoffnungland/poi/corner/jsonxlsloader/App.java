@@ -3,9 +3,8 @@ package com.hoffnungland.poi.corner.jsonxlsloader;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.SpringLayout;
 import javax.swing.UIManager;
@@ -13,16 +12,10 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONArray;
-import org.json.JSONML;
-import org.json.JSONObject;
 
 import com.hoffnungland.poi.corner.dbxlsreport.ExcelManager;
 import com.hoffnungland.poi.corner.dbxlsreport.XlsWrkSheetException;
 
-import java.awt.Component;
-import javax.swing.Box;
-import java.awt.Dimension;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -30,19 +23,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JFormattedTextField;
-import javax.swing.JRadioButton;
-import javax.swing.JCheckBox;
 
 public class App implements ActionListener{
 	private static final Logger logger = LogManager.getLogger(App.class);
