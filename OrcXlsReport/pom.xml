@@ -63,7 +63,7 @@
 		<dependency>
 			<groupId>com.hoffnungland</groupId>
 			<artifactId>oracleconn</artifactId>
-			<version>23.6.0.24.10.46</version>
+			<version>23.8.0.25.04.47</version>
 		</dependency>
 	</dependencies>
 </project>
