@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.hoffnungland</groupId>
   <artifactId>poicorner</artifactId>
-  <version>5.4.0.57</version>
+  <version>5.4.0.58-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>POICorner</name>
   <url>http://maven.apache.org</url>
