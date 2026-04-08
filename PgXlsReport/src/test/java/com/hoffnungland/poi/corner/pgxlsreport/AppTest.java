@@ -1,4 +1,4 @@
-package com.hoffnungland.poi.corner.extractshapesvsdx;
+package com.hoffnungland.poi.corner.pgxlsreport;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
