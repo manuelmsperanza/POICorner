@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.hoffnungland</groupId>
   <artifactId>poicorner</artifactId>
-  <version>0.0.46-SNAPSHOT</version>  	
+  <version>5.4.0.59-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>POICorner</name>
   <url>http://maven.apache.org</url>
@@ -17,7 +17,7 @@
   <scm>
     <connection>scm:git:https://github.com/manuelmsperanza/POICorner.git</connection>
     <developerConnection>scm:git:git@github.com:manuelmsperanza/POICorner.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>poicorner-5.4.0.58</tag>
   </scm>
   <issueManagement>
     <system>GitHub</system>
@@ -28,8 +28,8 @@
   </prerequisites>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <java.source.version>1.8</java.source.version>
-    <java.target.version>1.8</java.target.version>
+    <java.source.version>21</java.source.version>
+    <java.target.version>21</java.target.version>
   </properties>
   <build>
     <pluginManagement>
@@ -37,33 +37,33 @@
 			moved to parent pom) -->
       <plugins>
         <plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-			        <artifactId>maven-compiler-plugin</artifactId>
-			        <version>3.11.0</version>
-					<configuration>
-						<encoding>UTF-8</encoding>
-						<source>${java.source.version}</source>
-						<target>${java.target.version}</target>
-					</configuration>
-				</plugin>
-				<plugin>
-    				<groupId>org.apache.maven.plugins</groupId>
-    				<artifactId>maven-release-plugin</artifactId>
-    				<version>3.0.0-M7</version>
-    				<configuration>
-      					<releaseProfiles>github</releaseProfiles>
-    				</configuration>
-  				</plugin>
-  				<plugin>
-    				<groupId>org.apache.maven.plugins</groupId>
-    				<artifactId>maven-enforcer-plugin</artifactId>
-    				<version>3.2.1</version>
-  				</plugin>
-  				<plugin>
-    				<groupId>org.apache.maven.plugins</groupId>
-    				<artifactId>maven-jarsigner-plugin</artifactId>
-    				<version>3.0.0</version>
-  				</plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.12.1</version>
+          <configuration>
+            <encoding>UTF-8</encoding>
+            <source>${java.source.version}</source>
+            <target>${java.target.version}</target>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>3.0.0-M7</version>
+          <configuration>
+            <releaseProfiles>github</releaseProfiles>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>3.2.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jarsigner-plugin</artifactId>
+          <version>3.0.0</version>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -141,19 +141,19 @@
     <dependency>
       <groupId>com.hoffnungland</groupId>
       <artifactId>log4j</artifactId>
-      <version>1.0.34</version>
+      <version>2.25.2.34</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
     <dependency>
       <groupId>org.apache.poi</groupId>
       <artifactId>poi</artifactId>
-      <version>5.2.3</version>
+      <version>5.4.1</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
     <dependency>
       <groupId>org.apache.poi</groupId>
       <artifactId>poi-ooxml</artifactId>
-      <version>5.2.3</version>
+      <version>5.4.1</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml-schemas -->
     <dependency>
@@ -165,7 +165,7 @@
     <dependency>
       <groupId>org.apache.poi</groupId>
       <artifactId>poi-scratchpad</artifactId>
-      <version>5.2.3</version>
+      <version>5.4.1</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.apache.poi/ooxml-schemas -->
     <dependency>
@@ -183,7 +183,7 @@
     <dependency>
       <groupId>org.apache.poi</groupId>
       <artifactId>poi-excelant</artifactId>
-      <version>5.2.3</version>
+      <version>5.4.1</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.apache.poi/ooxml-security -->
     <dependency>
@@ -194,10 +194,25 @@
     <!-- https://mvnrepository.com/artifact/com.itextpdf/root -->
     <dependency>
       <groupId>com.itextpdf</groupId>
-      <artifactId>itext7-core</artifactId>
-      <version>8.0.0</version>
+      <artifactId>itext-core</artifactId>
+      <version>9.3.0</version>
       <type>pom</type>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/com.itextpdf/kernel -->
+<dependency>
+    <groupId>com.itextpdf</groupId>
+    <artifactId>kernel</artifactId>
+    <version>9.3.0</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/com.itextpdf/bouncy-castle-adapter -->
+<dependency>
+    <groupId>com.itextpdf</groupId>
+    <artifactId>bouncy-castle-adapter</artifactId>
+    <version>9.3.0</version>
+</dependency>
+
+
   </dependencies>
   <modules>
     <module>ExtractShapesVsdx</module>
@@ -208,5 +223,6 @@
     <module>PDFCreator</module>
     <module>JSONXlsReport</module>
     <module>H2XlsReport</module>
+    <module>PgXlsReport</module>
   </modules>
 </project>

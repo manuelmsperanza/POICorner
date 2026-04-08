@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -272,7 +271,7 @@ public class App
 				reader.close();
 
 				//xlsMng.cleanNoRecordSheets();
-				xlsMng.createSummaryPage(2);
+				xlsMng.createMetadataSummaryPage(2);
 
 			} catch (SQLException e) {
 				logger.error(e.getMessage(), e);
@@ -328,7 +327,7 @@ public class App
 				reader.close();
 
 				//xlsMng.cleanNoRecordSheets();
-				xlsMng.createSummaryPage(2);
+				xlsMng.createMetadataSummaryPage(2);
 
 			} catch (SQLException e) {
 				logger.error(e.getMessage(), e);
