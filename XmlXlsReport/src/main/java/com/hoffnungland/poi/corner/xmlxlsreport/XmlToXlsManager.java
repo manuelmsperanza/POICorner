@@ -66,6 +66,14 @@ public class XmlToXlsManager extends ExcelManager {
 		super(name);
 	}
 
+	/**
+	 * Loads an XLSX template and initializes sheet/header metadata used while
+	 * writing relational and XML data.
+	 *
+	 * @param fileName path to the workbook template.
+	 * @throws IOException if the template cannot be read.
+	 * @throws ParserConfigurationException if XML parser creation fails.
+	 */
 	public void loadTemplate(String fileName) throws IOException, ParserConfigurationException{
 
 		logger.traceEntry();
@@ -105,6 +113,20 @@ public class XmlToXlsManager extends ExcelManager {
 	}
 
 
+	/**
+	 * Writes one JDBC row into the workbook:
+	 * <ul>
+	 *   <li>regular columns are written in the "Table" sheet using header mapping;</li>
+	 *   <li>the column matching {@code rootNodeName} is parsed as XML and expanded
+	 *   into child sheets.</li>
+	 * </ul>
+	 *
+	 * @param resRs source result-set row.
+	 * @param rootNodeName column label that contains the XML root payload.
+	 * @throws SQLException if result-set access fails.
+	 * @throws IOException if reading CLOB/XML content fails.
+	 * @throws SAXException if XML parsing fails.
+	 */
 	public void insertResultSet(ResultSet resRs, String rootNodeName) throws SQLException, IOException, SAXException{
 
 		logger.traceEntry();
@@ -249,6 +271,13 @@ public class XmlToXlsManager extends ExcelManager {
 
 	}
 
+	/**
+	 * Writes one XML node value to the mapped workbook cell, creating child-sheet
+	 * hyperlinks and recursively traversing nested nodes when required.
+	 *
+	 * @param xmlNode xml node to process.
+	 * @param nodeSheet target node sheet descriptor.
+	 */
 	private void nodeToCellValue(Node xmlNode, NodeSheet nodeSheet){
 		int columnPosition = nodeSheet.mapOfHeader.get(xmlNode.getNodeName()).intValue();
 		
@@ -324,6 +353,13 @@ public class XmlToXlsManager extends ExcelManager {
 		contentCell.setCellStyle(this.defaultCellStyle);
 	}
 	
+	/**
+	 * Recursively iterates through node children and dispatches each supported child
+	 * to {@link #nodeToCellValue(Node, NodeSheet)}.
+	 *
+	 * @param xmlNode parent node to traverse.
+	 * @param nodeSheet target sheet descriptor.
+	 */
 	private void crawlNodes(Node xmlNode, NodeSheet nodeSheet){
 
 		logger.traceEntry();
@@ -424,6 +460,9 @@ public class XmlToXlsManager extends ExcelManager {
 
 	/**
 	 * Flush the workbook data into the file and close the workbook.
+	 *
+	 * @param targetPath destination directory prefix; when empty, writes to the
+	 *                   current working directory.
 	 * @author manuel.m.speranza
 	 * @since 31-08-2016
 	 */
