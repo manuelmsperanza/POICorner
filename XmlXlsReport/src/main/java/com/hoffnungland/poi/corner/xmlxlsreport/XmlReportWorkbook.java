@@ -17,26 +17,54 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class XmlReportWorkbook extends XSSFWorkbook {
 	private static final Logger logger = LogManager.getLogger(XmlReportWorkbook.class);
 	
-	//Create list of NodeSheet index by sheet name
+	/**
+	 * Index of {@link NodeSheet} instances keyed by worksheet name.
+	 */
 	public Map<String, NodeSheet> mapOfNodesSheets;
 	
+	/**
+	 * Creates an empty workbook instance.
+	 */
 	public XmlReportWorkbook() {
 		super();
 	}
 
+	/**
+	 * Creates a workbook from the supplied template file.
+	 *
+	 * @param file template file to load.
+	 * @throws IOException if the file cannot be read.
+	 * @throws InvalidFormatException if the file is not a valid workbook format.
+	 */
 	public XmlReportWorkbook(File file) throws IOException, InvalidFormatException {
 		super(file);
 	}
 	
+	/**
+	 * Creates a workbook from the provided input stream.
+	 *
+	 * @param inS stream that contains workbook data.
+	 * @throws IOException if the workbook cannot be read.
+	 */
 	public XmlReportWorkbook(InputStream inS) throws IOException {
 		super(inS);
 	}
 	
+	/**
+	 * Creates a workbook from the path of an existing template file.
+	 *
+	 * @param path absolute or relative path of the workbook template.
+	 * @throws IOException if the workbook cannot be read.
+	 */
 	public XmlReportWorkbook(String path) throws IOException {
 		super(path);
 		
 	}
 
+	/**
+	 * Initializes {@link #mapOfNodesSheets} by scanning every worksheet and loading
+	 * the first-row header map for each sheet.
+	 */
 	public void initSheets(){
 		logger.traceEntry();
 		this.mapOfNodesSheets = new HashMap<String, NodeSheet>();
