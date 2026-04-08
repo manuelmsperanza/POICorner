@@ -28,8 +28,8 @@
   </prerequisites>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <java.source.version>21</java.source.version>
-    <java.target.version>21</java.target.version>
+    <java.source.version>25</java.source.version>
+    <java.target.version>25</java.target.version>
   </properties>
   <build>
     <pluginManagement>
@@ -82,7 +82,7 @@
                   <version>3.2.5</version>
                 </requireMavenVersion>
                 <requireJavaVersion>
-                  <version>1.8.0</version>
+                  <version>[25,)</version>
                 </requireJavaVersion>
               </rules>
             </configuration>
