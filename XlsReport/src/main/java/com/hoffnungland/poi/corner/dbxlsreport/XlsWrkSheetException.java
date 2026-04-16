@@ -1,28 +1,21 @@
 package com.hoffnungland.poi.corner.dbxlsreport;
 
 /**
- * Main class
+ * Exception thrown for worksheet related failures.
+ *
  * @author manuel.m.speranza
- * @since 01-09-2016
- * @version 0.1
+ * @since 2016-09-01
  */
-
 public class XlsWrkSheetException extends Exception {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7418271751314818241L;
+    private static final long serialVersionUID = 7418271751314818241L;
 
-	/**
-	 * @author manuel.m.speranza
-	 * @since 01-09-2016
-	 * Constructor with message
-	 * @param message
-	 * 
-	 */
-	public XlsWrkSheetException(String message) {
-		super(message);
-	}
-
+    /**
+     * Creates a new exception with a human-readable message.
+     *
+     * @param message error details
+     */
+    public XlsWrkSheetException(String message) {
+        super(message);
+    }
 }
