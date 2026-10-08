@@ -19,7 +19,11 @@ public class App
 {
 	private static Logger logger = LogManager.getLogger(App.class);
 
-	public static void main( String[] args ){
+	/**
+     * Runs the module's command-line application.
+     * @param args unused; .vsdx files are read from the current directory
+     */
+    public static void main( String[] args ){
 
 
 		try {
@@ -51,13 +55,7 @@ public class App
 					
 					for(XDGFShape curShape : curPage.getContent().getShapes()){
 						if(curShape.getText() != null){
-							String shapeText = curShape.getText().getTextContent().trim().replace('‘', '\'')
-									.replace('’', '\'')
-									.replace('“', '"')
-									.replace('”', '"')
-									.replaceAll("\\s+", " ")
-									.replaceAll("\n", "\t")
-									.replaceAll("^(\\w+\\d+):?\\s", "$1\t");
+							String shapeText = normalizeShapeText(curShape.getText().getTextContent());
 							
 							logger.info(pageName + "\t" + shapeText);
 						}
@@ -73,4 +71,16 @@ public class App
 			logger.error(e.getMessage(), e);
 		}
 	}
+
+    /**
+     * Normalizes quotes and whitespace and separates a leading shape identifier.
+     * @param text raw Visio shape text
+     * @return normalized text for logging
+     */
+    static String normalizeShapeText(String text) {
+        return text.trim().replace('‘', '\'').replace('’', '\'')
+                .replace('“', '"').replace('”', '"')
+                .replaceAll("\\s+", " ")
+                .replaceAll("^(\\w+\\d+):?\\s", "$1\t");
+    }
 }

@@ -7,6 +7,7 @@ import javax.swing.filechooser.FileFilter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/** File chooser filter accepting directories and files with a JSON extension. */
 public class JsonFilter extends FileFilter {
 	
 	private static final Logger logger = LogManager.getLogger(JsonFilter.class);

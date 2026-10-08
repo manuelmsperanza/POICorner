@@ -1,41 +1,11 @@
-# DbXlsReport
+# XlsReport
 
-## Create a new project
-	mvn archetype:generate -Dfilter="org.apache.maven.archetypes:maven-archetype-quickstart" -DgroupId="com.hoffnungland" -DartifactId=DbXlsReport -Dpackage="com.hoffnungland.poi.corner.dbxlsreport" -Dversion="0.0.1-SNAPSHOT"
-	
-#Build settings
-##Remove junit:junit:3.8.1
+Shared ExcelManager library for JDBC ResultSet and JSON exports. Construct ExcelManager with a file prefix, call getQueryResult or getJsonResult, and call finalWrite once. finalWrite appends .xlsx and closes the workbook. Its targetPath is a directory prefix and must end with a path separator. Do not reuse the manager after writing. JSON scalar values are currently exported as text.
 
-# Run with Maven
-	
-	start mvn exec:java -Dexec.mainClass="com.hoffnungland.poi.corner.orcxlsreport.App" -Dlog4j.configurationFile=src/main/resources/log4j2.xml
+Build and test from the repository root:
 
-# Create Jar with dependencies
+~~~sh
+mvn -B -pl XlsReport -am clean verify
+~~~
 
-## Configure the pom.xml
-
-	<plugin>
-		<artifactId>maven-assembly-plugin</artifactId>
-		<configuration>
-			<descriptorRefs>
-				<descriptorRef>jar-with-dependencies</descriptorRef>
-			</descriptorRefs>
-			<appendAssemblyId>false</appendAssemblyId>
-			<finalName>${project.artifactId}</finalName>
-			<archive>
-				<manifest>
-					<mainClass>com.hoffnungland.poi.corner.orcxlsreport.App</mainClass>
-				</manifest>
-			</archive>
-		</configuration>
-	</plugin>
-
-## Execute the maven assembly single
-
-	mvn assembly:single
-
-#add .gitignore to mandatory empty directory
-	# Ignore everything in this directory
-	*
-	# Except this file
-	!.gitignore
+See the [root README](../README.md) for requirements, dependencies, Javadoc, and release preparation.

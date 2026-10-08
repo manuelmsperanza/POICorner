@@ -1,11 +1,11 @@
-#Create a new project
-	mvn archetype:generate -Dfilter="maven-archetype-quickstart" -DgroupId="com.hoffnungland" -DartifactId=PDFCreator -Dpackage="com.hoffnungland.poi.corner.pdfcreator" -Dversion="0.0.1-SNAPSHOT"
-#Build settings
-##Remove junit:junit:3.8.1
+# PDFCreator
 
+App creates Test.pdf in the current directory: a tagged PDF 2.0 document containing Hello world! The createPdf API accepts an output filename. RemovePdfPassword accepts source filename, destination filename, and password in that order, and rewrites the document without encryption.
 
-#add .gitignore to mandatory empty directory
-	# Ignore everything in this directory
-	*
-	# Except this file
-	!.gitignore
+Build and test from the repository root:
+
+~~~sh
+mvn -B -pl PDFCreator -am clean verify
+~~~
+
+See the [root README](../README.md) for requirements, dependencies, Javadoc, and release preparation.

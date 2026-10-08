@@ -720,6 +720,8 @@ public class ExcelManager {
 	
 	/**
 	 * Flush the workbook data into the file and close the workbook.
+	 * This manager cannot be reused afterwards. I/O failures are logged.
+	 * @param targetPath directory prefix including its trailing separator, or null for the current directory
 	 * @author manuel.m.speranza
 	 * @since 31-08-2016
 	 */
@@ -771,8 +773,12 @@ public class ExcelManager {
 	
 	/**
 	 * Tabulate a JSON string into an excel sheet
+	 * Objects and arrays are expanded recursively; scalar values are written as text.
+	 * @param sheetHeader optional heading displayed in the first row
+	 * @param sheetName worksheet name of at most 31 characters, or null to generate a name
+	 * @param jsonStr JSON object or array text beginning with an opening brace or bracket
 	 * @author manuel.m.speranza
-	 * @throws XlsWrkSheetException 
+	 * @throws XlsWrkSheetException if the worksheet name exceeds 31 characters
 	 * @since 11-03-2022
 	 */
 	
@@ -822,6 +828,12 @@ public class ExcelManager {
 	
 	/**
 	 * Manage the conversion of a JSON Object to an excel value
+	 * @param workSheet destination worksheet
+	 * @param columnsWidth map updated with key column widths
+	 * @param jsonObj object whose keys and values are expanded
+	 * @param startRowIdx zero-based first output row
+	 * @param startColIdx zero-based key column
+	 * @return next available row after the object
 	 * @author manuel.m.speranza 
 	 * @since 11-03-2022
 	 */
@@ -858,6 +870,12 @@ public class ExcelManager {
 	
 	/**
 	 * Manage the conversion of a JSON Array to an excel value
+	 * @param workSheet destination worksheet
+	 * @param columnsWidth map updated with index column widths
+	 * @param jsonArray array whose elements are expanded
+	 * @param startRowIdx zero-based first output row
+	 * @param startColIdx zero-based index column
+	 * @return next available row after the array
 	 * @author manuel.m.speranza 
 	 * @since 11-03-2022
 	 */
@@ -896,6 +914,13 @@ public class ExcelManager {
 	
 	/**
 	 * Manage the JSON value conversion
+	 * @param workSheet destination worksheet
+	 * @param columnsWidth column widths used by nested values
+	 * @param contentRow row containing the parent key or array index
+	 * @param value JSON value to expand or write as text
+	 * @param startRowIdx zero-based first output row
+	 * @param startColIdx zero-based parent key or index column
+	 * @return next available row after the value
 	 * @author manuel.m.speranza 
 	 * @since 11-03-2022
 	 */

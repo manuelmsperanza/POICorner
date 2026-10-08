@@ -1,43 +1,11 @@
 # ExtractShapesVsdx
 
-Read the *.vsdx files and printout the text of each shapes with the name of the sheet it belongs.
+Launch com.hoffnungland.poi.corner.extractshapesvsdx.App from a directory containing .vsdx files. The application scans that directory, reads each Visio page, and logs normalized shape text. File matching uses the lowercase .vsdx extension. Configure Log4j output as needed.
 
-## Create a new project
-	mvn archetype:generate -Dfilter="org.apache.maven.archetypes:maven-archetype-quickstart" -DgroupId="com.hoffnungland" -DartifactId=ExtractShapesVsdx -Dpackage="com.hoffnungland.poi.corner.extractshapesvsdx" -Dversion="0.0.1-SNAPSHOT"
-## Build settings
-### Remove junit:junit:3.8.1
+Build and test from the repository root:
 
+~~~sh
+mvn -B -pl ExtractShapesVsdx -am clean verify
+~~~
 
-# Run with Maven
-	
-	start mvn exec:java -Dexec.mainClass="com.hoffnungland.poi.corner.extractshapesvsdx.App" -Dlog4j.configurationFile=src/main/resources/log4j2.xml
-
-# Create Jar with dependencies
-
-## Configure the pom.xml
-
-	<plugin>
-		<artifactId>maven-assembly-plugin</artifactId>
-		<configuration>
-			<descriptorRefs>
-				<descriptorRef>jar-with-dependencies</descriptorRef>
-			</descriptorRefs>
-			<appendAssemblyId>false</appendAssemblyId>
-			<finalName>${project.artifactId}</finalName>
-			<archive>
-				<manifest>
-					<mainClass>com.hoffnungland.poi.corner.extractshapesvsdx.App</mainClass>
-				</manifest>
-			</archive>
-		</configuration>
-	</plugin>
-
-## Execute the maven assembly single
-
-	mvn assembly:single
-
-#add .gitignore to mandatory empty directory
-	# Ignore everything in this directory
-	*
-	# Except this file
-	!.gitignore
+See the [root README](../README.md) for requirements, dependencies, Javadoc, and release preparation.

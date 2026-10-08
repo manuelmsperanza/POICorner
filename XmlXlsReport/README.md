@@ -1,11 +1,11 @@
-#Create a new project
-	mvn archetype:generate -Dfilter="org.apache.maven.archetypes:maven-archetype-quickstart" -DgroupId="com.hoffnungland" -DartifactId=XmlXlsReport -Dpackage="com.hoffnungland.poi.corner.xmlxlsreport" -Dversion="0.0.1-SNAPSHOT"
-#Build settings
-##Remove junit:junit:3.8.1
+# XmlXlsReport
 
+Template-based XML-to-Excel support. XmlToXlsManager loads a workbook template, indexes named headers with NodeSheet, and maps XML data into worksheets. Template header rows must exist and contain string-valued field names. The App entry point is a greeting demo; use the manager API for XML exports.
 
-#add .gitignore to mandatory empty directory
-	# Ignore everything in this directory
-	*
-	# Except this file
-	!.gitignore
+Build and test from the repository root:
+
+~~~sh
+mvn -B -pl XmlXlsReport -am clean verify
+~~~
+
+See the [root README](../README.md) for requirements, dependencies, Javadoc, and release preparation.

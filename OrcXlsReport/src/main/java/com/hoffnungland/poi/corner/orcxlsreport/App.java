@@ -32,7 +32,11 @@ public class App
 {
 	private static final Logger logger = LogManager.getLogger(App.class);
 
-	public static void main( String[] args )
+	/**
+     * Runs the module's command-line application.
+     * @param args ConnectionName ProjectName ExcelName TargetPath, optionally id and name
+     */
+    public static void main( String[] args )
 	{
 		logger.traceEntry();
 		
@@ -347,4 +351,3 @@ public class App
 	}
 	
 }
-

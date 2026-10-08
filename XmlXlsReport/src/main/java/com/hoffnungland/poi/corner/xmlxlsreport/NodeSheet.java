@@ -9,6 +9,7 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
+/** Maps nonempty template column names to their zero-based cell indexes. */
 public class NodeSheet {
 	
 	private static final Logger logger = LogManager.getLogger(NodeSheet.class);
@@ -17,10 +18,15 @@ public class NodeSheet {
 	public XSSFSheet sheet;
 	public int workingRow = 0;
 	
+	/**
+	 * Wraps a template worksheet.
+	 * @param sheet worksheet whose first row contains column names
+	 */
 	public NodeSheet(XSSFSheet sheet) {
 		this.sheet = sheet;
 	}
 
+	/** Rebuilds the column map from the first row, ignoring empty and missing cells. */
 	public void loadHeader(){
 		logger.traceEntry();
 		this.mapOfHeader = new HashMap<String, Integer>();

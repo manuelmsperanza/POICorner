@@ -1,7 +1,7 @@
 package com.hoffnungland.poi.corner.xmlxlsreport;
 
 /**
- * Hello world!
+ * Minimal command-line greeting demo; XML conversion is provided by XmlToXlsManager.
  *
  */
 public class App 

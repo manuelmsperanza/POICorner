@@ -1,198 +1,79 @@
-#Create a new project
-mvn archetype:generate -Dfilter="org.apache.maven.archetypes:maven-archetype-quickstart" -DgroupId="com.hoffnungland" -DartifactId=POICorner -Dpackage="com.hoffnungland.poi.corner" -Dversion="0.0.1-SNAPSHOT"
-#Build settings
-##Add prerequisites
+# POICorner
 
-	<prerequisites>
-		<maven>3.1.0</maven>
-	</prerequisites>
+Java utilities for exporting database and JSON content to Excel, loading spreadsheets into Oracle, extracting Visio text, and creating PDF documents.
 
-Update to java 1.8<br>
-	
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.source.version>1.8</java.source.version>
-		<java.target.version>1.8</java.target.version>
-	</properties>
+## Requirements and build
 
-##Configure the plugins
-	
-	<build>
-		<pluginManagement><!-- lock down plugins versions to avoid using Maven 
-				defaults (may be moved to parent pom) -->
-			<plugins>
-				<plugin>
-					<artifactId>maven-clean-plugin</artifactId>
-					<version>3.1.0</version>
-				</plugin>
-				<!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
-				<plugin>
-					<artifactId>maven-resources-plugin</artifactId>
-					<version>3.1.0</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.8.0</version>
-					<configuration>
-						<encoding>UTF-8</encoding>
-						<source>${java.source.version}</source>
-						<target>${java.target.version}</target>
-					</configuration>
-				</plugin>
-				<plugin>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>3.0.0-M2</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-jar-plugin</artifactId>
-					<version>3.1.1</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-install-plugin</artifactId>
-					<version>3.0.0-M1</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-deploy-plugin</artifactId>
-					<version>3.0.0-M1</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-enforcer-plugin</artifactId>
-					<version>3.0.0-M2</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>enforce-maven</id>
-						<goals>
-							<goal>enforce</goal>
-						</goals>
-						<configuration>
-							<rules>
-								<requireMavenVersion>
-									<version>3.0.5</version>
-								</requireMavenVersion>
-								<requireJavaVersion>
-									<version>1.8.0</version>
-								</requireJavaVersion>
-							</rules>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+Use JDK 25 or newer and Maven 3.6.3 or newer. Compilation targets Java 25.
+The com.hoffnungland database and logging libraries must be available in your
+local Maven repository or a repository configured in your Maven settings.
+GitHub Packages credentials belong in ~/.m2/settings.xml, never in this repository.
 
+Run from the repository root:
 
-#Relationship
-##Add the dependencies
-###Oracle jdbc dependencies
-[Add the Oracle Maven Repository](http://docs.oracle.com/middleware/1213/core/MAVEN/config_maven_repo.htm#MAVEN9010)
-###Instruction to encrypt the password on maven settings.xml
-[Encryption guide](http://maven.apache.org/guides/mini/guide-encryption.html)<br>
-Add log4j, jdbc e POI update jUnit<br>
+~~~sh
+mvn -B clean verify
+mvn -B javadoc:aggregate
+~~~
 
+Tests use JUnit Jupiter, temporary files, and an in-memory H2 database; they do not need live database
+connections. API documentation is generated under target/reports/apidocs
+(or target/site/apidocs, depending on the Maven report output settings).
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.apache.logging.log4j</groupId>
-				<artifactId>log4j-bom</artifactId>
-				<version>2.6.2</version>
-				<scope>import</scope>
-				<type>pom</type>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-	<dependencies>
-		<!-- https://mvnrepository.com/artifact/junit/junit -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- https://maven.oracle.com -->
-		<dependency>
-			<groupId>com.oracle.jdbc</groupId>
-			<artifactId>ojdbc7</artifactId>
-			<version>12.1.0.2</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>${poi.target.version}</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml</artifactId>
-			<version>${poi.target.version}</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml-schemas -->
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml-schemas</artifactId>
-			<version>${poi.target.version}</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-scratchpad -->
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-scratchpad</artifactId>
-			<version>${poi.target.version}</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.poi/ooxml-schemas -->
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>ooxml-schemas</artifactId>
-			<version>1.3</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-contrib -->
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-contrib</artifactId>
-			<version>3.6</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-excelant -->
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-excelant</artifactId>
-			<version>${poi.target.version}</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.poi/ooxml-security -->
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>ooxml-security</artifactId>
-			<version>1.1</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-api</artifactId>
-			<!--version>2.6.1</version -->
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<!--version>2.6.1</version -->
-		</dependency>
-	</dependencies>
+## Modules
 
-	
-	
-#RUN on 172.31.28.230 of MDI Real Time OSS
-/software/java/jdk1.7.0_79//bin/java -Dlog4j.configurationFile=log4j2.xml -jar CrossCheckMetadata-1.0.3-jar-with-dependencies.jar
+| Module | Purpose |
+| --- | --- |
+| XlsReport | Shared streaming Excel exporter for JDBC results and nested JSON |
+| JSONXlsReport | Swing application for selecting JSON files and exporting XLSX |
+| OrcXlsReport | Oracle query and metadata reports |
+| H2XlsReport | H2 query reports |
+| PgXlsReport | PostgreSQL query reports |
+| OrcXlsLoader | Loads spreadsheet records into Oracle |
+| XmlXlsReport | XML-to-Excel template support |
+| ExtractShapesVsdx | Logs shape text from .vsdx files in the current directory |
+| PDFCreator | Creates a tagged greeting PDF and rewrites password-protected PDFs |
 
+See each module's README for usage. Database reports resolve connection settings
+from etc/connections/<ConnectionName>.properties and SQL from
+<ProjectName>/queries. Keep credentials and production inputs outside version control.
 
-#add .gitignore to mandatory empty directory
-	# Ignore everything in this directory
-	*
-	# Except this file
-	!.gitignore
+## Dependency maintenance
+
+Dependency versions were reviewed on 2026-10-08 against Maven repository metadata.
+Current versions include POI 5.5.1, iText 9.8.0, JUnit Jupiter 6.1.3, and
+org.json 20260814. Stable private wrappers are log4j 2.26.1.41, dbconn 0.0.42,
+oracleconn 23.26.3.0.0.55, h2dbconn 2.5.252.32, and pgdbconn 42.7.13.14;
+these were checked against installed local release metadata.
+
+Legacy POI schema artifacts are replaced with poi-ooxml-full 5.5.1; unused
+contrib and security artifacts are removed, including their obsolete Log4j 1 dependency. Beta, milestone,
+release-candidate and SNAPSHOT library upgrades are excluded. Reactor module
+SNAPSHOT dependencies are intentional and are rewritten together by Maven Release.
+
+~~~sh
+mvn -B versions:display-dependency-updates versions:display-plugin-updates -DallowSnapshots=false
+~~~
+
+Review the result before editing: allowSnapshots=false alone does not exclude
+beta or milestone releases. Stable Maven 3 plugins are pinned in the parent POM.
+See the [Apache plugin catalog](https://maven.apache.org/plugins/) and
+[POI release page](https://poi.apache.org/download.cgi).
+
+## Release preparation
+
+Commit verified source, documentation, and POM changes first. Use a clean Git
+working tree, a configured Git author, and SSH access to the origin repository.
+
+~~~sh
+mvn -B release:prepare
+~~~
+
+Preparation runs clean verify javadoc:aggregate, removes SNAPSHOT suffixes,
+commits the release POMs, tags the parent version, then commits the next
+development versions. By default the release plugin pushes commits and the tag.
+It does not publish packages; release:perform is a separate step.
+
+If preparation fails, inspect release.properties and the console log, correct
+the failure, and rerun release:prepare to resume. Do not delete release state
+or roll back blindly after SCM commits or a tag have been created.

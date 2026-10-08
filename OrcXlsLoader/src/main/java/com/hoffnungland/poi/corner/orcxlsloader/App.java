@@ -14,14 +14,18 @@ import com.hoffnungland.poi.corner.dbxlsreport.XlsWrkSheetException;
 
 
 /**
- * Hello world!
+ * Loads spreadsheet data into Oracle using a named connection.
  *
  */
 public class App 
 {
 	private static final Logger logger = LogManager.getLogger(App.class);
 
-	public static void main( String[] args )
+	/**
+     * Runs the module's command-line application.
+     * @param args ConnectionName ExcelName SourcePath
+     */
+    public static void main( String[] args )
 	{
 		logger.traceEntry();
         
